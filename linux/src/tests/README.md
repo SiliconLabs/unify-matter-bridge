@@ -6,7 +6,7 @@ helper functions. Please refer to [Test example](TestExample.cpp) for an example
 ## Build the docker container (host compilation)
 
 ```bash
-dev-machine:~$ docker build -t unify-matter-host --build-arg ARCH=amd64 silabs_examples/unify-matter-bridge/docker/
+dev-machine:~$ docker build -t unify-matter-host --build-arg ARCH=amd64 silabs_examples/unify-matter-common/docker/
 ```
 
 Starting the docker:
