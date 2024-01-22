@@ -3878,12 +3878,6 @@ exports.model = {
       "EnhancedCurrentHueAndCurrentSaturation",
     ], //
     "ErrorStateEnum" : [
-      "NoError",
-      "UnableToStartOrResume",
-      "UnableToCompleteOperation",
-      "CommandInvalidInState",
-    ], //
-    "ErrorStateEnum" : [
       "FailedToFindChargingDock",
       "Stuck",
       "DustBinMissing",
@@ -3892,6 +3886,12 @@ exports.model = {
       "WaterTankMissing",
       "WaterTankLidOpen",
       "MopCleaningPadMissing",
+    ], //
+    "ErrorStateEnum" : [
+      "NoError",
+      "UnableToStartOrResume",
+      "UnableToCompleteOperation",
+      "CommandInvalidInState",
     ], //
     "ExpressedStateEnum" : [
       "Normal",
@@ -4168,13 +4168,13 @@ exports.model = {
       "RapidFreeze",
     ], //
     "ModeTag" : [
+      "Idle",
+      "Cleaning",
+    ], //
+    "ModeTag" : [
       "DeepClean",
       "Vacuum",
       "Mop",
-    ], //
-    "ModeTag" : [
-      "Idle",
-      "Cleaning",
     ], //
     "MoveModeEnum" : [
       "Up",
@@ -4268,15 +4268,15 @@ exports.model = {
       "Biometric",
     ], //
     "OperationalStateEnum" : [
+      "SeekingCharger",
+      "Charging",
+      "Docked",
+    ], //
+    "OperationalStateEnum" : [
       "Stopped",
       "Running",
       "Paused",
       "Error",
-    ], //
-    "OperationalStateEnum" : [
-      "SeekingCharger",
-      "Charging",
-      "Docked",
     ], //
     "OutputTypeEnum" : [
       "Hdmi",
@@ -4450,9 +4450,6 @@ exports.model = {
       "Toggle",
     ], //
     "StatusCode" : [
-      "CleaningInProgress",
-    ], //
-    "StatusCode" : [
       "Stuck",
       "DustBinMissing",
       "DustBinFull",
@@ -4461,6 +4458,9 @@ exports.model = {
       "WaterTankLidOpen",
       "MopCleaningPadMissing",
       "BatteryLow",
+    ], //
+    "StatusCode" : [
+      "CleaningInProgress",
     ], //
     "StatusCode" : [
       "Busy",
@@ -4971,12 +4971,12 @@ exports.model = {
       4 : "NumberKeys",
     },
     "Feature" : {
-      1 : "OnOff",
-    },
-    "Feature" : {
       1 : "TemperatureNumber",
       2 : "TemperatureLevel",
       4 : "TemperatureStep",
+    },
+    "Feature" : {
+      1 : "OnOff",
     },
     "Feature" : {
       1 : "Reset",
@@ -5055,6 +5055,9 @@ exports.model = {
       2 : "CoAlarm",
     },
     "Feature" : {
+      1 : "Basic",
+    },
+    "Feature" : {
       1 : "EnrollmentGroups",
       2 : "TemperatureOffset",
       4 : "TemperatureSetpoint",
@@ -5062,9 +5065,6 @@ exports.model = {
       16 : "DutyCycle",
       32 : "PowerSavings",
       64 : "HeatingSource",
-    },
-    "Feature" : {
-      1 : "Basic",
     },
     "Feature" : {
       1 : "CheckInProtocolSupport",
