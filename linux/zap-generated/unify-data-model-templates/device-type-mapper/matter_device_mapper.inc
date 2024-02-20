@@ -39,6 +39,7 @@ namespace app {
             { "OnOff", OnOff::Id },
             { "Level", LevelControl::Id },
             { "DoorLock", DoorLock::Id },
+            { "WindowCovering", WindowCovering::Id },
             { "BarrierControl", BarrierControl::Id },
             { "Thermostat", Thermostat::Id },
             { "FanControl", FanControl::Id },
@@ -121,6 +122,14 @@ namespace app {
                 };
             } // namespace Attributes
         } // namespace DoorLock
+        namespace WindowCovering {
+            namespace Attributes {
+                static const std::unordered_map<std::string, chip::AttributeId> unify_to_matter_attribute_id_cluster_map {
+                    { "WindowCoveringType", Type::Id },
+                    { "ConfigOrStatus", ConfigStatus::Id },
+                };
+            } // namespace Attributes
+        } // namespace WindowCovering
         namespace BarrierControl {
             namespace Attributes {
                 static const std::unordered_map<std::string, chip::AttributeId> unify_to_matter_attribute_id_cluster_map {
@@ -298,6 +307,7 @@ namespace app {
             { "OnOff", OnOff::Attributes::unify_to_matter_attribute_id_cluster_map },
             { "Level", LevelControl::Attributes::unify_to_matter_attribute_id_cluster_map },
             { "DoorLock", DoorLock::Attributes::unify_to_matter_attribute_id_cluster_map },
+            { "WindowCovering", WindowCovering::Attributes::unify_to_matter_attribute_id_cluster_map },
             { "BarrierControl", BarrierControl::Attributes::unify_to_matter_attribute_id_cluster_map },
             { "Thermostat", Thermostat::Attributes::unify_to_matter_attribute_id_cluster_map },
             { "FanControl", FanControl::Attributes::unify_to_matter_attribute_id_cluster_map },
@@ -381,6 +391,15 @@ namespace app {
                 };
             } // namespace Commands
         } // namespace DoorLock
+        namespace WindowCovering {
+            namespace Commands {
+                static const std::unordered_map<std::string, chip::CommandId> unify_to_matter_command_id_cluster_map {
+                    { "UpOrOpen", UpOrOpen::Id },
+                    { "DownOrClose", DownOrClose::Id },
+                    { "Stop", StopMotion::Id },
+                };
+            } // namespace Commands
+        } // namespace WindowCovering
         namespace BarrierControl {
             namespace Commands {
                 static const std::unordered_map<std::string, chip::CommandId> unify_to_matter_command_id_cluster_map {
@@ -476,6 +495,7 @@ namespace app {
             { "OnOff", OnOff::Commands::unify_to_matter_command_id_cluster_map },
             { "Level", LevelControl::Commands::unify_to_matter_command_id_cluster_map },
             { "DoorLock", DoorLock::Commands::unify_to_matter_command_id_cluster_map },
+            { "WindowCovering", WindowCovering::Commands::unify_to_matter_command_id_cluster_map },
             { "BarrierControl", BarrierControl::Commands::unify_to_matter_command_id_cluster_map },
             { "Thermostat", Thermostat::Commands::unify_to_matter_command_id_cluster_map },
             { "FanControl", FanControl::Commands::unify_to_matter_command_id_cluster_map },

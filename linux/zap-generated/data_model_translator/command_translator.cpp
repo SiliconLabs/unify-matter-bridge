@@ -1102,6 +1102,108 @@ void DoorLockClusterCommandHandler::command_response(const bridged_endpoint* ep,
     cmd_handle.Release();
     sl_log_debug("command_translator", "%s Command response handling Completed \n", cmd_response);
 }
+// Window Covering : 258
+void WindowCoveringClusterCommandHandler::InvokeCommand(CommandHandlerInterface::HandlerContext& ctxt)
+{
+    using namespace chip::app::Clusters::WindowCovering;
+
+    auto unify_node = m_node_state_monitor.bridged_endpoint(ctxt.mRequestPath.mEndpointId);
+    if (!unify_node) {
+        sl_log_info(LOG_TAG, "The endpoint [%i] is not a part of unify matter bridge node", ctxt.mRequestPath.mEndpointId);
+        return;
+    }
+
+    std::string cmd;
+    nlohmann::json payload = {};
+
+    if (m_node_state_monitor.emulator().is_command_emulated(ctxt.mRequestPath)) {
+        emulated_cmd_payload cdata;
+        m_node_state_monitor.emulator().invoke_command(ctxt, cdata);
+        // if cmd is not completely handled in invoke_command, then
+        // cmd_emulation_completed should be set to false in emulated cmd handling
+        if (!cdata.cmd_emulation_completed) {
+            cmd = cdata.cmd;
+            payload = cdata.payload;
+        } else {
+            return;
+        }
+    }
+
+    switch (ctxt.mRequestPath.mCommandId) {
+    case Commands::UpOrOpen::Id: {
+        Commands::UpOrOpen::DecodableType data;
+        cmd = "UpOrOpen"; // "UpOrOpen";
+        if (DataModel::Decode(ctxt.GetReader(), data) == CHIP_NO_ERROR) {
+        }
+    } break;
+    case Commands::DownOrClose::Id: {
+        Commands::DownOrClose::DecodableType data;
+        cmd = "DownOrClose"; // "DownOrClose";
+        if (DataModel::Decode(ctxt.GetReader(), data) == CHIP_NO_ERROR) {
+        }
+    } break;
+    case Commands::StopMotion::Id: {
+        Commands::StopMotion::DecodableType data;
+        cmd = "Stop"; // "StopMotion";
+        if (DataModel::Decode(ctxt.GetReader(), data) == CHIP_NO_ERROR) {
+        }
+    } break;
+    case Commands::GoToLiftValue::Id: {
+        Commands::GoToLiftValue::DecodableType data;
+        cmd = "GoToLiftValue"; // "GoToLiftValue";
+        if (DataModel::Decode(ctxt.GetReader(), data) == CHIP_NO_ERROR) {
+            try {
+                payload["LiftValue"] = to_json(data.liftValue);
+            } catch (std::exception& ex) {
+                sl_log_warning(LOG_TAG, "Failed to add the command argument value to json format: %s", ex.what());
+            }
+        }
+    } break;
+    case Commands::GoToLiftPercentage::Id: {
+        Commands::GoToLiftPercentage::DecodableType data;
+        cmd = "GoToLiftPercentage"; // "GoToLiftPercentage";
+        if (DataModel::Decode(ctxt.GetReader(), data) == CHIP_NO_ERROR) {
+            try {
+                payload["PercentageLiftValue"] = to_json(data.liftPercent100thsValue);
+            } catch (std::exception& ex) {
+                sl_log_warning(LOG_TAG, "Failed to add the command argument value to json format: %s", ex.what());
+            }
+        }
+    } break;
+    case Commands::GoToTiltValue::Id: {
+        Commands::GoToTiltValue::DecodableType data;
+        cmd = "GoToTiltValue"; // "GoToTiltValue";
+        if (DataModel::Decode(ctxt.GetReader(), data) == CHIP_NO_ERROR) {
+            try {
+                payload["TiltValue"] = to_json(data.tiltValue);
+            } catch (std::exception& ex) {
+                sl_log_warning(LOG_TAG, "Failed to add the command argument value to json format: %s", ex.what());
+            }
+        }
+    } break;
+    case Commands::GoToTiltPercentage::Id: {
+        Commands::GoToTiltPercentage::DecodableType data;
+        cmd = "GoToTiltPercentage"; // "GoToTiltPercentage";
+        if (DataModel::Decode(ctxt.GetReader(), data) == CHIP_NO_ERROR) {
+            try {
+                payload["PercentageTiltValue"] = to_json(data.tiltPercent100thsValue);
+            } catch (std::exception& ex) {
+                sl_log_warning(LOG_TAG, "Failed to add the command argument value to json format: %s", ex.what());
+            }
+        }
+    } break;
+    }
+
+    if (!cmd.empty()) {
+        ctxt.mCommandHandler.AddStatus(ctxt.mRequestPath, Protocols::InteractionModel::Status::Success);
+        send_unify_mqtt_cmd(ctxt, cmd, payload);
+        sl_log_debug(LOG_TAG, "Mapped [%] command to unify dotdot data model", cmd.c_str());
+    } else {
+        ctxt.mCommandHandler.AddStatus(ctxt.mRequestPath, Protocols::InteractionModel::Status::UnsupportedCommand);
+    }
+    ctxt.SetCommandHandled();
+}
+
 // Barrier Control : 259
 void BarrierControlClusterCommandHandler::InvokeCommand(CommandHandlerInterface::HandlerContext& ctxt)
 {

@@ -281,6 +281,22 @@ constexpr uint8_t ZCL_USER_TYPE_ENUM_ATTRIBUTE_TYPES_SIZE = ZCL_ENUM8_ATTRIBUTE_
 constexpr uint8_t ZCL_CREDENTIAL_STRUCT_ATTRIBUTE_TYPES = ZCL_STRUCT_ATTRIBUTE_TYPES;
 constexpr uint8_t ZCL_CREDENTIAL_STRUCT_ATTRIBUTE_TYPES_SIZE = ZCL_STRUCT_ATTRIBUTE_TYPES_SIZE;
 
+constexpr uint8_t ZCL_CONFIG_STATUS_ATTRIBUTE_TYPES = ZCL_BITMAP32_ATTRIBUTE_TYPES;
+constexpr uint8_t ZCL_CONFIG_STATUS_ATTRIBUTE_TYPES_SIZE = ZCL_BITMAP32_ATTRIBUTE_TYPES_SIZE;
+constexpr uint8_t ZCL_WINDOW_COVERING_FEATURE_ATTRIBUTE_TYPES = ZCL_BITMAP32_ATTRIBUTE_TYPES;
+constexpr uint8_t ZCL_WINDOW_COVERING_FEATURE_ATTRIBUTE_TYPES_SIZE = ZCL_BITMAP32_ATTRIBUTE_TYPES_SIZE;
+constexpr uint8_t ZCL_MODE_ATTRIBUTE_TYPES = ZCL_BITMAP32_ATTRIBUTE_TYPES;
+constexpr uint8_t ZCL_MODE_ATTRIBUTE_TYPES_SIZE = ZCL_BITMAP32_ATTRIBUTE_TYPES_SIZE;
+constexpr uint8_t ZCL_OPERATIONAL_STATUS_ATTRIBUTE_TYPES = ZCL_BITMAP32_ATTRIBUTE_TYPES;
+constexpr uint8_t ZCL_OPERATIONAL_STATUS_ATTRIBUTE_TYPES_SIZE = ZCL_BITMAP32_ATTRIBUTE_TYPES_SIZE;
+constexpr uint8_t ZCL_SAFETY_STATUS_ATTRIBUTE_TYPES = ZCL_BITMAP32_ATTRIBUTE_TYPES;
+constexpr uint8_t ZCL_SAFETY_STATUS_ATTRIBUTE_TYPES_SIZE = ZCL_BITMAP32_ATTRIBUTE_TYPES_SIZE;
+
+constexpr uint8_t ZCL_END_PRODUCT_TYPE_ATTRIBUTE_TYPES = ZCL_ENUM8_ATTRIBUTE_TYPES;
+constexpr uint8_t ZCL_END_PRODUCT_TYPE_ATTRIBUTE_TYPES_SIZE = ZCL_ENUM8_ATTRIBUTE_TYPES_SIZE;
+constexpr uint8_t ZCL_TYPE_ATTRIBUTE_TYPES = ZCL_ENUM8_ATTRIBUTE_TYPES;
+constexpr uint8_t ZCL_TYPE_ATTRIBUTE_TYPES_SIZE = ZCL_ENUM8_ATTRIBUTE_TYPES_SIZE;
+
 constexpr uint8_t ZCL_BARRIER_CONTROL_CAPABILITIES_ATTRIBUTE_TYPES = ZCL_BITMAP32_ATTRIBUTE_TYPES;
 constexpr uint8_t ZCL_BARRIER_CONTROL_CAPABILITIES_ATTRIBUTE_TYPES_SIZE = ZCL_BITMAP32_ATTRIBUTE_TYPES_SIZE;
 constexpr uint8_t ZCL_BARRIER_CONTROL_SAFETY_STATUS_ATTRIBUTE_TYPES = ZCL_BITMAP32_ATTRIBUTE_TYPES;
@@ -731,6 +747,96 @@ attr_type_size get_attribute_type_size(uint16_t cluster_id, uint16_t attribute_i
             return { ZCL_BITMAP32_ATTRIBUTE_TYPES, ZCL_BITMAP32_ATTRIBUTE_TYPES_SIZE };
         }
         case DoorLock::Attributes::ClusterRevision::Id: {
+            return { ZCL_INT16U_ATTRIBUTE_TYPES, ZCL_INT16U_ATTRIBUTE_TYPES_SIZE };
+        }
+        default:
+            return { ZCL_BOOLEAN_ATTRIBUTE_TYPES, 0x01 };
+        }
+    }
+    case chip::app::Clusters::WindowCovering::Id: {
+        switch (attribute_id) {
+        case WindowCovering::Attributes::Type::Id: {
+            return { ZCL_TYPE_ATTRIBUTE_TYPES, ZCL_TYPE_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::PhysicalClosedLimitLift::Id: {
+            return { ZCL_INT16U_ATTRIBUTE_TYPES, ZCL_INT16U_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::PhysicalClosedLimitTilt::Id: {
+            return { ZCL_INT16U_ATTRIBUTE_TYPES, ZCL_INT16U_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::CurrentPositionLift::Id: {
+            return { ZCL_INT16U_ATTRIBUTE_TYPES, ZCL_INT16U_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::CurrentPositionTilt::Id: {
+            return { ZCL_INT16U_ATTRIBUTE_TYPES, ZCL_INT16U_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::NumberOfActuationsLift::Id: {
+            return { ZCL_INT16U_ATTRIBUTE_TYPES, ZCL_INT16U_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::NumberOfActuationsTilt::Id: {
+            return { ZCL_INT16U_ATTRIBUTE_TYPES, ZCL_INT16U_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::ConfigStatus::Id: {
+            return { ZCL_CONFIG_STATUS_ATTRIBUTE_TYPES, ZCL_CONFIG_STATUS_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::CurrentPositionLiftPercentage::Id: {
+            return { ZCL_PERCENT_ATTRIBUTE_TYPES, ZCL_PERCENT_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::CurrentPositionTiltPercentage::Id: {
+            return { ZCL_PERCENT_ATTRIBUTE_TYPES, ZCL_PERCENT_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::OperationalStatus::Id: {
+            return { ZCL_OPERATIONAL_STATUS_ATTRIBUTE_TYPES, ZCL_OPERATIONAL_STATUS_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::TargetPositionLiftPercent100ths::Id: {
+            return { ZCL_PERCENT100THS_ATTRIBUTE_TYPES, ZCL_PERCENT100THS_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::TargetPositionTiltPercent100ths::Id: {
+            return { ZCL_PERCENT100THS_ATTRIBUTE_TYPES, ZCL_PERCENT100THS_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::EndProductType::Id: {
+            return { ZCL_END_PRODUCT_TYPE_ATTRIBUTE_TYPES, ZCL_END_PRODUCT_TYPE_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::CurrentPositionLiftPercent100ths::Id: {
+            return { ZCL_PERCENT100THS_ATTRIBUTE_TYPES, ZCL_PERCENT100THS_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::CurrentPositionTiltPercent100ths::Id: {
+            return { ZCL_PERCENT100THS_ATTRIBUTE_TYPES, ZCL_PERCENT100THS_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::InstalledOpenLimitLift::Id: {
+            return { ZCL_INT16U_ATTRIBUTE_TYPES, ZCL_INT16U_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::InstalledClosedLimitLift::Id: {
+            return { ZCL_INT16U_ATTRIBUTE_TYPES, ZCL_INT16U_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::InstalledOpenLimitTilt::Id: {
+            return { ZCL_INT16U_ATTRIBUTE_TYPES, ZCL_INT16U_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::InstalledClosedLimitTilt::Id: {
+            return { ZCL_INT16U_ATTRIBUTE_TYPES, ZCL_INT16U_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::Mode::Id: {
+            return { ZCL_MODE_ATTRIBUTE_TYPES, ZCL_MODE_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::SafetyStatus::Id: {
+            return { ZCL_SAFETY_STATUS_ATTRIBUTE_TYPES, ZCL_SAFETY_STATUS_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::GeneratedCommandList::Id: {
+            return { ZCL_COMMAND_ID_ATTRIBUTE_TYPES, ZCL_COMMAND_ID_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::AcceptedCommandList::Id: {
+            return { ZCL_COMMAND_ID_ATTRIBUTE_TYPES, ZCL_COMMAND_ID_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::EventList::Id: {
+            return { ZCL_EVENT_ID_ATTRIBUTE_TYPES, ZCL_EVENT_ID_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::AttributeList::Id: {
+            return { ZCL_ATTRIB_ID_ATTRIBUTE_TYPES, ZCL_ATTRIB_ID_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::FeatureMap::Id: {
+            return { ZCL_BITMAP32_ATTRIBUTE_TYPES, ZCL_BITMAP32_ATTRIBUTE_TYPES_SIZE };
+        }
+        case WindowCovering::Attributes::ClusterRevision::Id: {
             return { ZCL_INT16U_ATTRIBUTE_TYPES, ZCL_INT16U_ATTRIBUTE_TYPES_SIZE };
         }
         default:

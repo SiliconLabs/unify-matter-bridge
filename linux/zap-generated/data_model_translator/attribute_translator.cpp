@@ -2073,6 +2073,417 @@ void DoorLockAttributeAccess::reported_updated(const bridged_endpoint* ep, const
 }
 
 CHIP_ERROR
+WindowCoveringAttributeAccess::Read(const ConcreteReadAttributePath& aPath, AttributeValueEncoder& aEncoder)
+{
+    namespace MN = chip::app::Clusters::WindowCovering::Attributes;
+    namespace UN = unify::matter_bridge::WindowCovering::Attributes;
+    if (aPath.mClusterId != Clusters::WindowCovering::Id) {
+        return CHIP_ERROR_INVALID_ARGUMENT;
+    }
+    // Do not handle Read for non-unify endpoints
+    auto unify_node = m_node_state_monitor.bridged_endpoint(aPath.mEndpointId);
+
+    if (!unify_node) {
+        return CHIP_NO_ERROR;
+    }
+
+    ConcreteAttributePath atr_path = ConcreteAttributePath(aPath.mEndpointId, aPath.mClusterId, aPath.mAttributeId);
+
+    if (m_node_state_monitor.emulator().is_attribute_emulated(aPath)) {
+        return m_node_state_monitor.emulator().read_attribute(aPath, aEncoder);
+    }
+
+    try {
+        switch (aPath.mAttributeId) {
+        case MN::Type::Id: { // type is Type
+            MN::Type::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        case MN::PhysicalClosedLimitLift::Id: { // type is int16u
+            MN::PhysicalClosedLimitLift::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        case MN::PhysicalClosedLimitTilt::Id: { // type is int16u
+            MN::PhysicalClosedLimitTilt::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        case MN::CurrentPositionLift::Id: { // type is int16u
+            MN::CurrentPositionLift::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        case MN::CurrentPositionTilt::Id: { // type is int16u
+            MN::CurrentPositionTilt::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        case MN::NumberOfActuationsLift::Id: { // type is int16u
+            MN::NumberOfActuationsLift::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        case MN::NumberOfActuationsTilt::Id: { // type is int16u
+            MN::NumberOfActuationsTilt::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        case MN::ConfigStatus::Id: { // type is ConfigStatus
+            MN::ConfigStatus::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        case MN::CurrentPositionLiftPercentage::Id: { // type is percent
+            MN::CurrentPositionLiftPercentage::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        case MN::CurrentPositionTiltPercentage::Id: { // type is percent
+            MN::CurrentPositionTiltPercentage::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        case MN::OperationalStatus::Id: { // type is OperationalStatus
+            MN::OperationalStatus::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        case MN::TargetPositionLiftPercent100ths::Id: { // type is percent100ths
+            MN::TargetPositionLiftPercent100ths::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        case MN::TargetPositionTiltPercent100ths::Id: { // type is percent100ths
+            MN::TargetPositionTiltPercent100ths::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        case MN::EndProductType::Id: { // type is EndProductType
+            MN::EndProductType::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        case MN::CurrentPositionLiftPercent100ths::Id: { // type is percent100ths
+            MN::CurrentPositionLiftPercent100ths::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        case MN::CurrentPositionTiltPercent100ths::Id: { // type is percent100ths
+            MN::CurrentPositionTiltPercent100ths::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        case MN::InstalledOpenLimitLift::Id: { // type is int16u
+            MN::InstalledOpenLimitLift::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        case MN::InstalledClosedLimitLift::Id: { // type is int16u
+            MN::InstalledClosedLimitLift::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        case MN::InstalledOpenLimitTilt::Id: { // type is int16u
+            MN::InstalledOpenLimitTilt::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        case MN::InstalledClosedLimitTilt::Id: { // type is int16u
+            MN::InstalledClosedLimitTilt::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        case MN::Mode::Id: { // type is Mode
+            MN::Mode::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        case MN::SafetyStatus::Id: { // type is SafetyStatus
+            MN::SafetyStatus::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        case MN::FeatureMap::Id: { // type is bitmap32
+            MN::FeatureMap::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        case MN::ClusterRevision::Id: { // type is int16u
+            MN::ClusterRevision::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
+        }
+    } catch (const std::out_of_range& e) {
+        sl_log_info(LOG_TAG,
+            "The request attribute Path for endpoint [%i] is not found in the attribute state "
+            "container: %s\n",
+            atr_path.mEndpointId, e.what());
+        return CHIP_ERROR_NO_MESSAGE_HANDLER;
+    }
+    return CHIP_NO_ERROR;
+}
+
+CHIP_ERROR WindowCoveringAttributeAccess::Write(const ConcreteDataAttributePath& aPath, AttributeValueDecoder& aDecoder)
+{
+    using namespace chip::app::Clusters::WindowCovering;
+
+    if (aPath.mClusterId != Clusters::WindowCovering::Id) {
+        return CHIP_ERROR_INVALID_ARGUMENT;
+    }
+    auto unify_node = m_node_state_monitor.bridged_endpoint(aPath.mEndpointId);
+
+    if (!unify_node) {
+        return CHIP_NO_ERROR;
+    }
+    nlohmann::json jsn;
+
+    if (m_node_state_monitor.emulator().is_attribute_emulated(aPath)) {
+        return m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+    }
+
+    switch (aPath.mAttributeId) {
+        // Type is not supported by UCL
+        // PhysicalClosedLimitLift is not supported by UCL
+        // PhysicalClosedLimitTilt is not supported by UCL
+        // CurrentPositionLift is not supported by UCL
+        // CurrentPositionTilt is not supported by UCL
+        // NumberOfActuationsLift is not supported by UCL
+        // NumberOfActuationsTilt is not supported by UCL
+        // ConfigStatus is not supported by UCL
+        // CurrentPositionLiftPercentage is not supported by UCL
+        // CurrentPositionTiltPercentage is not supported by UCL
+        // OperationalStatus is not supported by UCL
+        // TargetPositionLiftPercent100ths is not supported by UCL
+        // TargetPositionTiltPercent100ths is not supported by UCL
+        // EndProductType is not supported by UCL
+        // CurrentPositionLiftPercent100ths is not supported by UCL
+        // CurrentPositionTiltPercent100ths is not supported by UCL
+        // InstalledOpenLimitLift is not supported by UCL
+        // InstalledClosedLimitLift is not supported by UCL
+        // InstalledOpenLimitTilt is not supported by UCL
+        // InstalledClosedLimitTilt is not supported by UCL
+        // SafetyStatus is not supported by UCL
+        // GeneratedCommandList is not supported by UCL
+        // AcceptedCommandList is not supported by UCL
+        // EventList is not supported by UCL
+        // AttributeList is not supported by UCL
+        // FeatureMap is not supported by UCL
+        // ClusterRevision is not supported by UCL
+    }
+
+    if (!jsn.empty()) {
+        std::string topic = "ucl/by-unid/" + unify_node->unify_unid + "/ep" + std::to_string(unify_node->unify_endpoint) + "/WindowCovering/Commands/WriteAttributes";
+        std::string payload_str = jsn.dump();
+        m_unify_mqtt.Publish(topic, payload_str, true);
+        return CHIP_NO_ERROR;
+    }
+
+    return CHIP_ERROR_NO_MESSAGE_HANDLER;
+}
+
+void WindowCoveringAttributeAccess::reported_updated(const bridged_endpoint* ep, const std::string& cluster,
+    const std::string& attribute, const nlohmann::json& unify_value)
+{
+    namespace MN = chip::app::Clusters::WindowCovering::Attributes;
+    namespace UN = unify::matter_bridge::WindowCovering::Attributes;
+
+    auto cluster_id = m_dev_translator.get_cluster_id(cluster);
+
+    if (!cluster_id.has_value() || (cluster_id.value() != Clusters::WindowCovering::Id)) {
+        return;
+    }
+
+    // get attribute id
+    auto attribute_id = m_dev_translator.get_attribute_id(cluster, attribute);
+
+    if (!attribute_id.has_value()) {
+        return;
+    }
+
+    chip::EndpointId node_matter_endpoint = ep->matter_endpoint;
+    ConcreteAttributePath attrpath = ConcreteAttributePath(node_matter_endpoint, Clusters::WindowCovering::Id, attribute_id.value());
+    switch (attribute_id.value()) {
+    // type is Type
+    case MN::Type::Id: {
+        using T = MN::Type::TypeInfo::Type;
+        std::optional<T> value = from_json<T>(unify_value);
+
+        if (value.has_value()) {
+            sl_log_debug(LOG_TAG, "Type attribute value is %s", unify_value.dump().c_str());
+            attribute_state_cache::get_instance().set<T>(attrpath, value.value());
+            MatterReportingAttributeChangeCallback(node_matter_endpoint, Clusters::WindowCovering::Id, MN::Type::Id);
+        }
+        break;
+    }
+        // type is int16u
+    case MN::PhysicalClosedLimitLift::Id: {
+        using T = MN::PhysicalClosedLimitLift::TypeInfo::Type;
+        std::optional<T> value = from_json<T>(unify_value);
+
+        if (value.has_value()) {
+            sl_log_debug(LOG_TAG, "PhysicalClosedLimitLift attribute value is %s", unify_value.dump().c_str());
+            attribute_state_cache::get_instance().set<T>(attrpath, value.value());
+            MatterReportingAttributeChangeCallback(node_matter_endpoint, Clusters::WindowCovering::Id,
+                MN::PhysicalClosedLimitLift::Id);
+        }
+        break;
+    }
+        // type is int16u
+    case MN::PhysicalClosedLimitTilt::Id: {
+        using T = MN::PhysicalClosedLimitTilt::TypeInfo::Type;
+        std::optional<T> value = from_json<T>(unify_value);
+
+        if (value.has_value()) {
+            sl_log_debug(LOG_TAG, "PhysicalClosedLimitTilt attribute value is %s", unify_value.dump().c_str());
+            attribute_state_cache::get_instance().set<T>(attrpath, value.value());
+            MatterReportingAttributeChangeCallback(node_matter_endpoint, Clusters::WindowCovering::Id,
+                MN::PhysicalClosedLimitTilt::Id);
+        }
+        break;
+    }
+        // type is int16u
+    case MN::CurrentPositionLift::Id: {
+        using T = MN::CurrentPositionLift::TypeInfo::Type;
+        std::optional<T> value = from_json<T>(unify_value);
+
+        if (value.has_value()) {
+            sl_log_debug(LOG_TAG, "CurrentPositionLift attribute value is %s", unify_value.dump().c_str());
+            attribute_state_cache::get_instance().set<T>(attrpath, value.value());
+            MatterReportingAttributeChangeCallback(node_matter_endpoint, Clusters::WindowCovering::Id, MN::CurrentPositionLift::Id);
+        }
+        break;
+    }
+        // type is int16u
+    case MN::CurrentPositionTilt::Id: {
+        using T = MN::CurrentPositionTilt::TypeInfo::Type;
+        std::optional<T> value = from_json<T>(unify_value);
+
+        if (value.has_value()) {
+            sl_log_debug(LOG_TAG, "CurrentPositionTilt attribute value is %s", unify_value.dump().c_str());
+            attribute_state_cache::get_instance().set<T>(attrpath, value.value());
+            MatterReportingAttributeChangeCallback(node_matter_endpoint, Clusters::WindowCovering::Id, MN::CurrentPositionTilt::Id);
+        }
+        break;
+    }
+        // type is int16u
+    case MN::NumberOfActuationsLift::Id: {
+        using T = MN::NumberOfActuationsLift::TypeInfo::Type;
+        std::optional<T> value = from_json<T>(unify_value);
+
+        if (value.has_value()) {
+            sl_log_debug(LOG_TAG, "NumberOfActuationsLift attribute value is %s", unify_value.dump().c_str());
+            attribute_state_cache::get_instance().set<T>(attrpath, value.value());
+            MatterReportingAttributeChangeCallback(node_matter_endpoint, Clusters::WindowCovering::Id,
+                MN::NumberOfActuationsLift::Id);
+        }
+        break;
+    }
+        // type is int16u
+    case MN::NumberOfActuationsTilt::Id: {
+        using T = MN::NumberOfActuationsTilt::TypeInfo::Type;
+        std::optional<T> value = from_json<T>(unify_value);
+
+        if (value.has_value()) {
+            sl_log_debug(LOG_TAG, "NumberOfActuationsTilt attribute value is %s", unify_value.dump().c_str());
+            attribute_state_cache::get_instance().set<T>(attrpath, value.value());
+            MatterReportingAttributeChangeCallback(node_matter_endpoint, Clusters::WindowCovering::Id,
+                MN::NumberOfActuationsTilt::Id);
+        }
+        break;
+    }
+        // type is ConfigStatus
+    case MN::ConfigStatus::Id: {
+        using T = MN::ConfigStatus::TypeInfo::Type;
+        std::optional<T> value = from_json<T>(unify_value);
+
+        if (value.has_value()) {
+            sl_log_debug(LOG_TAG, "ConfigStatus attribute value is %s", unify_value.dump().c_str());
+            attribute_state_cache::get_instance().set<T>(attrpath, value.value());
+            MatterReportingAttributeChangeCallback(node_matter_endpoint, Clusters::WindowCovering::Id, MN::ConfigStatus::Id);
+        }
+        break;
+    }
+        // type is percent
+    case MN::CurrentPositionLiftPercentage::Id: {
+        using T = MN::CurrentPositionLiftPercentage::TypeInfo::Type;
+        std::optional<T> value = from_json<T>(unify_value);
+
+        if (value.has_value()) {
+            sl_log_debug(LOG_TAG, "CurrentPositionLiftPercentage attribute value is %s", unify_value.dump().c_str());
+            attribute_state_cache::get_instance().set<T>(attrpath, value.value());
+            MatterReportingAttributeChangeCallback(node_matter_endpoint, Clusters::WindowCovering::Id,
+                MN::CurrentPositionLiftPercentage::Id);
+        }
+        break;
+    }
+        // type is percent
+    case MN::CurrentPositionTiltPercentage::Id: {
+        using T = MN::CurrentPositionTiltPercentage::TypeInfo::Type;
+        std::optional<T> value = from_json<T>(unify_value);
+
+        if (value.has_value()) {
+            sl_log_debug(LOG_TAG, "CurrentPositionTiltPercentage attribute value is %s", unify_value.dump().c_str());
+            attribute_state_cache::get_instance().set<T>(attrpath, value.value());
+            MatterReportingAttributeChangeCallback(node_matter_endpoint, Clusters::WindowCovering::Id,
+                MN::CurrentPositionTiltPercentage::Id);
+        }
+        break;
+    }
+    }
+}
+
+CHIP_ERROR
 BarrierControlAttributeAccess::Read(const ConcreteReadAttributePath& aPath, AttributeValueEncoder& aEncoder)
 {
     namespace MN = chip::app::Clusters::BarrierControl::Attributes;

@@ -274,7 +274,52 @@ private:
     UnifyMqtt& m_unify_mqtt;
     device_translator& m_dev_translator;
 };
-// Skipping Window Covering
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/// Attribute Handler for the Window Covering cluster
+/// Please note that the following attributes are not defined in UCL, and they must be handled
+/// by separate code
+/// - OperationalStatus
+/// - TargetPositionLiftPercent100ths (optional)
+/// - TargetPositionTiltPercent100ths (optional)
+/// - EndProductType
+/// - CurrentPositionLiftPercent100ths (optional)
+/// - CurrentPositionTiltPercent100ths (optional)
+/// - InstalledOpenLimitLift (optional)
+/// - InstalledClosedLimitLift (optional)
+/// - InstalledOpenLimitTilt (optional)
+/// - InstalledClosedLimitTilt (optional)
+/// - Mode
+/// - SafetyStatus (optional)
+/// - GeneratedCommandList
+/// - AcceptedCommandList
+/// - EventList
+/// - AttributeList
+/// - FeatureMap
+/// - ClusterRevision
+///
+class WindowCoveringAttributeAccess : public attribute_translator_interface {
+public:
+    WindowCoveringAttributeAccess(matter_node_state_monitor& node_state_monitor, UnifyMqtt& unify_mqtt,
+        device_translator& dev_translator)
+        : attribute_translator_interface(node_state_monitor, unify_mqtt, dev_translator, chip::app::Clusters::WindowCovering::Id,
+              "attr_translator_WindowCovering")
+        , m_unify_mqtt(unify_mqtt)
+        , m_dev_translator(dev_translator)
+    {
+    }
+
+    CHIP_ERROR Read(const chip::app::ConcreteReadAttributePath& aPath, chip::app::AttributeValueEncoder& aEncoder) override;
+    CHIP_ERROR Write(const chip::app::ConcreteDataAttributePath& aPath, chip::app::AttributeValueDecoder& aDecoder) override;
+
+private:
+    void reported_updated(const bridged_endpoint* ep, const std::string& cluster, const std::string& attribute,
+        const nlohmann::json& unify_value) override;
+
+    std::vector<const char*> unify_cluster_names() const override { return std::vector<const char*>({ "WindowCovering" }); }
+    UnifyMqtt& m_unify_mqtt;
+    device_translator& m_dev_translator;
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /// Attribute Handler for the Barrier Control cluster

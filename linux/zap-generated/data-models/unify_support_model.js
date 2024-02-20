@@ -914,6 +914,75 @@ exports.model = {
       65532 : "FeatureMap",
     },
   },
+  258 : {
+    name : "WindowCovering",
+    commands : {
+      0 : {
+        name : "UpOrOpen",
+        arguments : [
+
+        ],
+      },
+      1 : {
+        name : "DownOrClose",
+        arguments : [
+
+        ],
+      },
+      2 : {
+        name : "Stop",
+        arguments : [
+
+        ],
+      },
+      4 : {
+        name : "GoToLiftValue",
+        arguments : [
+          "LiftValue",
+        ],
+      },
+      5 : {
+        name : "GoToLiftPercentage",
+        arguments : [
+          "PercentageLiftValue",
+        ],
+      },
+      7 : {
+        name : "GoToTiltValue",
+        arguments : [
+          "TiltValue",
+        ],
+      },
+      8 : {
+        name : "GoToTiltPercentage",
+        arguments : [
+          "PercentageTiltValue",
+        ],
+      },
+    },
+    attributes : {
+      0 : "WindowCoveringType",
+      1 : "PhysicalClosedLimitLift",
+      2 : "PhysicalClosedLimitTilt",
+      3 : "CurrentPositionLift",
+      4 : "CurrentPositionTilt",
+      5 : "NumberOfActuationsLift",
+      6 : "NumberOfActuationsTilt",
+      7 : "ConfigOrStatus",
+      8 : "CurrentPositionLiftPercentage",
+      9 : "CurrentPositionTiltPercentage",
+      256 : "InstalledOpenLimitLift",
+      257 : "InstalledClosedLimitLift",
+      258 : "InstalledOpenLimitTilt",
+      259 : "InstalledClosedLimitTilt",
+      260 : "VelocityLift",
+      261 : "AccelerationTimeLift",
+      262 : "DecelerationTimeLift",
+      263 : "Mode",
+      264 : "IntermediateSetpointsLift",
+      265 : "IntermediateSetpointsTilt",
+    },
+  },
   259 : {
     name : "BarrierControl",
     commands : {
