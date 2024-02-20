@@ -4432,26 +4432,44 @@ exports.model = {
       "Defrost",
     ], //
     "ModeTag" : [
+<<<<<<< HEAD:linux/zap-generated/data-models/matter_support_model.js
       "Normal",
       "Heavy",
       "Light",
     ], //
     "ModeTag" : [
+=======
+>>>>>>> e399835de2... Pull request #1575: MATTER-3167: Enable ZAP generation for Window Covering Cluster and Init the cluster:silabs_examples/unify-matter-bridge/linux/zap-generated/data-models/matter_support_model.js
       "Manual",
       "TimeOfUse",
       "SolarCharging",
     ], //
     "ModeTag" : [
       "Normal",
+      "Heavy",
+      "Light",
+    ], //
+    "ModeTag" : [
+<<<<<<< HEAD:linux/zap-generated/data-models/matter_support_model.js
+=======
+      "Normal",
       "Delicate",
       "Heavy",
       "Whites",
     ], //
     "ModeTag" : [
+>>>>>>> e399835de2... Pull request #1575: MATTER-3167: Enable ZAP generation for Window Covering Cluster and Init the cluster:silabs_examples/unify-matter-bridge/linux/zap-generated/data-models/matter_support_model.js
       "NoOptimization",
       "DeviceOptimization",
       "LocalOptimization",
       "GridOptimization",
+<<<<<<< HEAD:linux/zap-generated/data-models/matter_support_model.js
+=======
+    ], //
+    "ModeTag" : [
+      "RapidCool",
+      "RapidFreeze",
+>>>>>>> e399835de2... Pull request #1575: MATTER-3167: Enable ZAP generation for Window Covering Cluster and Init the cluster:silabs_examples/unify-matter-bridge/linux/zap-generated/data-models/matter_support_model.js
     ], //
     "ModeTag" : [
       "Bake",
@@ -4463,10 +4481,6 @@ exports.model = {
       "ConvectionRoast",
       "Warming",
       "Proofing",
-    ], //
-    "ModeTag" : [
-      "RapidCool",
-      "RapidFreeze",
     ], //
     "ModeTag" : [
       "DeepClean",
@@ -5004,15 +5018,15 @@ exports.model = {
       16 : "FanFail",
     },
     "AlarmBitmap" : {
+      1 : "DoorOpen",
+    },
+    "AlarmBitmap" : {
       1 : "InflowError",
       2 : "DrainError",
       4 : "DoorError",
       8 : "TempTooLow",
       16 : "TempTooHigh",
       32 : "WaterLevelError",
-    },
-    "AlarmBitmap" : {
-      1 : "DoorOpen",
     },
     "AlarmModeBitmap" : {
       1 : "Visual",
@@ -5276,9 +5290,12 @@ exports.model = {
       1 : "TemperatureUnit",
     },
     "Feature" : {
+<<<<<<< HEAD:linux/zap-generated/data-models/matter_support_model.js
       0 : "NoFeatures",
     },
     "Feature" : {
+=======
+>>>>>>> e399835de2... Pull request #1575: MATTER-3167: Enable ZAP generation for Window Covering Cluster and Init the cluster:silabs_examples/unify-matter-bridge/linux/zap-generated/data-models/matter_support_model.js
       1 : "ImportedEnergy",
       2 : "ExportedEnergy",
       4 : "CumulativeEnergy",
@@ -5319,9 +5336,12 @@ exports.model = {
       2 : "Level",
     },
     "Feature" : {
+<<<<<<< HEAD:linux/zap-generated/data-models/matter_support_model.js
       1 : "ApplicationPlatform",
     },
     "Feature" : {
+=======
+>>>>>>> e399835de2... Pull request #1575: MATTER-3167: Enable ZAP generation for Window Covering Cluster and Init the cluster:silabs_examples/unify-matter-bridge/linux/zap-generated/data-models/matter_support_model.js
       1 : "MultiSpeed",
       2 : "Auto",
       4 : "Rocking",
@@ -5394,6 +5414,15 @@ exports.model = {
       64 : "HeatingSource",
     },
     "Feature" : {
+<<<<<<< HEAD:linux/zap-generated/data-models/matter_support_model.js
+=======
+      1 : "Basic",
+    },
+    "Feature" : {
+      1 : "DataModelTest",
+    },
+    "Feature" : {
+>>>>>>> e399835de2... Pull request #1575: MATTER-3167: Enable ZAP generation for Window Covering Cluster and Init the cluster:silabs_examples/unify-matter-bridge/linux/zap-generated/data-models/matter_support_model.js
       1 : "ScreenTime",
       2 : "PINManagement",
       4 : "BlockUnrated",
@@ -5401,12 +5430,15 @@ exports.model = {
       16 : "ScheduledContentRating",
     },
     "Feature" : {
+<<<<<<< HEAD:linux/zap-generated/data-models/matter_support_model.js
       1 : "Basic",
     },
     "Feature" : {
       1 : "DataModelTest",
     },
     "Feature" : {
+=======
+>>>>>>> e399835de2... Pull request #1575: MATTER-3167: Enable ZAP generation for Window Covering Cluster and Init the cluster:silabs_examples/unify-matter-bridge/linux/zap-generated/data-models/matter_support_model.js
       1 : "PowerAdjustment",
       2 : "PowerForecastReporting",
       4 : "StateForecastReporting",

@@ -836,6 +836,131 @@ inline std::optional<DoorLock::UserTypeEnum> from_json(const nlohmann::json& val
 }
 /***************************** Bitmap Converters **************/
 template <>
+inline std::optional<chip::BitMask<WindowCovering::ConfigStatus>> from_json(const nlohmann::json& obj)
+{
+    chip::BitMask<WindowCovering::ConfigStatus> r;
+    r.SetField(WindowCovering::ConfigStatus::kOperational, obj.value("Operational", false));
+    r.SetField(WindowCovering::ConfigStatus::kOnlineReserved, obj.value("Online", false));
+    r.SetField(WindowCovering::ConfigStatus::kLiftMovementReversed, obj.value("OpenAndUpCommandsReversed", false));
+    r.SetField(WindowCovering::ConfigStatus::kLiftPositionAware, obj.value("LiftClosedLoop", false));
+    r.SetField(WindowCovering::ConfigStatus::kTiltPositionAware, obj.value("TiltClosedLoop", false));
+    r.SetField(WindowCovering::ConfigStatus::kLiftEncoderControlled, obj.value("LiftEncoderControlled", false));
+    r.SetField(WindowCovering::ConfigStatus::kTiltEncoderControlled, obj.value("TiltEncoderControlled", false));
+    return r;
+}
+template <>
+inline std::optional<chip::BitMask<WindowCovering::Feature>> from_json(const nlohmann::json& obj)
+{
+    chip::BitMask<WindowCovering::Feature> r;
+    r.SetField(WindowCovering::Feature::kLift, obj.value("Lift", false));
+    r.SetField(WindowCovering::Feature::kTilt, obj.value("Tilt", false));
+    r.SetField(WindowCovering::Feature::kPositionAwareLift, obj.value("PositionAwareLift", false));
+    r.SetField(WindowCovering::Feature::kAbsolutePosition, obj.value("AbsolutePosition", false));
+    r.SetField(WindowCovering::Feature::kPositionAwareTilt, obj.value("PositionAwareTilt", false));
+    return r;
+}
+template <>
+inline std::optional<chip::BitMask<WindowCovering::Mode>> from_json(const nlohmann::json& obj)
+{
+    chip::BitMask<WindowCovering::Mode> r;
+    r.SetField(WindowCovering::Mode::kMotorDirectionReversed, obj.value("MotorDirectionReversed", false));
+    r.SetField(WindowCovering::Mode::kCalibrationMode, obj.value("CalibrationMode", false));
+    r.SetField(WindowCovering::Mode::kMaintenanceMode, obj.value("MaintenanceMode", false));
+    r.SetField(WindowCovering::Mode::kLedFeedback, obj.value("LEDFeedback", false));
+    return r;
+}
+template <>
+inline std::optional<chip::BitMask<WindowCovering::OperationalStatus>> from_json(const nlohmann::json& obj)
+{
+    chip::BitMask<WindowCovering::OperationalStatus> r;
+    r.SetField(WindowCovering::OperationalStatus::kGlobal, obj.value("Global", false));
+    r.SetField(WindowCovering::OperationalStatus::kLift, obj.value("Lift", false));
+    r.SetField(WindowCovering::OperationalStatus::kTilt, obj.value("Tilt", false));
+    return r;
+}
+template <>
+inline std::optional<chip::BitMask<WindowCovering::SafetyStatus>> from_json(const nlohmann::json& obj)
+{
+    chip::BitMask<WindowCovering::SafetyStatus> r;
+    r.SetField(WindowCovering::SafetyStatus::kRemoteLockout, obj.value("RemoteLockout", false));
+    r.SetField(WindowCovering::SafetyStatus::kTamperDetection, obj.value("TamperDetection", false));
+    r.SetField(WindowCovering::SafetyStatus::kFailedCommunication, obj.value("FailedCommunication", false));
+    r.SetField(WindowCovering::SafetyStatus::kPositionFailure, obj.value("PositionFailure", false));
+    r.SetField(WindowCovering::SafetyStatus::kThermalProtection, obj.value("ThermalProtection", false));
+    r.SetField(WindowCovering::SafetyStatus::kObstacleDetected, obj.value("ObstacleDetected", false));
+    r.SetField(WindowCovering::SafetyStatus::kPower, obj.value("Power", false));
+    r.SetField(WindowCovering::SafetyStatus::kStopInput, obj.value("StopInput", false));
+    r.SetField(WindowCovering::SafetyStatus::kMotorJammed, obj.value("MotorJammed", false));
+    r.SetField(WindowCovering::SafetyStatus::kHardwareFailure, obj.value("HardwareFailure", false));
+    r.SetField(WindowCovering::SafetyStatus::kManualOperation, obj.value("ManualOperation", false));
+    r.SetField(WindowCovering::SafetyStatus::kProtection, obj.value("Protection", false));
+    return r;
+}
+
+template <>
+inline std::optional<WindowCovering::EndProductType> from_json(const nlohmann::json& value)
+{
+    const std::map<std::string, WindowCovering::EndProductType> table = {
+        { "RollerShade", WindowCovering::EndProductType::kRollerShade },
+        { "RomanShade", WindowCovering::EndProductType::kRomanShade },
+        { "BalloonShade", WindowCovering::EndProductType::kBalloonShade },
+        { "WovenWood", WindowCovering::EndProductType::kWovenWood },
+        { "PleatedShade", WindowCovering::EndProductType::kPleatedShade },
+        { "CellularShade", WindowCovering::EndProductType::kCellularShade },
+        { "LayeredShade", WindowCovering::EndProductType::kLayeredShade },
+        { "LayeredShade2D", WindowCovering::EndProductType::kLayeredShade2D },
+        { "SheerShade", WindowCovering::EndProductType::kSheerShade },
+        { "TiltOnlyInteriorBlind", WindowCovering::EndProductType::kTiltOnlyInteriorBlind },
+        { "InteriorBlind", WindowCovering::EndProductType::kInteriorBlind },
+        { "VerticalBlindStripCurtain", WindowCovering::EndProductType::kVerticalBlindStripCurtain },
+        { "InteriorVenetianBlind", WindowCovering::EndProductType::kInteriorVenetianBlind },
+        { "ExteriorVenetianBlind", WindowCovering::EndProductType::kExteriorVenetianBlind },
+        { "LateralLeftCurtain", WindowCovering::EndProductType::kLateralLeftCurtain },
+        { "LateralRightCurtain", WindowCovering::EndProductType::kLateralRightCurtain },
+        { "CentralCurtain", WindowCovering::EndProductType::kCentralCurtain },
+        { "RollerShutter", WindowCovering::EndProductType::kRollerShutter },
+        { "ExteriorVerticalScreen", WindowCovering::EndProductType::kExteriorVerticalScreen },
+        { "AwningTerracePatio", WindowCovering::EndProductType::kAwningTerracePatio },
+        { "AwningVerticalScreen", WindowCovering::EndProductType::kAwningVerticalScreen },
+        { "TiltOnlyPergola", WindowCovering::EndProductType::kTiltOnlyPergola },
+        { "SwingingShutter", WindowCovering::EndProductType::kSwingingShutter },
+        { "SlidingShutter", WindowCovering::EndProductType::kSlidingShutter },
+        { "Unknown", WindowCovering::EndProductType::kUnknown },
+    };
+
+    auto i = table.find(value);
+    if (i != table.end()) {
+        return i->second;
+    } else {
+        return std::nullopt;
+    }
+}
+template <>
+inline std::optional<WindowCovering::Type> from_json(const nlohmann::json& value)
+{
+    const std::map<std::string, WindowCovering::Type> table = {
+        { "Rollershade", WindowCovering::Type::kRollerShade },
+        { "Rollershade2Motor", WindowCovering::Type::kRollerShade2Motor },
+        { "RollershadeExterior", WindowCovering::Type::kRollerShadeExterior },
+        { "RollershadeExterior2Motor", WindowCovering::Type::kRollerShadeExterior2Motor },
+        { "Drapery", WindowCovering::Type::kDrapery },
+        { "Awning", WindowCovering::Type::kAwning },
+        { "Shutter", WindowCovering::Type::kShutter },
+        { "TiltBlindTiltOnly", WindowCovering::Type::kTiltBlindTiltOnly },
+        { "TiltBlindLiftAndTilt", WindowCovering::Type::kTiltBlindLiftAndTilt },
+        { "ProjectorScreen", WindowCovering::Type::kProjectorScreen },
+        { "", WindowCovering::Type::kUnknown },
+    };
+
+    auto i = table.find(value);
+    if (i != table.end()) {
+        return i->second;
+    } else {
+        return std::nullopt;
+    }
+}
+/***************************** Bitmap Converters **************/
+template <>
 inline std::optional<chip::BitMask<BarrierControl::BarrierControlCapabilities>> from_json(const nlohmann::json& obj)
 {
     chip::BitMask<BarrierControl::BarrierControlCapabilities> r;

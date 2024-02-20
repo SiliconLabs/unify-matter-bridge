@@ -20,7 +20,7 @@ function supportedMappedClusterCode(code)
     case 57: return true // Cluster BridgeBasic
     // case 256: return true // Cluster ShadeConfiguration
     case 257: return true // Cluster DoorLock
-    // case 258: return true // Cluster WindowCovering
+    case 258: return true // Cluster WindowCovering
     case 259: return true // Cluster BarrierControl
     // case 512: return true // Cluster PumpConfigurationAndControl
     case 513: return true // Cluster Thermostat

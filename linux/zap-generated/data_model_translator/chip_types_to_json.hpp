@@ -930,6 +930,166 @@ nlohmann::json inline to_json(const chip::app::Clusters::DoorLock::Structs::Cred
 /***************************** Bitmap Converter FIXME**************/
 
 template <>
+nlohmann::json inline to_json(const chip::BitMask<chip::app::Clusters::WindowCovering::ConfigStatus>& value)
+{
+    using namespace chip::app::Clusters::WindowCovering;
+    nlohmann::json obj;
+    obj["Operational"] = static_cast<bool>(value.GetField(ConfigStatus::kOperational));
+    obj["Online"] = static_cast<bool>(value.GetField(ConfigStatus::kOnlineReserved));
+    obj["OpenAndUpCommandsReversed"] = static_cast<bool>(value.GetField(ConfigStatus::kLiftMovementReversed));
+    obj["LiftClosedLoop"] = static_cast<bool>(value.GetField(ConfigStatus::kLiftPositionAware));
+    obj["TiltClosedLoop"] = static_cast<bool>(value.GetField(ConfigStatus::kTiltPositionAware));
+    obj["LiftEncoderControlled"] = static_cast<bool>(value.GetField(ConfigStatus::kLiftEncoderControlled));
+    obj["TiltEncoderControlled"] = static_cast<bool>(value.GetField(ConfigStatus::kTiltEncoderControlled));
+    return obj;
+}
+template <>
+nlohmann::json inline to_json(const chip::BitMask<chip::app::Clusters::WindowCovering::Feature>& value)
+{
+    using namespace chip::app::Clusters::WindowCovering;
+    nlohmann::json obj;
+    obj["Lift"] = static_cast<bool>(value.GetField(Feature::kLift));
+    obj["Tilt"] = static_cast<bool>(value.GetField(Feature::kTilt));
+    obj["PositionAwareLift"] = static_cast<bool>(value.GetField(Feature::kPositionAwareLift));
+    obj["AbsolutePosition"] = static_cast<bool>(value.GetField(Feature::kAbsolutePosition));
+    obj["PositionAwareTilt"] = static_cast<bool>(value.GetField(Feature::kPositionAwareTilt));
+    return obj;
+}
+template <>
+nlohmann::json inline to_json(const chip::BitMask<chip::app::Clusters::WindowCovering::Mode>& value)
+{
+    using namespace chip::app::Clusters::WindowCovering;
+    nlohmann::json obj;
+    obj["MotorDirectionReversed"] = static_cast<bool>(value.GetField(Mode::kMotorDirectionReversed));
+    obj["CalibrationMode"] = static_cast<bool>(value.GetField(Mode::kCalibrationMode));
+    obj["MaintenanceMode"] = static_cast<bool>(value.GetField(Mode::kMaintenanceMode));
+    obj["LEDFeedback"] = static_cast<bool>(value.GetField(Mode::kLedFeedback));
+    return obj;
+}
+template <>
+nlohmann::json inline to_json(const chip::BitMask<chip::app::Clusters::WindowCovering::OperationalStatus>& value)
+{
+    using namespace chip::app::Clusters::WindowCovering;
+    nlohmann::json obj;
+    obj["Global"] = static_cast<bool>(value.GetField(OperationalStatus::kGlobal));
+    obj["Lift"] = static_cast<bool>(value.GetField(OperationalStatus::kLift));
+    obj["Tilt"] = static_cast<bool>(value.GetField(OperationalStatus::kTilt));
+    return obj;
+}
+template <>
+nlohmann::json inline to_json(const chip::BitMask<chip::app::Clusters::WindowCovering::SafetyStatus>& value)
+{
+    using namespace chip::app::Clusters::WindowCovering;
+    nlohmann::json obj;
+    obj["RemoteLockout"] = static_cast<bool>(value.GetField(SafetyStatus::kRemoteLockout));
+    obj["TamperDetection"] = static_cast<bool>(value.GetField(SafetyStatus::kTamperDetection));
+    obj["FailedCommunication"] = static_cast<bool>(value.GetField(SafetyStatus::kFailedCommunication));
+    obj["PositionFailure"] = static_cast<bool>(value.GetField(SafetyStatus::kPositionFailure));
+    obj["ThermalProtection"] = static_cast<bool>(value.GetField(SafetyStatus::kThermalProtection));
+    obj["ObstacleDetected"] = static_cast<bool>(value.GetField(SafetyStatus::kObstacleDetected));
+    obj["Power"] = static_cast<bool>(value.GetField(SafetyStatus::kPower));
+    obj["StopInput"] = static_cast<bool>(value.GetField(SafetyStatus::kStopInput));
+    obj["MotorJammed"] = static_cast<bool>(value.GetField(SafetyStatus::kMotorJammed));
+    obj["HardwareFailure"] = static_cast<bool>(value.GetField(SafetyStatus::kHardwareFailure));
+    obj["ManualOperation"] = static_cast<bool>(value.GetField(SafetyStatus::kManualOperation));
+    obj["Protection"] = static_cast<bool>(value.GetField(SafetyStatus::kProtection));
+    return obj;
+}
+
+template <>
+nlohmann::json inline to_json(const chip::app::Clusters::WindowCovering::EndProductType& value)
+{
+    using namespace chip::app::Clusters::WindowCovering;
+    switch (value) {
+    case EndProductType::kRollerShade:
+        return "RollerShade";
+    case EndProductType::kRomanShade:
+        return "RomanShade";
+    case EndProductType::kBalloonShade:
+        return "BalloonShade";
+    case EndProductType::kWovenWood:
+        return "WovenWood";
+    case EndProductType::kPleatedShade:
+        return "PleatedShade";
+    case EndProductType::kCellularShade:
+        return "CellularShade";
+    case EndProductType::kLayeredShade:
+        return "LayeredShade";
+    case EndProductType::kLayeredShade2D:
+        return "LayeredShade2D";
+    case EndProductType::kSheerShade:
+        return "SheerShade";
+    case EndProductType::kTiltOnlyInteriorBlind:
+        return "TiltOnlyInteriorBlind";
+    case EndProductType::kInteriorBlind:
+        return "InteriorBlind";
+    case EndProductType::kVerticalBlindStripCurtain:
+        return "VerticalBlindStripCurtain";
+    case EndProductType::kInteriorVenetianBlind:
+        return "InteriorVenetianBlind";
+    case EndProductType::kExteriorVenetianBlind:
+        return "ExteriorVenetianBlind";
+    case EndProductType::kLateralLeftCurtain:
+        return "LateralLeftCurtain";
+    case EndProductType::kLateralRightCurtain:
+        return "LateralRightCurtain";
+    case EndProductType::kCentralCurtain:
+        return "CentralCurtain";
+    case EndProductType::kRollerShutter:
+        return "RollerShutter";
+    case EndProductType::kExteriorVerticalScreen:
+        return "ExteriorVerticalScreen";
+    case EndProductType::kAwningTerracePatio:
+        return "AwningTerracePatio";
+    case EndProductType::kAwningVerticalScreen:
+        return "AwningVerticalScreen";
+    case EndProductType::kTiltOnlyPergola:
+        return "TiltOnlyPergola";
+    case EndProductType::kSwingingShutter:
+        return "SwingingShutter";
+    case EndProductType::kSlidingShutter:
+        return "SlidingShutter";
+    case EndProductType::kUnknown:
+        return "Unknown";
+    default:
+        return "{}";
+    }
+}
+template <>
+nlohmann::json inline to_json(const chip::app::Clusters::WindowCovering::Type& value)
+{
+    using namespace chip::app::Clusters::WindowCovering;
+    switch (value) {
+    case Type::kRollerShade:
+        return "Rollershade";
+    case Type::kRollerShade2Motor:
+        return "Rollershade2Motor";
+    case Type::kRollerShadeExterior:
+        return "RollershadeExterior";
+    case Type::kRollerShadeExterior2Motor:
+        return "RollershadeExterior2Motor";
+    case Type::kDrapery:
+        return "Drapery";
+    case Type::kAwning:
+        return "Awning";
+    case Type::kShutter:
+        return "Shutter";
+    case Type::kTiltBlindTiltOnly:
+        return "TiltBlindTiltOnly";
+    case Type::kTiltBlindLiftAndTilt:
+        return "TiltBlindLiftAndTilt";
+    case Type::kProjectorScreen:
+        return "ProjectorScreen";
+    case Type::kUnknown:
+        return "";
+    default:
+        return "{}";
+    }
+}
+
+/***************************** Bitmap Converter FIXME**************/
+
+template <>
 nlohmann::json inline to_json(const chip::BitMask<chip::app::Clusters::BarrierControl::BarrierControlCapabilities>& value)
 {
     using namespace chip::app::Clusters::BarrierControl;

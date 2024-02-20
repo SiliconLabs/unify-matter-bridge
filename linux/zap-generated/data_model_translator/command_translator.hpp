@@ -239,6 +239,42 @@ private:
     void command_response(const bridged_endpoint* ep, const std::string& cluster, const std::string& cmd_response,
         const nlohmann::json& unify_value, CommandHandler::Handle& cmd_handle) override;
 };
+class WindowCoveringClusterCommandHandler : public command_translator_interface {
+public:
+    WindowCoveringClusterCommandHandler(matter_node_state_monitor& node_state_monitor, UnifyMqtt& unify_mqtt,
+        group_translator& group_translator_m, device_translator& dev_translator)
+        : command_translator_interface(node_state_monitor, chip::app::Clusters::WindowCovering::Id, "WindowCovering", unify_mqtt,
+              group_translator_m, dev_translator)
+        , m_dev_translator(dev_translator)
+    {
+    }
+    void InvokeCommand(chip::app::CommandHandlerInterface::HandlerContext& HandlerContext) override;
+
+    virtual CHIP_ERROR EnumerateAcceptedCommands(const chip::app::ConcreteClusterPath& cluster, CommandIdCallback callback,
+        void* context) override
+    {
+        const chip::CommandId all_commands[] = {
+            0,
+            1,
+            2,
+            4,
+            5,
+            7,
+            8,
+        };
+        for (const auto& cmd : all_commands) {
+            if (callback(cmd, context) != chip::Loop::Continue) {
+                break;
+            }
+        }
+
+        return CHIP_NO_ERROR;
+    }
+
+private:
+    device_translator& m_dev_translator;
+    std::vector<const char*> unify_cluster_names() const override { return std::vector<const char*>(); }
+};
 class BarrierControlClusterCommandHandler : public command_translator_interface {
 public:
     BarrierControlClusterCommandHandler(matter_node_state_monitor& node_state_monitor, UnifyMqtt& unify_mqtt,
