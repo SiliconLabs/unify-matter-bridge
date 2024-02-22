@@ -20,6 +20,7 @@
 #include "emulate_identify.hpp"
 #include "emulate_level.hpp"
 #include "emulate_doorlock.hpp"
+#include "emulate_windowcovering.hpp"
 #include <app/clusters/identify-server/identify-server.h>
 
 #define LOG_TAG "cluster_emulator"
@@ -93,6 +94,7 @@ namespace unify::matter_bridge {
 #define LEVEL_ONOFF_DEPENDENCY_FEATURE_MAP_MASK 0x01
 #define LEVEL_LIGHTING_FEATURE_MAP_MASK 0x02
 #define DOORLOCK_FEATURE_MAP_MASK 0x00
+#define WINDOWCOVERING_FEATURE_MAP_MASK 0x01
 
 #define THERMOSTAT_HEATING_FEATURE_MAP 0x01
 #define THERMOSTAT_COOLING_FEATURE_MAP 0x02
@@ -105,6 +107,7 @@ ClusterEmulator::ClusterEmulator()
     std::vector<std::shared_ptr<EmulatorInterface>> emulators = { std::make_shared<EmulateIdentify>(),
                                                                   std::make_shared<EmulateLevelControl>(),
                                                                   std::make_shared<EmulateDoorLock>(),
+                                                                  std::make_shared<EmulateWindowCovering>(),
                                                                   std::make_shared<EmulateGroups>() };
     for (auto e : emulators)
     {
@@ -224,6 +227,12 @@ uint32_t ClusterEmulator::read_feature_map_revision(const ConcreteReadAttributeP
         if (emberAfFindServerCluster(aPath.mEndpointId, DoorLock::Id))
         {
             return DOORLOCK_FEATURE_MAP_MASK;
+        }
+        break;
+    case WindowCovering::Id:
+        if (emberAfFindServerCluster(aPath.mEndpointId, WindowCovering::Id))
+        {
+            return WINDOWCOVERING_FEATURE_MAP_MASK;
         }
         break;
     }
