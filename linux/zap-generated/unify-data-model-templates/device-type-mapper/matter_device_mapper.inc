@@ -127,6 +127,7 @@ namespace app {
                 static const std::unordered_map<std::string, chip::AttributeId> unify_to_matter_attribute_id_cluster_map {
                     { "WindowCoveringType", Type::Id },
                     { "ConfigOrStatus", ConfigStatus::Id },
+                    { "Mode", Mode::Id },
                 };
             } // namespace Attributes
         } // namespace WindowCovering
