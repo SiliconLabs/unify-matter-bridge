@@ -339,8 +339,14 @@ CHIP_ERROR ClusterEmulator::write_attribute(const ConcreteDataAttributePath & aP
 {
     if (is_attribute_emulated(aPath))
     {
-        return cluster_emulators_attribute_id_map.at(std::make_pair(aPath.mClusterId, aPath.mAttributeId))
-            ->write_attribute(aPath, aDecoder);
+        auto e = cluster_emulators_attribute_id_map.at(std::make_pair(aPath.mClusterId, aPath.mAttributeId));
+        if(e){
+            sl_log_debug(LOG_TAG, "%s emualtor is emulating attribute 0x%04x", e->emulated_cluster_name(), aPath.mAttributeId);
+            return e->write_attribute(aPath, aDecoder);
+        }
+        else{
+            sl_log_error(LOG_TAG, "Emulator not found for clusterId %d and attributeId 0x%04x", aPath.mClusterId, aPath.mAttributeId);
+        }
     }
 
     return CHIP_ERROR_NOT_IMPLEMENTED;

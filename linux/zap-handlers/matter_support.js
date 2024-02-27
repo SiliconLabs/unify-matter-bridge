@@ -1,4 +1,5 @@
 var matter = require('../zap-generated/data-models/matter_support_model.js')
+var unify_matter_mapping = require('../../../unify-matter-common/zap-common/unify_matter_mapping.js')
 
 
 function matterSupportedCluster(clusterID) {
@@ -28,18 +29,24 @@ function matterClusterCommandName(clusterID,commandID) {
   }
 }
 
-function matterSupportedClusterAttribute(clusterID,attributeID) {
+function matterSupportedClusterAttribute(clusterID,unifyattributeID) {
   if(matter.model.hasOwnProperty(clusterID)) {
-    return matter.model[clusterID].attributes.hasOwnProperty(attributeID);
+    // handle mismatch in attribute IDs between matter and UCL
+    matterattributeID = unify_matter_mapping.unify_attribute_pre_mapping(clusterID, unifyattributeID);
+
+    return matter.model[clusterID].attributes.hasOwnProperty(matterattributeID);
   }
   return false;
 }
 
-function matterClusterAttributeName(clusterID,attributesID) {
-  if( matterSupportedClusterAttribute(clusterID,attributesID) ) {
-    return matter.model[clusterID].attributes[attributesID]
+function matterClusterAttributeName(clusterID,unifyattributeID) {
+  if( matterSupportedClusterAttribute(clusterID,unifyattributeID) ) {
+    // handle mismatch in attribute IDs between matter and UCL
+    matterattributeID = unify_matter_mapping.unify_attribute_pre_mapping(clusterID, unifyattributeID);
+
+    return matter.model[clusterID].attributes[matterattributeID]
   } else {
-    return "Attribute_"+attributesID
+    return "Attribute_"+unifyattributeID
   }
 }
 
