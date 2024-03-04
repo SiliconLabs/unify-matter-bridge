@@ -86,12 +86,19 @@ types.
 | Color Control                 |✅|✅|
 | Occupancy Sensing             |✅|✅|
 | DoorLock                      |✅|✅|
+| Window Covering               |✅|❌|
 | Temperature Measurement       |❌|✅|
 | Illuminance Measurement       |❌|✅|
 | Pressure Measurement          |❌|✅|
 | Flow Measurement              |❌|❌|
 | RelativeHumidity Measurement  |❌|✅|
 | Thermostat            |✅|✅|
+
+
+> **Note:** The Matter specification states that if write interaction is made on the Mode attribute of the
+> window covering cluster with an unsupported mode bit, the response should be CONSTRAINT_ERROR. Since UCL 
+> doesn't support writing on the Mode attribute, UMB considers all mode bit as unsupported and always responds
+> to Write Interaction on mode attribute with CONSTRAINT_ERROR.
 
 ## Next Steps
 

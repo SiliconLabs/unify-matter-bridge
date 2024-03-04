@@ -308,7 +308,7 @@ e.g. Identify. Where you might want to run chip-tool tests on those endpoints
 
 For further information on chip-tool tests, refer to the [test suite's README](https://github.com/SiliconLabs/matter/blob/latest/src/app/tests/suites/README.md)
 
-## Controlling a doorlock device using the chip-tool
+## Controlling a doorlock device using the chip tool
 
 To operate a DoorLock device that is mapped to a bridged endpoint with id 2
 via Matter Fabric Node ID 1 using the chip-tool, perform the following operations.
