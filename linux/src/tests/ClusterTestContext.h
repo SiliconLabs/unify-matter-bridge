@@ -309,6 +309,38 @@ public:
         return attribute_test<T>(sSuite, topic, json_payload, onSuccessCb);
     }
 
+    /*
+     *   The type parameter T is generally expected to be a
+     *   ClusterName::Attributes::AttributeName::TypeInfo struct.
+     *
+     *   To test the attribute emulation,Atrributes which doesn't have MQTT messages 
+     *   but are emulated attributes can use this,
+     *   It passes when the test scenario is happy 
+     *   and the resulting value matches.
+     *
+     *   For unsupported attributes or any erroneous conditions, you can inspect the
+     *   retrun value of type CHIP_ERROR.
+     */
+    template <typename T, bool happy = true>
+    inline CHIP_ERROR attribute_test(nlTestSuite * sSuite, typename T::Type value)
+    {
+        // CHIP_ERROR err = CHIP_NO_ERROR;
+
+        auto onSuccessCb = [sSuite, value](const chip::app::ConcreteDataAttributePath & attributePath,
+                                           const typename T::Type & dataResponse) {
+            if (happy)
+            {
+                NL_TEST_ASSERT(sSuite, dataResponse == value);
+            }
+            else
+            {
+                NL_TEST_ASSERT(sSuite, dataResponse != value);
+            }
+        };
+
+        return attribute_test<T>(sSuite, "", "", onSuccessCb);
+    }
+
     /**
      * @brief
      *   @return A result containing the attribute value or error code.
