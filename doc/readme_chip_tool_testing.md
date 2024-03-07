@@ -42,7 +42,11 @@ Use [Test_TC_DGGEN.PICS](./PICS/Test_TC_DGGEN.PICS)
 
 Use [Test_TC_TSTAT.PICS](./PICS/Test_TC_TSTAT.PICS)
 
-## Chip Tool Test Results
+## Window covering
+
+Use [Test_TC_WNCV.PICS](./PICS/Test_TC_WNCV.PICS)
+
+# Test results
 
 When running the Unify Matter Bridge with the chip-tool tests, multiple 
 factors may affect the test result. First of all the capabilities of the backing protocol controller is important. Many required features of Matter are optional in Unify, so in some cases the protocol controller is not able to do the proper translation which is required for the test cases to pass. The capabilities of actual end device may also affect the test results.
@@ -82,4 +86,16 @@ factors may affect the test result. First of all the capabilities of the backing
 | Test_TC_STAT_1_1 | OK          | Test_TC_TSTAT.PICS ||           |
 | Test_TC_STAT_2_1 | OK          | Test_TC_TSTAT.PICS ||           |
 | Test_TC_STAT_2_2 | OK          | Test_TC_TSTAT.PICS ||           |
-|                  |             |                    ||           |
+| Test_TC_WNCV_1_1 | NA          | Test_TC_WNCV.PICS  ||           |
+| Test_TC_WNCV_2_1 | NA          | Test_TC_WNCV.PICS  ||           |
+| Test_TC_WNCV_2_2 | NA          | Test_TC_WNCV.PICS  ||           |
+| Test_TC_WNCV_2_4 | NA          | Test_TC_WNCV.PICS  ||           |
+| Test_TC_WNCV_2_5 | NA          | Test_TC_WNCV.PICS  ||           |
+| Test_TC_WNCV_3_1 | NA          | Test_TC_WNCV.PICS  ||           |
+| Test_TC_WNCV_3_2 | NA          | Test_TC_WNCV.PICS  ||           |
+| Test_TC_WNCV_3_3 | NA          | Test_TC_WNCV.PICS  ||           |
+| Test_TC_WNCV_3_4 | NA          | Test_TC_WNCV.PICS  ||           |
+| Test_TC_WNCV_3_5 | NA          | Test_TC_WNCV.PICS  ||           |
+| Test_TC_WNCV_4_1 | NA          | Test_TC_WNCV.PICS  ||           |
+| Test_TC_WNCV_4_2 | NA          | Test_TC_WNCV.PICS  ||           |
+| Test_TC_WNCV_4_3 | NA          | Test_TC_WNCV.PICS  ||           |
