@@ -114,7 +114,7 @@ executable("unify-matter-bridge") {
 action("debian") {
   # create_package.py <pkg cfg file> <pkg name> <pkg bin> <pkg dir> --output-dir <out dir> <arch>
   deps = [":unify-matter-bridge"]
-  script = "../../unify-matter-common/scripts/create_package.py"
+  script = "../scripts/create_package.py"
   sources = ["package.cfg"]
   outputs = ["$root_out_dir/packages/*.deb"]
   args = rebase_path(sources, root_build_dir) + ["uic-mb", rebase_path(target_out_dir + "/bin/unify-matter-bridge",
