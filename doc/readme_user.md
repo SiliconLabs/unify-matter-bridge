@@ -176,19 +176,85 @@ Setup:
   - All supported Unify devices should now be available for control in both Google Home application as well as the Google Nest Hub
     - On the Nest Hub, swipe down from the top of the display or select "Home Control" to access the devices
 
-## Toggle an OnOff device
 
-To send an OnOff cluster Toggle command to a bridged endpoint with id 2, via
-Matter Fabric Node ID 1:
+## Controlling a device using the Chip-tool
+
+To operate a device that is mapped to a bridged endpoint with id 2
+via Matter Fabric Node ID 1 using the chip-tool, perform the following operations.
 
 ```bash
-chip-tool onoff toggle 1 2
+chip-tool <cluster_name> <command_name> <Matter_fabric_ID> <Bridged_endpoint_ID>
+```
+
+Example:
+```bash
+chip-tool onoff on 1 2
+```
+
+Example for timed interactions:
+
+```bash
+chip-tool doorlock lock-door 1 2 --timedInteractionTimeoutMs 5000
+```
+
+Note: As some cluster have commands that are timed interactions, we also need to provide a timeout value.`--timedInteractionTimeoutMs 5000`
+and some clusters have commands that needs response from the device. If the response is not received by chip-tool within the determined time, it will throw a TIMEOUT error. Reference to the cluster of timed interactions can be made from the matter specifications.
+
+### Reading an Attribute
+
+To read a specific attribute of a particular cluster using chip-tool, perform the following operation.
+
+```bash
+chip-tool <cluster_name> read <attribute_name> <Matter_fabric_ID> <Bridged_endpoint_ID>
+```
+
+Example:
+```bash
+chip-tool doorlock read cluster-revision 1 2
+```
+
+### Writing an Attribute
+
+To write a specific attribute of a particular cluster using chip-tool, perform the following operation.
+
+```bash
+chip-tool <cluster_name> write <attribute_name> <attribute-values> <Matter_fabric_ID> <Bridged_endpoint_ID>
+```
+
+Example:
+```bash
+chip-tool onoff write on-time 1 1 2
+```
+
+### Reading and Subscribing to an Event
+
+Some clusters support events, which will be triggered based on the certain operations or physical events.
+
+To read an event:
+
+```bash
+chip-tool <cluster_name> read-event <event_name> <Matter_fabric_ID> <Bridged_endpoint_ID>
+```
+Example:
+```bash
+chip-tool doorlock read-event lock-operation 1 2
+```
+
+To subscribe to an event, first we need to start an interactive session from chip-tool
+and then use the below command.
+
+```bash
+chip-tool <cluster_name> subscribe-event <event_name> <min-interval> <max-interval> <Matter_fabric_ID> <Bridged_endpoint_ID>
+```
+Example:
+```bash
+chip-tool doorlock subscribe-event DoorLockAlarm 30 60 1 2
 ```
 
 For more information on how to use the `chip-tool` see the
 [chip-tool manual](https://github.com/SiliconLabs/matter/blob/latest/docs/guides/chip_tool_guide.md) on the Matter website.
 
-## Toggle a Group of OnOff Devices
+## Controlling Group of Devices using chip-tool
 
 The Matter Bridge has support for forwarding group messages from the Matter
 Fabric to Unify Nodes. The protocol controllers will send the group messages as
@@ -221,6 +287,12 @@ Finally, a multicast command may be sent using the chip-tool.
 
 ```bash
 // Send actual multicast command
+./chip-tool <cluster-name> <command-name> 0xffffffffffff0001 1
+```
+
+Example:
+
+```bash
 ./chip-tool onoff toggle 0xffffffffffff0001 1
 ```
 
@@ -308,46 +380,6 @@ e.g. Identify. Where you might want to run chip-tool tests on those endpoints
 
 For further information on chip-tool tests, refer to the [test suite's README](https://github.com/SiliconLabs/matter/blob/latest/src/app/tests/suites/README.md)
 
-## Controlling a doorlock device using the chip tool
-
-To operate a DoorLock device that is mapped to a bridged endpoint with id 2
-via Matter Fabric Node ID 1 using the chip-tool, perform the following operations.
-
-### Reading an Attribute
-
-```bash
-chip-tool doorlock read <attribute name> 1 2
-```
-
-### Executing a Command
-
-As Doorlock commands are timed interactions, we also need to provide a timeout value.
-
-```bash
-chip-tool doorlock lock-door 1 2 --timedInteractionTimeoutMs 5000
-```
-
-Note: For the DoorLock cluster, Commands need responses from the device. If the response is not received by chip-tool within the determined time, it will throw a TIMEOUT error.
-
-### Reading and Subscribing to an Event
-
-DoorLock support Events, which will be triggered based on the DoorState and LockOperations.
-
-To read an event:
-
-```bash
-chip-tool doorlock read-event lock-operation 1 2 
-```
-
-To subscribe to an event, first we need to start an interactive session from chip-tool
-and then use the below command.
-
-```bash
-chip-tool doorlock subscribe-event lock-operation <min-interval> <max-interval> 1 2
-```
-
-For more information on how to use the `chip-tool` see
-[chip-tool manual](https://github.com/SiliconLabs/matter/blob/latest/docs/guides/chip_tool_guide.md) on the Matter website.
 
 ## Troubleshooting
 
