@@ -13,7 +13,7 @@
     ],
     "templates": [
         {
-            "path": "../../../../unify-matter-common/zap-common/unify_support_data_model.js.zapt",
+            "path": "../../../zap-common/unify_support_data_model.js.zapt",
             "name": "Unify data model support",
             "output": "unify_support_model.js"
         }

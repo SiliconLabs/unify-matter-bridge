@@ -4432,10 +4432,9 @@ exports.model = {
       "Defrost",
     ], //
     "ModeTag" : [
-      "NoOptimization",
-      "DeviceOptimization",
-      "LocalOptimization",
-      "GridOptimization",
+      "Normal",
+      "Heavy",
+      "Light",
     ], //
     "ModeTag" : [
       "Manual",
@@ -4449,9 +4448,10 @@ exports.model = {
       "Whites",
     ], //
     "ModeTag" : [
-      "Normal",
-      "Heavy",
-      "Light",
+      "NoOptimization",
+      "DeviceOptimization",
+      "LocalOptimization",
+      "GridOptimization",
     ], //
     "ModeTag" : [
       "Bake",
@@ -5273,16 +5273,10 @@ exports.model = {
       0 : "NoFeatures",
     },
     "Feature" : {
-      0 : "NoFeatures",
-    },
-    "Feature" : {
       1 : "TemperatureUnit",
     },
     "Feature" : {
-      1 : "Visual",
-      2 : "Audible",
-      4 : "AlarmSuppress",
-      8 : "SensitivityLevel",
+      0 : "NoFeatures",
     },
     "Feature" : {
       1 : "ImportedEnergy",
@@ -5291,20 +5285,26 @@ exports.model = {
       8 : "PeriodicEnergy",
     },
     "Feature" : {
-      1 : "Reset",
+      1 : "Visual",
+      2 : "Audible",
+      4 : "AlarmSuppress",
+      8 : "SensitivityLevel",
     },
     "Feature" : {
-      1 : "Extended",
+      1 : "Reset",
     },
     "Feature" : {
       1 : "PacketCounts",
       2 : "ErrorCounts",
     },
     "Feature" : {
-      1 : "Reset",
+      1 : "Extended",
     },
     "Feature" : {
       1 : "Watermarks",
+    },
+    "Feature" : {
+      1 : "Reset",
     },
     "Feature" : {
       1 : "PowerAsNumber",
@@ -5315,17 +5315,11 @@ exports.model = {
       1 : "CalendarFormat",
     },
     "Feature" : {
-      1 : "ApplicationPlatform",
-    },
-    "Feature" : {
       1 : "TimeSync",
       2 : "Level",
     },
     "Feature" : {
-      1 : "ReceivedConfirmation",
-      2 : "ConfirmationResponse",
-      4 : "ConfirmationReply",
-      8 : "ProtectedMessages",
+      1 : "ApplicationPlatform",
     },
     "Feature" : {
       1 : "MultiSpeed",
@@ -5334,6 +5328,12 @@ exports.model = {
       8 : "Wind",
       16 : "Step",
       32 : "AirflowDirection",
+    },
+    "Feature" : {
+      1 : "ReceivedConfirmation",
+      2 : "ConfirmationResponse",
+      4 : "ConfirmationReply",
+      8 : "ProtectedMessages",
     },
     "Feature" : {
       1 : "NameUpdates",
@@ -5394,14 +5394,14 @@ exports.model = {
       64 : "HeatingSource",
     },
     "Feature" : {
-      1 : "Basic",
-    },
-    "Feature" : {
       1 : "ScreenTime",
       2 : "PINManagement",
       4 : "BlockUnrated",
       8 : "OnDemandContentRating",
       16 : "ScheduledContentRating",
+    },
+    "Feature" : {
+      1 : "Basic",
     },
     "Feature" : {
       1 : "DataModelTest",
@@ -5416,12 +5416,12 @@ exports.model = {
       64 : "ConstraintBasedAdjustment",
     },
     "Feature" : {
-      1 : "CacheAndSync",
-    },
-    "Feature" : {
       1 : "CheckInProtocolSupport",
       2 : "UserActiveModeTrigger",
       4 : "LongIdleTimeSupport",
+    },
+    "Feature" : {
+      1 : "CacheAndSync",
     },
     "Feature" : {
       1 : "AdvancedSeek",
@@ -5443,17 +5443,17 @@ exports.model = {
       8 : "Replaceable",
     },
     "Feature" : {
+      1 : "ChannelList",
+      2 : "LineupInfo",
+      4 : "ElectronicGuide",
+      8 : "RecordProgram",
+    },
+    "Feature" : {
       1 : "ChargingPreferences",
       2 : "SoCReporting",
       4 : "PlugAndCharge",
       8 : "Rfid",
       16 : "V2x",
-    },
-    "Feature" : {
-      1 : "ChannelList",
-      2 : "LineupInfo",
-      4 : "ElectronicGuide",
-      8 : "RecordProgram",
     },
     "Feature" : {
       1 : "Lift",
