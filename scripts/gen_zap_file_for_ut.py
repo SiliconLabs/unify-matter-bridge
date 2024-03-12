@@ -21,14 +21,14 @@ def copy_and_replace(input_path, output_path):
             
             # Replace the specified content for "path"
             content = content.replace(
-                '"path": "../../../src/app/zap-templates/zcl/zcl.json",',
-                '"path": "../../../../../../src/app/zap-templates/zcl/zcl.json",'
+                '"path": "../linux/third_party/connectedhomeip/src/app/zap-templates/zcl/zcl.json",',
+                '"path": "../../../../linux/third_party/connectedhomeip/src/app/zap-templates/zcl/zcl.json",'
             )
             
             # Replace the specified content for "path"
             content = content.replace(
-                '"path": "../../../src/app/zap-templates/app-templates.json",',
-                '"path": "../../../../../../src/app/zap-templates/app-templates.json",'
+                '"path": "../linux/third_party/connectedhomeip/src/app/zap-templates/app-templates.json",',
+                '"path": "../../../../linux/third_party/connectedhomeip/src/app/zap-templates/app-templates.json",'
             )
             
             # Replace the specified content to disable Time Synchronization
@@ -46,8 +46,8 @@ def copy_and_replace(input_path, output_path):
 if __name__ == "__main__":
     
     # Specify the input and output file paths
-    input_file_path = 'silabs_examples/unify-matter-bridge/unify-matter-bridge-common/unify-matter-bridge.zap'
-    output_file_path = 'silabs_examples/unify-matter-bridge/linux/src/tests/unify-matter-bridge-ut/unify-matter-bridge-ut.zap'
+    input_file_path = '../../../unify-matter-bridge-common/unify-matter-bridge.zap'
+    output_file_path = '../../../linux/src/tests/unify-matter-bridge-ut/unify-matter-bridge-ut.zap'
 
     if not os.path.exists(input_file_path):
         print(f"Error: Input file not found - {input_file_path}")

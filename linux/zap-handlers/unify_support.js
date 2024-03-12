@@ -1,5 +1,5 @@
 
-var unify_matter_mapping = require('../../../unify-matter-common/zap-common/unify_matter_mapping.js')
+var unify_matter_mapping = require('../../zap-common/unify_matter_mapping.js')
 var unify = require('../zap-generated/data-models/unify_support_model.js')
 
 

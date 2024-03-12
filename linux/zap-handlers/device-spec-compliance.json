@@ -14,7 +14,7 @@
         "matter_support.js",
         "device-type-mapper/device-type-helper.js"
     ],
-    "override": "../../../../src/app/zap-templates/common/override.js",
+    "override": "../third_party/connectedhomeip/src/app/zap-templates/zcl/zcl.json",
     "templates": [
         {
             "path": "device-type-mapper/matter_device_types_clusters_list.inc.zapt",
