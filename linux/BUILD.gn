@@ -19,10 +19,6 @@ import("${chip_root}/build/config/linux/pkg_config.gni")
 
 assert(chip_build_tools)
 
-pkg_config("unify") {
-  packages = [ "libunify_static" ]
-}
-
 config("unify-config") {
   include_dirs = [
     "src",
@@ -90,13 +86,48 @@ static_library("unify-matter-bridge-lib") {
   output_dir = root_out_dir
 
   public_configs = [
-    ":unify-config",
-    ":unify",
+    ":unify-config"
   ]
 
   if (use_coverage) {
     configs += [ ":coverage" ]
   }
+
+  deps = [ ":pre-build"]
+
+  include_dirs = [ "${root_gen_dir}/stage/include/uic",
+                   "${root_gen_dir}/stage/include/uic/sys" ]
+
+  libs = [
+    "boost_log",
+    "boost_log_setup",
+    "boost_thread",
+    "boost_program_options",
+    "sqlite3",
+    "readline",
+    "mosquitto",
+    "yaml-cpp",
+    "pthread",
+    "boost_filesystem",
+  ]
+
+  defines = [
+    "BOOST_ATOMIC_DYN_LINK",
+    "BOOST_ATOMIC_NO_LIB",
+    "BOOST_FILESYSTEM_DYN_LINK",
+    "BOOST_FILESYSTEM_NO_LIB",
+    "BOOST_PROGRAM_OPTIONS_NO_LIB",
+    "BOOST_CHRONO_NO_LINK",
+    "BOOST_LOG_DYN_LINK",
+    "BOOST_LOG_NO_LIB",
+    "BOOST_LOG_SETUP_DYN_LINK",
+    "BOOST_LOG_SETUP_NO_LIB",
+    "BOOST_PROGRAM_OPTIONS_DYN_LINK",
+    "BOOST_THREAD_DYN_LINK",
+    "BOOST_THREAD_NO_LIB"
+  ]
+
+  libs += [ "$root_gen_dir/stage/lib/libunify.so" ]
 }
 
 action("get_chip_version") {
@@ -108,7 +139,16 @@ action("get_chip_version") {
 executable("unify-matter-bridge") {
   sources = [ "src/matter_bridge_main.cpp" ]
 
+  include_dirs = [ "${root_gen_dir}/stage/include/uic",
+                 "${root_gen_dir}/stage/include/uic/sys"]
+
   deps = [ ":unify-matter-bridge-lib" ]
+}
+
+action("pre-build") {
+  script = "../scripts/build_prerequisites.py"
+  outputs = [ "$root_gen_dir/stage/lib/libunify.so" ]
+  args = [ "/" + rebase_path(root_gen_dir, "/") ]
 }
 
 action("debian") {
