@@ -148,7 +148,7 @@ executable("unify-matter-bridge") {
 action("pre-build") {
   script = "../scripts/build_prerequisites.py"
   outputs = [ "$root_gen_dir/stage/lib/libunify.so" ]
-  args = [ "/" + rebase_path(root_gen_dir, "/") ]
+  args = [ "/" + rebase_path(root_gen_dir, "/"), target_cpu ]
 }
 
 action("debian") {
