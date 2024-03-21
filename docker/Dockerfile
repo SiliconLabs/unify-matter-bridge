@@ -1,4 +1,24 @@
-FROM debian:bullseye
+ARG FROM="debian:bullseye"
+FROM openjdk:11.0.15-slim-buster as builder
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y -qq curl openssl ca-certificates
+
+RUN curl -k https://vault.silabs.net/v1/pki/ca/pem -o /usr/local/share/ca-certificates/vault-ca-prod.pem
+RUN curl -k https://vault.dev.silabs.net/v1/pki/ca/pem -o /usr/local/share/ca-certificates/vault-ca-dev.pem
+RUN curl -k http://pkicorp.silabs.com/certdata/SL%20Root%20CA.crt -o /usr/local/share/ca-certificates/sl-root-ca.der
+RUN curl -k http://pkicorp.silabs.com/certdata/SL%20Enterprise%20CA01.crt -o /usr/local/share/ca-certificates/sl-enterprise-ca01.der
+
+RUN openssl x509 -inform pem -in /usr/local/share/ca-certificates/vault-ca-prod.pem -out /usr/local/share/ca-certificates/vault-ca-prod.crt
+RUN openssl x509 -inform pem -in /usr/local/share/ca-certificates/vault-ca-dev.pem -out /usr/local/share/ca-certificates/vault-ca-dev.crt
+RUN openssl x509 -inform der -in /usr/local/share/ca-certificates/sl-root-ca.der -out /usr/local/share/ca-certificates/sl-root-ca.crt
+RUN openssl x509 -inform der -in /usr/local/share/ca-certificates/sl-enterprise-ca01.der -out /usr/local/share/ca-certificates/sl-enterprise-ca01.crt
+RUN /usr/sbin/update-ca-certificates
+
+RUN for cert in /usr/local/share/ca-certificates/*.*; do \
+    cd $JAVA_HOME/lib/security \
+    && keytool -import -noprompt -keystore cacerts -storepass changeit  -trustcacerts -alias $(basename $cert) -file $cert; done
+
+FROM ${FROM}
 
 ENV DEBIAN_FRONTEND=noninteractive
 
