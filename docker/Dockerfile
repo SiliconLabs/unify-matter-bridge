@@ -24,6 +24,13 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 SHELL ["/bin/bash", "-c"]
 
+ARG user=jenkins
+ARG group=jenkins
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+ARG AGENT_WORKDIR="/home/${user}/agent"
+ENV HEADLESS_HOST=true
+
 WORKDIR /
 
 ARG ARCH="arm64"
@@ -102,3 +109,17 @@ RUN curl -L https://github.com/Kitware/CMake/releases/download/v3.21.6/cmake-3.2
   && chmod +x /tmp/cmake-3.21.6-Linux-x86_64.sh \
   && /tmp/cmake-3.21.6-Linux-x86_64.sh --prefix=/usr/local --skip-license \
   && rm /tmp/cmake*
+
+RUN getent group ${GROUP_ID} || addgroup --gid ${GROUP_ID} ${user}
+RUN useradd -m -l -u $USER_ID -d /home/$user -g $GROUP_ID -G sudo -p $(openssl passwd -1 ${user}) -o -s /bin/bash ${user}
+RUN echo "$user   ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+ENV PATH "${JAVA_HOME}/bin:${PATH}"
+COPY --from=builder /usr/local/share/ca-certificates/*.crt /usr/local/share/ca-certificates/
+COPY --from=builder /usr/local/openjdk-11/lib/security/cacerts $JAVA_HOME/lib/security/cacerts
+COPY --from=builder /etc/ssl/certs /etc/ssl/certs
+ENV AGENT_WORKDIR=${AGENT_WORKDIR}
+RUN mkdir /home/${user}/.jenkins && mkdir -p ${AGENT_WORKDIR}
+WORKDIR /home/${user}
+USER ${user}
