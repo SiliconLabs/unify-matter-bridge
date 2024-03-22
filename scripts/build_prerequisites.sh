@@ -4,7 +4,7 @@ MATTER_ENV_PATH=$PATH
 
 export PATH=/usr/local/miniconda/bin:/usr/local/miniconda/condabin:/opt/cargo-home/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-cd /uic
+cd "$3"
 
 if [ "$2" == "amd64" ]; then
     cmake -DCMAKE_INSTALL_PREFIX=$1/stage -GNinja -B build_unify_$2/ -S components
