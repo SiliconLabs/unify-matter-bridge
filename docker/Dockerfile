@@ -53,7 +53,7 @@ RUN for arch in ${ARCH} ; do \
   done
 
 RUN apt-get update \
-  && apt-get install --no-install-recommends -y curl gnupg2 ca-certificates \
+  && apt-get install --no-install-recommends -y curl gnupg2 ca-certificates openjdk-11-jre \
   && apt-get update \
   && apt-get install --no-install-recommends -y \
   ${HOST_DEPS} \
