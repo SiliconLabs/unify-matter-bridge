@@ -1,35 +1,8 @@
-ARG FROM="debian:bullseye"
-FROM openjdk:11.0.15-slim-buster as builder
-RUN apt-get update && \
-    apt-get install --no-install-recommends -y -qq curl openssl ca-certificates
-
-RUN curl -k https://vault.silabs.net/v1/pki/ca/pem -o /usr/local/share/ca-certificates/vault-ca-prod.pem
-RUN curl -k https://vault.dev.silabs.net/v1/pki/ca/pem -o /usr/local/share/ca-certificates/vault-ca-dev.pem
-RUN curl -k http://pkicorp.silabs.com/certdata/SL%20Root%20CA.crt -o /usr/local/share/ca-certificates/sl-root-ca.der
-RUN curl -k http://pkicorp.silabs.com/certdata/SL%20Enterprise%20CA01.crt -o /usr/local/share/ca-certificates/sl-enterprise-ca01.der
-
-RUN openssl x509 -inform pem -in /usr/local/share/ca-certificates/vault-ca-prod.pem -out /usr/local/share/ca-certificates/vault-ca-prod.crt
-RUN openssl x509 -inform pem -in /usr/local/share/ca-certificates/vault-ca-dev.pem -out /usr/local/share/ca-certificates/vault-ca-dev.crt
-RUN openssl x509 -inform der -in /usr/local/share/ca-certificates/sl-root-ca.der -out /usr/local/share/ca-certificates/sl-root-ca.crt
-RUN openssl x509 -inform der -in /usr/local/share/ca-certificates/sl-enterprise-ca01.der -out /usr/local/share/ca-certificates/sl-enterprise-ca01.crt
-RUN /usr/sbin/update-ca-certificates
-
-RUN for cert in /usr/local/share/ca-certificates/*.*; do \
-    cd $JAVA_HOME/lib/security \
-    && keytool -import -noprompt -keystore cacerts -storepass changeit  -trustcacerts -alias $(basename $cert) -file $cert; done
-
-FROM ${FROM}
+FROM debian:bullseye
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 SHELL ["/bin/bash", "-c"]
-
-ARG user=jenkins
-ARG group=jenkins
-ARG USER_ID=1000
-ARG GROUP_ID=1000
-ARG AGENT_WORKDIR="/home/${user}/agent"
-ENV HEADLESS_HOST=true
 
 WORKDIR /
 
@@ -60,7 +33,7 @@ RUN for arch in ${ARCH} ; do \
   done
 
 RUN apt-get update \
-  && apt-get install --no-install-recommends -y curl gnupg2 ca-certificates openjdk-11-jre \
+  && apt-get install --no-install-recommends -y curl gnupg2 ca-certificates \
   && apt-get update \
   && apt-get install --no-install-recommends -y \
   ${HOST_DEPS} \
@@ -109,17 +82,3 @@ RUN curl -L https://github.com/Kitware/CMake/releases/download/v3.21.6/cmake-3.2
   && chmod +x /tmp/cmake-3.21.6-Linux-x86_64.sh \
   && /tmp/cmake-3.21.6-Linux-x86_64.sh --prefix=/usr/local --skip-license \
   && rm /tmp/cmake*
-
-RUN getent group ${GROUP_ID} || addgroup --gid ${GROUP_ID} ${user}
-RUN useradd -m -l -u $USER_ID -d /home/$user -g $GROUP_ID -G sudo -p $(openssl passwd -1 ${user}) -o -s /bin/bash ${user}
-RUN echo "$user   ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-
-ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-ENV PATH "${JAVA_HOME}/bin:${PATH}"
-COPY --from=builder /usr/local/share/ca-certificates/*.crt /usr/local/share/ca-certificates/
-COPY --from=builder /usr/local/openjdk-11/lib/security/cacerts $JAVA_HOME/lib/security/cacerts
-COPY --from=builder /etc/ssl/certs /etc/ssl/certs
-ENV AGENT_WORKDIR=${AGENT_WORKDIR}
-RUN mkdir /home/${user}/.jenkins && mkdir -p ${AGENT_WORKDIR}
-WORKDIR /home/${user}
-USER ${user}
