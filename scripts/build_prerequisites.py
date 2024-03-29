@@ -10,7 +10,6 @@ def main():
 
     # Extract the root_build_dir from the command-line arguments
     root_build_dir = sys.argv[1]
-    print("The value of root_build_dir is: " + root_build_dir)
 
     # Building the unify_path from the root_build_dir
     path_components = root_build_dir.split('/')
@@ -25,14 +24,12 @@ def main():
 
     # Get the file directory
     file_directory = os.path.dirname(os.path.abspath(__file__))
-    print("The value of file_directory is: " + file_directory)
 
     # Specify the name of your shell script
     script_name = 'build_prerequisites.sh'
 
     # Construct the full path to the shell script
     script_path = os.path.join(file_directory, script_name)
-    print("The value of script_path is: " + script_path)
 
     # Run the shell script with the provided root_build_dir argument
     subprocess.run(['bash', script_path, root_build_dir, arch, unify_path])
