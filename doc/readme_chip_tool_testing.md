@@ -1,45 +1,48 @@
 # Introduction
 This README shows the PICS file of various chip-tool tests executed on Unify Matter Bridge with Z-Wave protocol controller
 
-For information on what is PICS, refer [README](../../src/app/tests/suites/README.md)
+For information on what is PICS, refer [README](https://github.com/SiliconLabs/matter/blob/latest/src/app/tests/suites/README.md)
 
-And section [Running chip-tool tests on Unify Matter Bridge endpoints](./readme_user.md##running-chip-tool-tests-on-unify-matter-bridge-endpoints)
+And section [Running chip-tool tests on Unify Matter Bridge endpoints](./readme_user.md#running-chip-tool-tests-on-unify-matter-bridge-endpoints)
 
-## BridgeDeviceBasicInfo
+## Cluster Specific Chip Tool Tests
+
+### BridgeDeviceBasicInfo
 
 Use [Test_TC_BRBINFO.PICS](./PICS/Test_TC_BRBINFO.PICS) for following tests
 
-## OccupancySensing 
+### OccupancySensing 
 
 Use [Test_TC_OCC.PICS](./PICS/Test_TC_OCC.PICS) for following tests
 
-## Level
+### Level
 
 Use [Test_TC_LEVEL.PICS](./PICS/Test_TC_LEVEL.PICS)
 
-## OnOff
+### OnOff
 
 Note: Running chip-tool tests for OnOff cluster needs '`--delayInMs 1000`' command line option to '`chip-tool`' to handle delays between Bridge and Unify
 
 Use [Test_TC_OO.PICS](./PICS/Test_TC_OO.PICS)
 
-## ColorControl
+### ColorControl
 
 Use [Test_TC_CC.PICS](./PICS/Test_TC_CC.PICS)
 
-## Groups
+### Groups
 
 Use  [Test_TC_G.PICS](./PICS/Test_TC_G.PICS)
 
 
-## General Diagnostics
+### General Diagnostics
 
 Use [Test_TC_DGGEN.PICS](./PICS/Test_TC_DGGEN.PICS)
 
-## Thermostat
+### Thermostat
 
 Use [Test_TC_TSTAT.PICS](./PICS/Test_TC_TSTAT.PICS)
-# Test results
+
+## Chip Tool Test Results
 
 When running the Unify Matter Bridge with the chip-tool tests, multiple 
 factors may affect the test result. First of all the capabilities of the backing protocol controller is important. Many required features of Matter are optional in Unify, so in some cases the protocol controller is not able to do the proper translation which is required for the test cases to pass. The capabilities of actual end device may also affect the test results.
