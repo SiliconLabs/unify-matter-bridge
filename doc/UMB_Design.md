@@ -7,9 +7,9 @@
 
 ## Introduction
 The purpose of the Unify Matter Bridge is to make nodes from legacy protocols available on a matter fabric, in such a way that they can be operated and monitored through the matter fabric. The system level design consisting of the Unify Matter Bridge and a number of Unify Protocol Controllers is as shown in figure below.
-![SystemDiagram](../UnifyMatterSystem.png)
+![SystemDiagram](./UnifyMatterSystem.png)
 
-For detailed overview, refer [readme_overview](../readme_overview.md). This document focuses on the design of UMB.
+For detailed overview, refer [readme_overview](./readme_overview.md). This document focuses on the design of UMB.
 
 ## Component Overview
 ![Software Components](./software_architecture.png)

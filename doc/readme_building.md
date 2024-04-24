@@ -85,14 +85,10 @@ Unit testing is always a good idea for quality software. Documentation on writin
 
 ## Troubleshooting
 
-1. If you do not source the `connectedhomeip/scripts/activate.sh` as described above in [Set Up the Matter Build Environment](../../general/SOFTWARE_REQUIREMENTS.md), `gn` and other common
-   build tools will not be found.
-2. If you do not export the `pkgconfig` for the `aarch64-linux-gnu` toolchain as described above in [Build libunify](#build-libunify)
-   you will get errors such as `G_STATIC_ASSERT(sizeof (unsigned long long) == sizeof (guint64));`
-3. If you are compiling unit tests, do not try to compile the Unify Matter Bridge at
+1. If you do not source the `connectedhomeip/scripts/activate.sh` as described above in [Set Up the Matter Build Environment](https://github.com/SiliconLabs/matter/blob/latest/docs/silabs/general/SOFTWARE_REQUIREMENTS.md ),`gn` and other common build tools will not be found.
+2. If you are compiling unit tests, do not try to compile the Unify Matter Bridge at
    the same time. This will not work as when compiling unit tests you are also
    compiling unit tests for all other sub-components.
-4. If you encounter errors linking to `libunify`, try redoing the [`libunify` compile steps](#build-libunify).
-5. Encountering problems with the submodules can be due to trying to check out
+3. Encountering problems with the submodules can be due to trying to check out
    the submodules inside the docker container.
-6. If the Unify Matter Bridge gets stuck while booting. Try to pass `--args="chip_config_network_layer_ble=false"` to `gn gen` command while building
+4. If the Unify Matter Bridge gets stuck while booting. Try to pass `--args="chip_config_network_layer_ble=false"` to `gn gen` command while building
