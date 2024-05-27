@@ -1,6 +1,6 @@
 [submodule "linux/third_party/connectedhomeip"]
 	path = linux/third_party/connectedhomeip
-	url = https://github.com/project-chip/connectedhomeip.git
+	url = https://github.com/SiliconLabs/matter-for-unify.git
 [submodule "linux/third_party/UnifySDK"]
 	path = linux/third_party/UnifySDK
 	url = https://github.com/SiliconLabs/UnifySDK.git
