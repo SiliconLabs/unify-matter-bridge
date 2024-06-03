@@ -14,7 +14,7 @@ ARG TARGET_DEPS="libavahi-client-dev:${ARCH}=0.8-5* libssl-dev:${ARCH}=1.1.1w-0*
   libboost-atomic-dev:${ARCH}=1.74.0.3 libboost-chrono-dev:${ARCH}=1.74.0.3 libboost-date-time-dev:${ARCH}=1.74.0.3 \
   libboost-filesystem-dev:${ARCH}=1.74.0.3 libboost-regex-dev:${ARCH}=1.74.0.3 libboost-program-options-dev:${ARCH}=1.74.0.3 \
   libboost-serialization-dev:${ARCH}=1.74.0.3 libboost-system-dev:${ARCH}=1.74.0.3 libboost-thread-dev:${ARCH}=1.74.0.3 \
-  libboost-log-dev:${ARCH}=1.74.0.3 procps:${ARCH}=2:3.3.17-5 libmbedtls-dev:${ARCH}=2.16.9-0.1 libglib2.0-dev:${ARCH}=2.66.8-1+deb11u1"
+  libboost-log-dev:${ARCH}=1.74.0.3 procps:${ARCH}=2:3.3.17-5 libmbedtls-dev:${ARCH}=2.16.9-0.1 libglib2.0-dev:${ARCH}=2.66.8-1+deb11u3"
 
 ARG HOST_DEPS="ninja-build=1.10.1-1 git=1:2.30.2-1* git-lfs=2.13.2-1+b5 \
   curl=7.74.0-1.3* pkg-config=0.29.2-1 \
