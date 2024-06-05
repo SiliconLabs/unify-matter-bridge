@@ -1491,6 +1491,14 @@ nlohmann::json inline to_json(const chip::BitMask<chip::app::Clusters::ColorCont
     obj["ColorTemperature"] = static_cast<bool>(value.GetField(Feature::kColorTemperature));
     return obj;
 }
+template <>
+nlohmann::json inline to_json(const chip::BitMask<chip::app::Clusters::ColorControl::OptionsBitmap>& value)
+{
+    using namespace chip::app::Clusters::ColorControl;
+    nlohmann::json obj;
+    obj["ExecuteIfOff"] = static_cast<bool>(value.GetField(OptionsBitmap::kExecuteIfOff));
+    return obj;
+}
 
 template <>
 nlohmann::json inline to_json(const chip::app::Clusters::ColorControl::ColorLoopAction& value)
@@ -1531,6 +1539,42 @@ nlohmann::json inline to_json(const chip::app::Clusters::ColorControl::ColorMode
         return "CurrentXAndCurrentY";
     case ColorMode::kColorTemperature:
         return "ColorTemperatureMireds";
+    default:
+        return "{}";
+    }
+}
+template <>
+nlohmann::json inline to_json(const chip::app::Clusters::ColorControl::DriftCompensationEnum& value)
+{
+    using namespace chip::app::Clusters::ColorControl;
+    switch (value) {
+    case DriftCompensationEnum::kNone:
+        return "None";
+    case DriftCompensationEnum::kOtherUnknown:
+        return "Other/Unknown";
+    case DriftCompensationEnum::kTemperaturemonitoring:
+        return "Temperaturemonitoring";
+    case DriftCompensationEnum::kOpticalLuminanceMonitoringAndFeedback:
+        return "OpticalLuminanceMonitoringAndFeedback";
+    case DriftCompensationEnum::kOpticalColorMonitoringAndFeedback:
+        return "OpticalColorMonitoringAndFeedback";
+    default:
+        return "{}";
+    }
+}
+template <>
+nlohmann::json inline to_json(const chip::app::Clusters::ColorControl::EnhancedColorModeEnum& value)
+{
+    using namespace chip::app::Clusters::ColorControl;
+    switch (value) {
+    case EnhancedColorModeEnum::kCurrentHueAndCurrentSaturation:
+        return "CurrentHueAndCurrentSaturation";
+    case EnhancedColorModeEnum::kCurrentXAndCurrentY:
+        return "CurrentXAndCurrentY";
+    case EnhancedColorModeEnum::kColorTemperature:
+        return "ColorTemperature";
+    case EnhancedColorModeEnum::kEnhancedCurrentHueAndCurrentSaturation:
+        return "EnhancedCurrentHueAndCurrentSaturation";
     default:
         return "{}";
     }

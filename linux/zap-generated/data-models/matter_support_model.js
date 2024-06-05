@@ -2094,7 +2094,6 @@ exports.model = {
       1 : "LockType",
       2 : "ActuatorEnabled",
       3 : "DoorState",
-      35 : "AutoRelockTime",
       37 : "OperatingMode",
       38 : "SupportedOperatingModes",
       65528 : "GeneratedCommandList",
@@ -4061,6 +4060,13 @@ exports.model = {
       "Https",
       "VendorSpecific",
     ], //
+    "DriftCompensationEnum" : [
+      "None",
+      "OtherUnknown",
+      "Temperaturemonitoring",
+      "OpticalLuminanceMonitoringAndFeedback",
+      "OpticalColorMonitoringAndFeedback",
+    ], //
     "DrynessLevelEnum" : [
       "Low",
       "Normal",
@@ -4155,6 +4161,12 @@ exports.model = {
       "EVStopped",
       "EVSEStopped",
       "Other",
+    ], //
+    "EnhancedColorModeEnum" : [
+      "CurrentHueAndCurrentSaturation",
+      "CurrentXAndCurrentY",
+      "ColorTemperature",
+      "EnhancedCurrentHueAndCurrentSaturation",
     ], //
     "ErrorStateEnum" : [
       "NoError",
@@ -4449,6 +4461,11 @@ exports.model = {
       "GridOptimization",
     ], //
     "ModeTag" : [
+      "Manual",
+      "TimeOfUse",
+      "SolarCharging",
+    ], //
+    "ModeTag" : [
       "Bake",
       "Convection",
       "Grill",
@@ -4462,11 +4479,6 @@ exports.model = {
     "ModeTag" : [
       "RapidCool",
       "RapidFreeze",
-    ], //
-    "ModeTag" : [
-      "Manual",
-      "TimeOfUse",
-      "SolarCharging",
     ], //
     "ModeTag" : [
       "DeepClean",
@@ -5004,15 +5016,15 @@ exports.model = {
       16 : "FanFail",
     },
     "AlarmBitmap" : {
-      1 : "DoorOpen",
-    },
-    "AlarmBitmap" : {
       1 : "InflowError",
       2 : "DrainError",
       4 : "DoorError",
       8 : "TempTooLow",
       16 : "TempTooHigh",
       32 : "WaterLevelError",
+    },
+    "AlarmBitmap" : {
+      1 : "DoorOpen",
     },
     "AlarmModeBitmap" : {
       1 : "Visual",
@@ -5276,13 +5288,13 @@ exports.model = {
       0 : "NoFeatures",
     },
     "Feature" : {
+      1 : "Reset",
+    },
+    "Feature" : {
       1 : "ImportedEnergy",
       2 : "ExportedEnergy",
       4 : "CumulativeEnergy",
       8 : "PeriodicEnergy",
-    },
-    "Feature" : {
-      1 : "TemperatureUnit",
     },
     "Feature" : {
       1 : "Visual",
@@ -5291,7 +5303,7 @@ exports.model = {
       8 : "SensitivityLevel",
     },
     "Feature" : {
-      1 : "Reset",
+      1 : "TemperatureUnit",
     },
     "Feature" : {
       1 : "PacketCounts",
@@ -5301,10 +5313,10 @@ exports.model = {
       1 : "Extended",
     },
     "Feature" : {
-      1 : "Reset",
+      1 : "Watermarks",
     },
     "Feature" : {
-      1 : "Watermarks",
+      1 : "Reset",
     },
     "Feature" : {
       1 : "PowerAsNumber",
@@ -5312,14 +5324,16 @@ exports.model = {
       4 : "PowerNumberLimits",
     },
     "Feature" : {
-      1 : "TimeSync",
-      2 : "Level",
-    },
-    "Feature" : {
       1 : "CalendarFormat",
     },
     "Feature" : {
       1 : "ApplicationPlatform",
+    },
+    "Feature" : {
+      1 : "ReceivedConfirmation",
+      2 : "ConfirmationResponse",
+      4 : "ConfirmationReply",
+      8 : "ProtectedMessages",
     },
     "Feature" : {
       1 : "MultiSpeed",
@@ -5330,10 +5344,11 @@ exports.model = {
       32 : "AirflowDirection",
     },
     "Feature" : {
-      1 : "ReceivedConfirmation",
-      2 : "ConfirmationResponse",
-      4 : "ConfirmationReply",
-      8 : "ProtectedMessages",
+      1 : "NameUpdates",
+    },
+    "Feature" : {
+      1 : "TimeSync",
+      2 : "Level",
     },
     "Feature" : {
       1 : "Condition",
@@ -5343,9 +5358,6 @@ exports.model = {
     "Feature" : {
       1 : "PacketCounts",
       2 : "ErrorCounts",
-    },
-    "Feature" : {
-      1 : "NameUpdates",
     },
     "Feature" : {
       1 : "Lighting",
@@ -5374,15 +5386,15 @@ exports.model = {
       16 : "MomentarySwitchMultiPress",
     },
     "Feature" : {
-      1 : "SmokeAlarm",
-      2 : "CoAlarm",
-    },
-    "Feature" : {
       1 : "DirectCurrent",
       2 : "AlternatingCurrent",
       4 : "PolyphasePower",
       8 : "Harmonics",
       16 : "PowerQuality",
+    },
+    "Feature" : {
+      1 : "SmokeAlarm",
+      2 : "CoAlarm",
     },
     "Feature" : {
       1 : "EnrollmentGroups",
@@ -5416,12 +5428,12 @@ exports.model = {
       64 : "ConstraintBasedAdjustment",
     },
     "Feature" : {
+      1 : "CacheAndSync",
+    },
+    "Feature" : {
       1 : "CheckInProtocolSupport",
       2 : "UserActiveModeTrigger",
       4 : "LongIdleTimeSupport",
-    },
-    "Feature" : {
-      1 : "CacheAndSync",
     },
     "Feature" : {
       1 : "AdvancedSeek",
@@ -5443,17 +5455,17 @@ exports.model = {
       8 : "Replaceable",
     },
     "Feature" : {
-      1 : "ChannelList",
-      2 : "LineupInfo",
-      4 : "ElectronicGuide",
-      8 : "RecordProgram",
-    },
-    "Feature" : {
       1 : "ChargingPreferences",
       2 : "SoCReporting",
       4 : "PlugAndCharge",
       8 : "Rfid",
       16 : "V2x",
+    },
+    "Feature" : {
+      1 : "ChannelList",
+      2 : "LineupInfo",
+      4 : "ElectronicGuide",
+      8 : "RecordProgram",
     },
     "Feature" : {
       1 : "Lift",
@@ -5502,6 +5514,14 @@ exports.model = {
       16 : "ColorTemperature",
     },
     "Feature" : {
+      1 : "NumericMeasurement",
+      2 : "LevelIndication",
+      4 : "MediumLevel",
+      8 : "CriticalLevel",
+      16 : "PeakMeasurement",
+      32 : "AverageMeasurement",
+    },
+    "Feature" : {
       1 : "Heating",
       2 : "Cooling",
       4 : "Occupancy",
@@ -5513,14 +5533,6 @@ exports.model = {
       256 : "Presets",
       512 : "Setpoints",
       1024 : "QueuedPresetsSupported",
-    },
-    "Feature" : {
-      1 : "NumericMeasurement",
-      2 : "LevelIndication",
-      4 : "MediumLevel",
-      8 : "CriticalLevel",
-      16 : "PeakMeasurement",
-      32 : "AverageMeasurement",
     },
     "Feature" : {
       1 : "PinCredential",
@@ -5583,6 +5595,9 @@ exports.model = {
     "OptionsBitmap" : {
       1 : "ExecuteIfOff",
       2 : "CoupleColorTempToLevel",
+    },
+    "OptionsBitmap" : {
+      1 : "ExecuteIfOff",
     },
     "PresetTypeFeaturesBitmap" : {
       1 : "Automatic",

@@ -1340,6 +1340,13 @@ inline std::optional<chip::BitMask<ColorControl::Feature>> from_json(const nlohm
     r.SetField(ColorControl::Feature::kColorTemperature, obj.value("ColorTemperature", false));
     return r;
 }
+template <>
+inline std::optional<chip::BitMask<ColorControl::OptionsBitmap>> from_json(const nlohmann::json& obj)
+{
+    chip::BitMask<ColorControl::OptionsBitmap> r;
+    r.SetField(ColorControl::OptionsBitmap::kExecuteIfOff, obj.value("ExecuteIfOff", false));
+    return r;
+}
 
 template <>
 inline std::optional<ColorControl::ColorLoopAction> from_json(const nlohmann::json& value)
@@ -1379,6 +1386,41 @@ inline std::optional<ColorControl::ColorMode> from_json(const nlohmann::json& va
         { "CurrentHueAndCurrentSaturation", ColorControl::ColorMode::kCurrentHueAndCurrentSaturation },
         { "CurrentXAndCurrentY", ColorControl::ColorMode::kCurrentXAndCurrentY },
         { "ColorTemperatureMireds", ColorControl::ColorMode::kColorTemperature },
+    };
+
+    auto i = table.find(value);
+    if (i != table.end()) {
+        return i->second;
+    } else {
+        return std::nullopt;
+    }
+}
+template <>
+inline std::optional<ColorControl::DriftCompensationEnum> from_json(const nlohmann::json& value)
+{
+    const std::map<std::string, ColorControl::DriftCompensationEnum> table = {
+        { "None", ColorControl::DriftCompensationEnum::kNone },
+        { "Other/Unknown", ColorControl::DriftCompensationEnum::kOtherUnknown },
+        { "Temperaturemonitoring", ColorControl::DriftCompensationEnum::kTemperaturemonitoring },
+        { "OpticalLuminanceMonitoringAndFeedback", ColorControl::DriftCompensationEnum::kOpticalLuminanceMonitoringAndFeedback },
+        { "OpticalColorMonitoringAndFeedback", ColorControl::DriftCompensationEnum::kOpticalColorMonitoringAndFeedback },
+    };
+
+    auto i = table.find(value);
+    if (i != table.end()) {
+        return i->second;
+    } else {
+        return std::nullopt;
+    }
+}
+template <>
+inline std::optional<ColorControl::EnhancedColorModeEnum> from_json(const nlohmann::json& value)
+{
+    const std::map<std::string, ColorControl::EnhancedColorModeEnum> table = {
+        { "CurrentHueAndCurrentSaturation", ColorControl::EnhancedColorModeEnum::kCurrentHueAndCurrentSaturation },
+        { "CurrentXAndCurrentY", ColorControl::EnhancedColorModeEnum::kCurrentXAndCurrentY },
+        { "ColorTemperature", ColorControl::EnhancedColorModeEnum::kColorTemperature },
+        { "EnhancedCurrentHueAndCurrentSaturation", ColorControl::EnhancedColorModeEnum::kEnhancedCurrentHueAndCurrentSaturation },
     };
 
     auto i = table.find(value);
