@@ -21,12 +21,12 @@ function supportedMappedClusterCode(code)
     // case 256: return true // Cluster ShadeConfiguration
     case 257: return true // Cluster DoorLock
     case 258: return true // Cluster WindowCovering
-    case 259: return true // Cluster BarrierControl
+    // case 259: return true // Cluster BarrierControl
     // case 512: return true // Cluster PumpConfigurationAndControl
     case 513: return true // Cluster Thermostat
-    case 514: return true // Cluster FanControl
+    // case 514: return true // Cluster FanControl
     // case 515: return true // Cluster DehumidificationControl
-    case 516: return true // Cluster ThermostatUserInterfaceConfiguration
+    // case 516: return true // Cluster ThermostatUserInterfaceConfiguration
     case 768: return true // Cluster ColorControl
     // case 769: return true // Cluster BallastConfiguration
     case 1024: return true // Cluster IlluminanceMeasurement
@@ -43,7 +43,7 @@ function supportedMappedClusterCode(code)
     // case 1280: return true // Cluster IASZone
     // case 1281: return true // Cluster IASACE
     // case 1282: return true // Cluster IASWD
-    case 2820: return true // Cluster ElectricalMeasurement
+    // case 2820: return true // Cluster ElectricalMeasurement
                            // case 2821: return true // Cluster Diagnostics
                            // case 4096: return true // Cluster TouchlinkCommissioning
 

@@ -140,6 +140,12 @@ CHIP_ERROR BridgedDeviceBasicInfoAttributeAccess::Read(const ConcreteReadAttribu
             uint16_t revision = 3;
             return aEncoder.Encode(revision);
         }
+        case EventList::Id: {
+            Clusters::Globals::Attributes::EventList::TypeInfo::Type eventList;
+            chip::EventId bridgedDeviceEvents[] = { };
+            eventList = chip::app::DataModel::List<const uint32_t>(bridgedDeviceEvents, sizeof(bridgedDeviceEvents)/sizeof(bridgedDeviceEvents[0]));
+            return aEncoder.Encode(eventList);
+        }
         }
     } catch (const std::out_of_range & e)
     {

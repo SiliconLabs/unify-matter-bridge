@@ -166,6 +166,11 @@ const SpecialValues = {
       MinimumDeviceValuePermitted: 0,
       SetToPreviousValue: 0xff
     }
+  },
+  "Color Control":{
+    ColorTemperatureMireds:{
+      Undefined: 0
+    }
   }
 };
 
@@ -182,6 +187,15 @@ function getSpecialValues(cluster, attribute, modified_value) {
         }
         else if (strcmp(${modified_value}.dump().c_str(), "\\"SetToPreviousValue\\"") == 0) {
           ${modified_value} = 0xFF;
+        }
+      `;
+    }
+  }
+  if (cluster === "Color Control") {
+    if (attribute === "ColorTemperatureMireds") {
+      return `
+        if (strcmp(${modified_value}.dump().c_str(), "\\"Undefined\\"") == 0) {
+          ${modified_value} = 0;
         }
       `;
     }

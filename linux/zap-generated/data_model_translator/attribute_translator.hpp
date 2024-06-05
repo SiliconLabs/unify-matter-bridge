@@ -320,40 +320,7 @@ private:
     UnifyMqtt& m_unify_mqtt;
     device_translator& m_dev_translator;
 };
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-/// Attribute Handler for the Barrier Control cluster
-/// Please note that the following attributes are not defined in UCL, and they must be handled
-/// by separate code
-/// - GeneratedCommandList
-/// - AcceptedCommandList
-/// - EventList
-/// - AttributeList
-/// - FeatureMap
-/// - ClusterRevision
-///
-class BarrierControlAttributeAccess : public attribute_translator_interface {
-public:
-    BarrierControlAttributeAccess(matter_node_state_monitor& node_state_monitor, UnifyMqtt& unify_mqtt,
-        device_translator& dev_translator)
-        : attribute_translator_interface(node_state_monitor, unify_mqtt, dev_translator, chip::app::Clusters::BarrierControl::Id,
-              "attr_translator_BarrierControl")
-        , m_unify_mqtt(unify_mqtt)
-        , m_dev_translator(dev_translator)
-    {
-    }
-
-    CHIP_ERROR Read(const chip::app::ConcreteReadAttributePath& aPath, chip::app::AttributeValueEncoder& aEncoder) override;
-    CHIP_ERROR Write(const chip::app::ConcreteDataAttributePath& aPath, chip::app::AttributeValueDecoder& aDecoder) override;
-
-private:
-    void reported_updated(const bridged_endpoint* ep, const std::string& cluster, const std::string& attribute,
-        const nlohmann::json& unify_value) override;
-
-    std::vector<const char*> unify_cluster_names() const override { return std::vector<const char*>({ "BarrierControl" }); }
-    UnifyMqtt& m_unify_mqtt;
-    device_translator& m_dev_translator;
-};
+// Skipping Barrier Control
 // Skipping Pump Configuration and Control
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -403,88 +370,8 @@ private:
     UnifyMqtt& m_unify_mqtt;
     device_translator& m_dev_translator;
 };
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-/// Attribute Handler for the Fan Control cluster
-/// Please note that the following attributes are not defined in UCL, and they must be handled
-/// by separate code
-/// - PercentSetting
-/// - PercentCurrent
-/// - SpeedMax (optional)
-/// - SpeedSetting (optional)
-/// - SpeedCurrent (optional)
-/// - RockSupport (optional)
-/// - RockSetting (optional)
-/// - WindSupport (optional)
-/// - WindSetting (optional)
-/// - AirflowDirection (optional)
-/// - GeneratedCommandList
-/// - AcceptedCommandList
-/// - EventList
-/// - AttributeList
-/// - FeatureMap
-/// - ClusterRevision
-///
-class FanControlAttributeAccess : public attribute_translator_interface {
-public:
-    FanControlAttributeAccess(matter_node_state_monitor& node_state_monitor, UnifyMqtt& unify_mqtt,
-        device_translator& dev_translator)
-        : attribute_translator_interface(node_state_monitor, unify_mqtt, dev_translator, chip::app::Clusters::FanControl::Id,
-              "attr_translator_FanControl")
-        , m_unify_mqtt(unify_mqtt)
-        , m_dev_translator(dev_translator)
-    {
-    }
-
-    CHIP_ERROR Read(const chip::app::ConcreteReadAttributePath& aPath, chip::app::AttributeValueEncoder& aEncoder) override;
-    CHIP_ERROR Write(const chip::app::ConcreteDataAttributePath& aPath, chip::app::AttributeValueDecoder& aDecoder) override;
-
-private:
-    void reported_updated(const bridged_endpoint* ep, const std::string& cluster, const std::string& attribute,
-        const nlohmann::json& unify_value) override;
-
-    std::vector<const char*> unify_cluster_names() const override { return std::vector<const char*>({ "FanControl" }); }
-    UnifyMqtt& m_unify_mqtt;
-    device_translator& m_dev_translator;
-};
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-/// Attribute Handler for the Thermostat User Interface Configuration cluster
-/// Please note that the following attributes are not defined in UCL, and they must be handled
-/// by separate code
-/// - GeneratedCommandList
-/// - AcceptedCommandList
-/// - EventList
-/// - AttributeList
-/// - FeatureMap
-/// - ClusterRevision
-///
-class ThermostatUserInterfaceConfigurationAttributeAccess : public attribute_translator_interface {
-public:
-    ThermostatUserInterfaceConfigurationAttributeAccess(matter_node_state_monitor& node_state_monitor, UnifyMqtt& unify_mqtt,
-        device_translator& dev_translator)
-        : attribute_translator_interface(node_state_monitor, unify_mqtt, dev_translator,
-              chip::app::Clusters::ThermostatUserInterfaceConfiguration::Id,
-              "attr_translator_ThermostatUserInterfaceConfiguration")
-        , m_unify_mqtt(unify_mqtt)
-        , m_dev_translator(dev_translator)
-    {
-    }
-
-    CHIP_ERROR Read(const chip::app::ConcreteReadAttributePath& aPath, chip::app::AttributeValueEncoder& aEncoder) override;
-    CHIP_ERROR Write(const chip::app::ConcreteDataAttributePath& aPath, chip::app::AttributeValueDecoder& aDecoder) override;
-
-private:
-    void reported_updated(const bridged_endpoint* ep, const std::string& cluster, const std::string& attribute,
-        const nlohmann::json& unify_value) override;
-
-    std::vector<const char*> unify_cluster_names() const override
-    {
-        return std::vector<const char*>({ "ThermostatUserInterfaceConfiguration" });
-    }
-    UnifyMqtt& m_unify_mqtt;
-    device_translator& m_dev_translator;
-};
+// Skipping Fan Control
+// Skipping Thermostat User Interface Configuration
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /// Attribute Handler for the Color Control cluster
@@ -755,45 +642,7 @@ private:
 // Skipping Account Login
 // Skipping Content Control
 // Skipping Content App Observer
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-/// Attribute Handler for the Electrical Measurement cluster
-/// Please note that the following attributes are not defined in UCL, and they must be handled
-/// by separate code
-/// - instantaneous voltage (optional)
-/// - instantaneous power (optional)
-/// - GeneratedCommandList
-/// - AcceptedCommandList
-/// - EventList
-/// - AttributeList
-/// - FeatureMap
-/// - ClusterRevision
-///
-class ElectricalMeasurementAttributeAccess : public attribute_translator_interface {
-public:
-    ElectricalMeasurementAttributeAccess(matter_node_state_monitor& node_state_monitor, UnifyMqtt& unify_mqtt,
-        device_translator& dev_translator)
-        : attribute_translator_interface(node_state_monitor, unify_mqtt, dev_translator,
-              chip::app::Clusters::ElectricalMeasurement::Id, "attr_translator_ElectricalMeasurement")
-        , m_unify_mqtt(unify_mqtt)
-        , m_dev_translator(dev_translator)
-    {
-    }
-
-    CHIP_ERROR Read(const chip::app::ConcreteReadAttributePath& aPath, chip::app::AttributeValueEncoder& aEncoder) override;
-    CHIP_ERROR Write(const chip::app::ConcreteDataAttributePath& aPath, chip::app::AttributeValueDecoder& aDecoder) override;
-
-private:
-    void reported_updated(const bridged_endpoint* ep, const std::string& cluster, const std::string& attribute,
-        const nlohmann::json& unify_value) override;
-
-    std::vector<const char*> unify_cluster_names() const override
-    {
-        return std::vector<const char*>({ "ElectricalMeasurement" });
-    }
-    UnifyMqtt& m_unify_mqtt;
-    device_translator& m_dev_translator;
-};
+// Skipping Electrical Measurement
 // Skipping Unit Testing
 // Skipping Fault Injection
 // Skipping Sample MEI
