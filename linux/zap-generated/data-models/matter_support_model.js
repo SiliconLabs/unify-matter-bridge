@@ -4432,44 +4432,21 @@ exports.model = {
       "Defrost",
     ], //
     "ModeTag" : [
-<<<<<<< HEAD:linux/zap-generated/data-models/matter_support_model.js
       "Normal",
       "Heavy",
       "Light",
     ], //
     "ModeTag" : [
-=======
->>>>>>> e399835de2... Pull request #1575: MATTER-3167: Enable ZAP generation for Window Covering Cluster and Init the cluster:silabs_examples/unify-matter-bridge/linux/zap-generated/data-models/matter_support_model.js
-      "Manual",
-      "TimeOfUse",
-      "SolarCharging",
-    ], //
-    "ModeTag" : [
-      "Normal",
-      "Heavy",
-      "Light",
-    ], //
-    "ModeTag" : [
-<<<<<<< HEAD:linux/zap-generated/data-models/matter_support_model.js
-=======
       "Normal",
       "Delicate",
       "Heavy",
       "Whites",
     ], //
     "ModeTag" : [
->>>>>>> e399835de2... Pull request #1575: MATTER-3167: Enable ZAP generation for Window Covering Cluster and Init the cluster:silabs_examples/unify-matter-bridge/linux/zap-generated/data-models/matter_support_model.js
       "NoOptimization",
       "DeviceOptimization",
       "LocalOptimization",
       "GridOptimization",
-<<<<<<< HEAD:linux/zap-generated/data-models/matter_support_model.js
-=======
-    ], //
-    "ModeTag" : [
-      "RapidCool",
-      "RapidFreeze",
->>>>>>> e399835de2... Pull request #1575: MATTER-3167: Enable ZAP generation for Window Covering Cluster and Init the cluster:silabs_examples/unify-matter-bridge/linux/zap-generated/data-models/matter_support_model.js
     ], //
     "ModeTag" : [
       "Bake",
@@ -4481,6 +4458,15 @@ exports.model = {
       "ConvectionRoast",
       "Warming",
       "Proofing",
+    ], //
+    "ModeTag" : [
+      "RapidCool",
+      "RapidFreeze",
+    ], //
+    "ModeTag" : [
+      "Manual",
+      "TimeOfUse",
+      "SolarCharging",
     ], //
     "ModeTag" : [
       "DeepClean",
@@ -5287,19 +5273,16 @@ exports.model = {
       0 : "NoFeatures",
     },
     "Feature" : {
-      1 : "TemperatureUnit",
-    },
-    "Feature" : {
-<<<<<<< HEAD:linux/zap-generated/data-models/matter_support_model.js
       0 : "NoFeatures",
     },
     "Feature" : {
-=======
->>>>>>> e399835de2... Pull request #1575: MATTER-3167: Enable ZAP generation for Window Covering Cluster and Init the cluster:silabs_examples/unify-matter-bridge/linux/zap-generated/data-models/matter_support_model.js
       1 : "ImportedEnergy",
       2 : "ExportedEnergy",
       4 : "CumulativeEnergy",
       8 : "PeriodicEnergy",
+    },
+    "Feature" : {
+      1 : "TemperatureUnit",
     },
     "Feature" : {
       1 : "Visual",
@@ -5318,10 +5301,10 @@ exports.model = {
       1 : "Extended",
     },
     "Feature" : {
-      1 : "Watermarks",
+      1 : "Reset",
     },
     "Feature" : {
-      1 : "Reset",
+      1 : "Watermarks",
     },
     "Feature" : {
       1 : "PowerAsNumber",
@@ -5329,19 +5312,16 @@ exports.model = {
       4 : "PowerNumberLimits",
     },
     "Feature" : {
-      1 : "CalendarFormat",
-    },
-    "Feature" : {
       1 : "TimeSync",
       2 : "Level",
     },
     "Feature" : {
-<<<<<<< HEAD:linux/zap-generated/data-models/matter_support_model.js
+      1 : "CalendarFormat",
+    },
+    "Feature" : {
       1 : "ApplicationPlatform",
     },
     "Feature" : {
-=======
->>>>>>> e399835de2... Pull request #1575: MATTER-3167: Enable ZAP generation for Window Covering Cluster and Init the cluster:silabs_examples/unify-matter-bridge/linux/zap-generated/data-models/matter_support_model.js
       1 : "MultiSpeed",
       2 : "Auto",
       4 : "Rocking",
@@ -5356,9 +5336,6 @@ exports.model = {
       8 : "ProtectedMessages",
     },
     "Feature" : {
-      1 : "NameUpdates",
-    },
-    "Feature" : {
       1 : "Condition",
       2 : "Warning",
       4 : "ReplacementProductList",
@@ -5366,6 +5343,9 @@ exports.model = {
     "Feature" : {
       1 : "PacketCounts",
       2 : "ErrorCounts",
+    },
+    "Feature" : {
+      1 : "NameUpdates",
     },
     "Feature" : {
       1 : "Lighting",
@@ -5394,15 +5374,15 @@ exports.model = {
       16 : "MomentarySwitchMultiPress",
     },
     "Feature" : {
+      1 : "SmokeAlarm",
+      2 : "CoAlarm",
+    },
+    "Feature" : {
       1 : "DirectCurrent",
       2 : "AlternatingCurrent",
       4 : "PolyphasePower",
       8 : "Harmonics",
       16 : "PowerQuality",
-    },
-    "Feature" : {
-      1 : "SmokeAlarm",
-      2 : "CoAlarm",
     },
     "Feature" : {
       1 : "EnrollmentGroups",
@@ -5414,15 +5394,9 @@ exports.model = {
       64 : "HeatingSource",
     },
     "Feature" : {
-<<<<<<< HEAD:linux/zap-generated/data-models/matter_support_model.js
-=======
       1 : "Basic",
     },
     "Feature" : {
-      1 : "DataModelTest",
-    },
-    "Feature" : {
->>>>>>> e399835de2... Pull request #1575: MATTER-3167: Enable ZAP generation for Window Covering Cluster and Init the cluster:silabs_examples/unify-matter-bridge/linux/zap-generated/data-models/matter_support_model.js
       1 : "ScreenTime",
       2 : "PINManagement",
       4 : "BlockUnrated",
@@ -5430,15 +5404,9 @@ exports.model = {
       16 : "ScheduledContentRating",
     },
     "Feature" : {
-<<<<<<< HEAD:linux/zap-generated/data-models/matter_support_model.js
-      1 : "Basic",
-    },
-    "Feature" : {
       1 : "DataModelTest",
     },
     "Feature" : {
-=======
->>>>>>> e399835de2... Pull request #1575: MATTER-3167: Enable ZAP generation for Window Covering Cluster and Init the cluster:silabs_examples/unify-matter-bridge/linux/zap-generated/data-models/matter_support_model.js
       1 : "PowerAdjustment",
       2 : "PowerForecastReporting",
       4 : "StateForecastReporting",
@@ -5534,14 +5502,6 @@ exports.model = {
       16 : "ColorTemperature",
     },
     "Feature" : {
-      1 : "NumericMeasurement",
-      2 : "LevelIndication",
-      4 : "MediumLevel",
-      8 : "CriticalLevel",
-      16 : "PeakMeasurement",
-      32 : "AverageMeasurement",
-    },
-    "Feature" : {
       1 : "Heating",
       2 : "Cooling",
       4 : "Occupancy",
@@ -5553,6 +5513,14 @@ exports.model = {
       256 : "Presets",
       512 : "Setpoints",
       1024 : "QueuedPresetsSupported",
+    },
+    "Feature" : {
+      1 : "NumericMeasurement",
+      2 : "LevelIndication",
+      4 : "MediumLevel",
+      8 : "CriticalLevel",
+      16 : "PeakMeasurement",
+      32 : "AverageMeasurement",
     },
     "Feature" : {
       1 : "PinCredential",

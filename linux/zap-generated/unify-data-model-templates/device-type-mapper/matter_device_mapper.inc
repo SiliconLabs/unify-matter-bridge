@@ -40,10 +40,7 @@ namespace app {
             { "Level", LevelControl::Id },
             { "DoorLock", DoorLock::Id },
             { "WindowCovering", WindowCovering::Id },
-            { "BarrierControl", BarrierControl::Id },
             { "Thermostat", Thermostat::Id },
-            { "FanControl", FanControl::Id },
-            { "ThermostatUserInterfaceConfiguration", ThermostatUserInterfaceConfiguration::Id },
             { "ColorControl", ColorControl::Id },
             { "IlluminanceMeasurement", IlluminanceMeasurement::Id },
             { "TemperatureMeasurement", TemperatureMeasurement::Id },
@@ -51,7 +48,6 @@ namespace app {
             { "FlowMeasurement", FlowMeasurement::Id },
             { "RelativityHumidity", RelativeHumidityMeasurement::Id },
             { "OccupancySensing", OccupancySensing::Id },
-            { "ElectricalMeasurement", ElectricalMeasurement::Id },
         };
 
         // Attribute mapping Unify->Matter conversion
@@ -131,16 +127,6 @@ namespace app {
                 };
             } // namespace Attributes
         } // namespace WindowCovering
-        namespace BarrierControl {
-            namespace Attributes {
-                static const std::unordered_map<std::string, chip::AttributeId> unify_to_matter_attribute_id_cluster_map {
-                    { "MovingState", BarrierMovingState::Id },
-                    { "SafetyStatus", BarrierSafetyStatus::Id },
-                    { "Capabilities", BarrierCapabilities::Id },
-                    { "BarrierPosition", BarrierPosition::Id }
-                };
-            } // namespace Attributes
-        } // namespace BarrierControl
         namespace Thermostat {
             namespace Attributes {
                 static const std::unordered_map<std::string, chip::AttributeId> unify_to_matter_attribute_id_cluster_map {
@@ -156,22 +142,6 @@ namespace app {
                 };
             } // namespace Attributes
         } // namespace Thermostat
-        namespace FanControl {
-            namespace Attributes {
-                static const std::unordered_map<std::string, chip::AttributeId> unify_to_matter_attribute_id_cluster_map {
-                    { "FanMode", FanMode::Id },
-                    { "FanModeSequence", FanModeSequence::Id }
-                };
-            } // namespace Attributes
-        } // namespace FanControl
-        namespace ThermostatUserInterfaceConfiguration {
-            namespace Attributes {
-                static const std::unordered_map<std::string, chip::AttributeId> unify_to_matter_attribute_id_cluster_map {
-                    { "TemperatureDisplayMode", TemperatureDisplayMode::Id },
-                    { "KeypadLockout", KeypadLockout::Id },
-                };
-            } // namespace Attributes
-        } // namespace ThermostatUserInterfaceConfiguration
         namespace ColorControl {
             namespace Attributes {
                 static const std::unordered_map<std::string, chip::AttributeId> unify_to_matter_attribute_id_cluster_map {
@@ -294,11 +264,6 @@ namespace app {
                 };
             } // namespace Attributes
         } // namespace OccupancySensing
-        namespace ElectricalMeasurement {
-            namespace Attributes {
-                static const std::unordered_map<std::string, chip::AttributeId> unify_to_matter_attribute_id_cluster_map {};
-            } // namespace Attributes
-        } // namespace ElectricalMeasurement
 
         // Global map of each clusters attributes
         static const std::unordered_map<std::string, std::unordered_map<std::string, chip::AttributeId>> unify_to_matter_attribute_id_map {
@@ -309,10 +274,7 @@ namespace app {
             { "Level", LevelControl::Attributes::unify_to_matter_attribute_id_cluster_map },
             { "DoorLock", DoorLock::Attributes::unify_to_matter_attribute_id_cluster_map },
             { "WindowCovering", WindowCovering::Attributes::unify_to_matter_attribute_id_cluster_map },
-            { "BarrierControl", BarrierControl::Attributes::unify_to_matter_attribute_id_cluster_map },
             { "Thermostat", Thermostat::Attributes::unify_to_matter_attribute_id_cluster_map },
-            { "FanControl", FanControl::Attributes::unify_to_matter_attribute_id_cluster_map },
-            { "ThermostatUserInterfaceConfiguration", ThermostatUserInterfaceConfiguration::Attributes::unify_to_matter_attribute_id_cluster_map },
             { "ColorControl", ColorControl::Attributes::unify_to_matter_attribute_id_cluster_map },
             { "IlluminanceMeasurement", IlluminanceMeasurement::Attributes::unify_to_matter_attribute_id_cluster_map },
             { "TemperatureMeasurement", TemperatureMeasurement::Attributes::unify_to_matter_attribute_id_cluster_map },
@@ -320,7 +282,6 @@ namespace app {
             { "FlowMeasurement", FlowMeasurement::Attributes::unify_to_matter_attribute_id_cluster_map },
             { "RelativityHumidity", RelativeHumidityMeasurement::Attributes::unify_to_matter_attribute_id_cluster_map },
             { "OccupancySensing", OccupancySensing::Attributes::unify_to_matter_attribute_id_cluster_map },
-            { "ElectricalMeasurement", ElectricalMeasurement::Attributes::unify_to_matter_attribute_id_cluster_map },
         };
 
         // Command mapping Unify->Matter conversion
@@ -401,14 +362,6 @@ namespace app {
                 };
             } // namespace Commands
         } // namespace WindowCovering
-        namespace BarrierControl {
-            namespace Commands {
-                static const std::unordered_map<std::string, chip::CommandId> unify_to_matter_command_id_cluster_map {
-                    { "GoToPercent", BarrierControlGoToPercent::Id },
-                    { "Stop", BarrierControlStop::Id }
-                };
-            } // namespace Commands
-        } // namespace BarrierControl
         namespace Thermostat {
             namespace Commands {
                 static const std::unordered_map<std::string, chip::CommandId> unify_to_matter_command_id_cluster_map {
@@ -417,16 +370,6 @@ namespace app {
                 };
             } // namespace Commands
         } // namespace Thermostat
-        namespace FanControl {
-            namespace Commands {
-                static const std::unordered_map<std::string, chip::CommandId> unify_to_matter_command_id_cluster_map {};
-            } // namespace Commands
-        } // namespace FanControl
-        namespace ThermostatUserInterfaceConfiguration {
-            namespace Commands {
-                static const std::unordered_map<std::string, chip::CommandId> unify_to_matter_command_id_cluster_map {};
-            } // namespace Commands
-        } // namespace ThermostatUserInterfaceConfiguration
         namespace ColorControl {
             namespace Commands {
                 static const std::unordered_map<std::string, chip::CommandId> unify_to_matter_command_id_cluster_map {
@@ -482,11 +425,6 @@ namespace app {
                 static const std::unordered_map<std::string, chip::CommandId> unify_to_matter_command_id_cluster_map {};
             } // namespace Commands
         } // namespace OccupancySensing
-        namespace ElectricalMeasurement {
-            namespace Commands {
-                static const std::unordered_map<std::string, chip::CommandId> unify_to_matter_command_id_cluster_map {};
-            } // namespace Commands
-        } // namespace ElectricalMeasurement
 
         // Global map of each clusters commands
         static const std::unordered_map<std::string, std::unordered_map<std::string, chip::CommandId>> unify_to_matter_command_id_map {
@@ -497,10 +435,7 @@ namespace app {
             { "Level", LevelControl::Commands::unify_to_matter_command_id_cluster_map },
             { "DoorLock", DoorLock::Commands::unify_to_matter_command_id_cluster_map },
             { "WindowCovering", WindowCovering::Commands::unify_to_matter_command_id_cluster_map },
-            { "BarrierControl", BarrierControl::Commands::unify_to_matter_command_id_cluster_map },
             { "Thermostat", Thermostat::Commands::unify_to_matter_command_id_cluster_map },
-            { "FanControl", FanControl::Commands::unify_to_matter_command_id_cluster_map },
-            { "ThermostatUserInterfaceConfiguration", ThermostatUserInterfaceConfiguration::Commands::unify_to_matter_command_id_cluster_map },
             { "ColorControl", ColorControl::Commands::unify_to_matter_command_id_cluster_map },
             { "IlluminanceMeasurement", IlluminanceMeasurement::Commands::unify_to_matter_command_id_cluster_map },
             { "TemperatureMeasurement", TemperatureMeasurement::Commands::unify_to_matter_command_id_cluster_map },
@@ -508,7 +443,6 @@ namespace app {
             { "FlowMeasurement", FlowMeasurement::Commands::unify_to_matter_command_id_cluster_map },
             { "RelativityHumidity", RelativeHumidityMeasurement::Commands::unify_to_matter_command_id_cluster_map },
             { "OccupancySensing", OccupancySensing::Commands::unify_to_matter_command_id_cluster_map },
-            { "ElectricalMeasurement", ElectricalMeasurement::Commands::unify_to_matter_command_id_cluster_map },
         };
 
     } // namespace Clusters

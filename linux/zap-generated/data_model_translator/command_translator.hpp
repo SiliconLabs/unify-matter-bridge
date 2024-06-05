@@ -275,37 +275,6 @@ private:
     device_translator& m_dev_translator;
     std::vector<const char*> unify_cluster_names() const override { return std::vector<const char*>(); }
 };
-class BarrierControlClusterCommandHandler : public command_translator_interface {
-public:
-    BarrierControlClusterCommandHandler(matter_node_state_monitor& node_state_monitor, UnifyMqtt& unify_mqtt,
-        group_translator& group_translator_m, device_translator& dev_translator)
-        : command_translator_interface(node_state_monitor, chip::app::Clusters::BarrierControl::Id, "BarrierControl", unify_mqtt,
-              group_translator_m, dev_translator)
-        , m_dev_translator(dev_translator)
-    {
-    }
-    void InvokeCommand(chip::app::CommandHandlerInterface::HandlerContext& HandlerContext) override;
-
-    virtual CHIP_ERROR EnumerateAcceptedCommands(const chip::app::ConcreteClusterPath& cluster, CommandIdCallback callback,
-        void* context) override
-    {
-        const chip::CommandId all_commands[] = {
-            0,
-            1,
-        };
-        for (const auto& cmd : all_commands) {
-            if (callback(cmd, context) != chip::Loop::Continue) {
-                break;
-            }
-        }
-
-        return CHIP_NO_ERROR;
-    }
-
-private:
-    device_translator& m_dev_translator;
-    std::vector<const char*> unify_cluster_names() const override { return std::vector<const char*>(); }
-};
 class ThermostatClusterCommandHandler : public command_translator_interface {
 public:
     ThermostatClusterCommandHandler(matter_node_state_monitor& node_state_monitor, UnifyMqtt& unify_mqtt,
@@ -404,75 +373,6 @@ public:
             10,
             11,
         };
-        for (const auto& cmd : all_commands) {
-            if (callback(cmd, context) != chip::Loop::Continue) {
-                break;
-            }
-        }
-
-        return CHIP_NO_ERROR;
-    }
-
-private:
-    device_translator& m_dev_translator;
-    std::vector<const char*> unify_cluster_names() const override { return std::vector<const char*>(); }
-};
-class FanControlClusterCommandHandler : public command_translator_interface {
-public:
-    FanControlClusterCommandHandler(matter_node_state_monitor& node_state_monitor, UnifyMqtt& unify_mqtt,
-        group_translator& group_translator_m, device_translator& dev_translator)
-        : command_translator_interface(node_state_monitor, chip::app::Clusters::FanControl::Id, "FanControl", unify_mqtt,
-              group_translator_m, dev_translator)
-        , m_dev_translator(dev_translator)
-    {
-    }
-    void InvokeCommand(chip::app::CommandHandlerInterface::HandlerContext& HandlerContext) override;
-
-    ///
-    /// The command Step is not defined in UCL and must be manually handled
-    ///
-    virtual void Invoke_Step(CommandHandlerInterface::HandlerContext& ctxt,
-        chip::app::Clusters::FanControl::Commands::Step::DecodableType data)
-    {
-        ctxt.mCommandHandler.AddStatus(ctxt.mRequestPath, chip::Protocols::InteractionModel::Status::UnsupportedCommand);
-        ctxt.SetCommandHandled();
-    };
-
-    virtual CHIP_ERROR EnumerateAcceptedCommands(const chip::app::ConcreteClusterPath& cluster, CommandIdCallback callback,
-        void* context) override
-    {
-        const chip::CommandId all_commands[] = {
-            0,
-        };
-        for (const auto& cmd : all_commands) {
-            if (callback(cmd, context) != chip::Loop::Continue) {
-                break;
-            }
-        }
-
-        return CHIP_NO_ERROR;
-    }
-
-private:
-    device_translator& m_dev_translator;
-    std::vector<const char*> unify_cluster_names() const override { return std::vector<const char*>(); }
-};
-class ThermostatUserInterfaceConfigurationClusterCommandHandler : public command_translator_interface {
-public:
-    ThermostatUserInterfaceConfigurationClusterCommandHandler(matter_node_state_monitor& node_state_monitor,
-        UnifyMqtt& unify_mqtt, group_translator& group_translator_m,
-        device_translator& dev_translator)
-        : command_translator_interface(node_state_monitor, chip::app::Clusters::ThermostatUserInterfaceConfiguration::Id,
-              "ThermostatUserInterfaceConfiguration", unify_mqtt, group_translator_m, dev_translator)
-        , m_dev_translator(dev_translator)
-    {
-    }
-    void InvokeCommand(chip::app::CommandHandlerInterface::HandlerContext& HandlerContext) override;
-
-    virtual CHIP_ERROR EnumerateAcceptedCommands(const chip::app::ConcreteClusterPath& cluster, CommandIdCallback callback,
-        void* context) override
-    {
-        const chip::CommandId all_commands[] = {};
         for (const auto& cmd : all_commands) {
             if (callback(cmd, context) != chip::Loop::Continue) {
                 break;
@@ -689,37 +589,6 @@ public:
         void* context) override
     {
         const chip::CommandId all_commands[] = {};
-        for (const auto& cmd : all_commands) {
-            if (callback(cmd, context) != chip::Loop::Continue) {
-                break;
-            }
-        }
-
-        return CHIP_NO_ERROR;
-    }
-
-private:
-    device_translator& m_dev_translator;
-    std::vector<const char*> unify_cluster_names() const override { return std::vector<const char*>(); }
-};
-class ElectricalMeasurementClusterCommandHandler : public command_translator_interface {
-public:
-    ElectricalMeasurementClusterCommandHandler(matter_node_state_monitor& node_state_monitor, UnifyMqtt& unify_mqtt,
-        group_translator& group_translator_m, device_translator& dev_translator)
-        : command_translator_interface(node_state_monitor, chip::app::Clusters::ElectricalMeasurement::Id, "ElectricalMeasurement",
-              unify_mqtt, group_translator_m, dev_translator)
-        , m_dev_translator(dev_translator)
-    {
-    }
-    void InvokeCommand(chip::app::CommandHandlerInterface::HandlerContext& HandlerContext) override;
-
-    virtual CHIP_ERROR EnumerateAcceptedCommands(const chip::app::ConcreteClusterPath& cluster, CommandIdCallback callback,
-        void* context) override
-    {
-        const chip::CommandId all_commands[] = {
-            0,
-            1,
-        };
         for (const auto& cmd : all_commands) {
             if (callback(cmd, context) != chip::Loop::Continue) {
                 break;

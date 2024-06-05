@@ -59,18 +59,6 @@ static void append_bridged_clusters(unify::matter_bridge::matter_endpoint_builde
                                                                         2,
                                                                         ZCL_INT16U_ATTRIBUTE_TYPE,
                                                                         0});
-
-    auto fixed_label_cluster = endpoint_builder.register_cluster(chip::app::Clusters::FixedLabel::Id);
-    fixed_label_cluster.attributes.emplace_back(EmberAfAttributeMetadata{ZAP_EMPTY_DEFAULT(),
-                                                                         chip::app::Clusters::FixedLabel::Attributes::LabelList::Id,
-                                                                         kFixedLabelAttributeArraySize,
-                                                                         ZCL_ARRAY_ATTRIBUTE_TYPE,
-                                                                         0});
-    fixed_label_cluster.attributes.emplace_back(EmberAfAttributeMetadata{ZAP_EMPTY_DEFAULT(),
-                                                                         chip::app::Clusters::Globals::Attributes::ClusterRevision::Id,
-                                                                         2,
-                                                                         ZCL_INT16U_ATTRIBUTE_TYPE,
-                                                                         0});
 }
 
 } // namespace
