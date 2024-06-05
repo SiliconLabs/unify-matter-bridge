@@ -3878,7 +3878,7 @@ ColorControlAttributeAccess::Read(const ConcreteReadAttributePath& aPath, Attrib
             }
             break;
         }
-        case MN::DriftCompensation::Id: { // type is enum8
+        case MN::DriftCompensation::Id: { // type is DriftCompensationEnum
             MN::DriftCompensation::TypeInfo::Type value;
             if (attribute_state_cache::get_instance().get(atr_path, value)) {
                 return aEncoder.Encode(value);
@@ -3906,7 +3906,7 @@ ColorControlAttributeAccess::Read(const ConcreteReadAttributePath& aPath, Attrib
             }
             break;
         }
-        case MN::Options::Id: { // type is bitmap8
+        case MN::Options::Id: { // type is OptionsBitmap
             MN::Options::TypeInfo::Type value;
             if (attribute_state_cache::get_instance().get(atr_path, value)) {
                 return aEncoder.Encode(value);
@@ -4130,7 +4130,7 @@ ColorControlAttributeAccess::Read(const ConcreteReadAttributePath& aPath, Attrib
             }
             break;
         }
-        case MN::EnhancedColorMode::Id: { // type is enum8
+        case MN::EnhancedColorMode::Id: { // type is EnhancedColorModeEnum
             MN::EnhancedColorMode::TypeInfo::Type value;
             if (attribute_state_cache::get_instance().get(atr_path, value)) {
                 return aEncoder.Encode(value);
@@ -4481,7 +4481,7 @@ void ColorControlAttributeAccess::reported_updated(const bridged_endpoint* ep, c
         }
         break;
     }
-        // type is enum8
+        // type is DriftCompensationEnum
     case MN::DriftCompensation::Id: {
         using T = MN::DriftCompensation::TypeInfo::Type;
         std::optional<T> value = from_json<T>(unify_value);
@@ -4536,7 +4536,7 @@ void ColorControlAttributeAccess::reported_updated(const bridged_endpoint* ep, c
         }
         break;
     }
-        // type is bitmap8
+        // type is OptionsBitmap
     case MN::Options::Id: {
         using T = MN::Options::TypeInfo::Type;
         std::optional<T> value = from_json<T>(unify_value);
@@ -4920,7 +4920,7 @@ void ColorControlAttributeAccess::reported_updated(const bridged_endpoint* ep, c
         }
         break;
     }
-        // type is enum8
+        // type is EnhancedColorModeEnum
     case MN::EnhancedColorMode::Id: {
         using T = MN::EnhancedColorMode::TypeInfo::Type;
         std::optional<T> value = from_json<T>(unify_value);

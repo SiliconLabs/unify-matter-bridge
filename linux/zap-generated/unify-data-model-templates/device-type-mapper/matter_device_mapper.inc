@@ -111,7 +111,6 @@ namespace app {
                     { "LockType", LockType::Id },
                     { "ActuatorEnabled", ActuatorEnabled::Id },
                     { "DoorState", DoorState::Id },
-                    { "AutoRelockTime", AutoRelockTime::Id },
                     { "OperatingMode", OperatingMode::Id },
                     { "SupportedOperatingModes", SupportedOperatingModes::Id },
                     { "FeatureMap", FeatureMap::Id }

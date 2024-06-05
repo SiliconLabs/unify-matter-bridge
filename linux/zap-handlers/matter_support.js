@@ -57,6 +57,14 @@ const attribute_type_need_cluster_name_append = {
     "Feature": true,
     "EffectIdentifierEnum": true,
   },
+  "Level control":{
+    "Feature": true,
+    "OptionsBitmap": true,
+  },
+  "Color Control": {
+    "Feature": true,
+    "OptionsBitmap": true,
+  },
   "*": {
     "Feature": true,
     "NameSupportBitmap": true,
