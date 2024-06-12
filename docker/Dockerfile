@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -8,23 +8,23 @@ WORKDIR /
 
 ARG ARCH="arm64"
 
-ARG TARGET_DEPS="libavahi-client-dev:${ARCH}=0.8-5* libssl-dev:${ARCH}=1.1.1w-0* libsystemd-dev:${ARCH}=247.3-7* libwrap0-dev:${ARCH}=7.6.q-31 uthash-dev:${ARCH}=2.1.0-1 \
-  libsqlite3-dev:${ARCH}=3.34.1-3 libedit-dev:${ARCH}=3.1-20191231-2+b1 libyaml-cpp0.6:${ARCH}=0.6.3-9 libmosquitto-dev:${ARCH}=2.0.11-1+deb11u1\
-  libreadline-dev:${ARCH}=8.1-1 libncurses5-dev:${ARCH}=6.2+20201114-2+deb11u2 libncursesw5-dev:${ARCH}=6.2+20201114-2+deb11u2 libyaml-cpp-dev:${ARCH}=0.6.3-9 \
+ARG TARGET_DEPS="libavahi-client-dev:${ARCH}=0.8-10 libssl-dev:${ARCH}=3.0.11-1~deb12u2 libsystemd-dev:${ARCH}=252.22-1~deb12u1 libwrap0-dev:${ARCH}=7.6.q-32 uthash-dev:${ARCH}=2.3.0-1+b1 \
+  libsqlite3-dev:${ARCH}=3.40.1-2 libedit-dev:${ARCH}=3.1-20221030-2 libyaml-cpp0.7:${ARCH}=0.7.0+dfsg-8+b1 libmosquitto-dev:${ARCH}=2.0.11-1.2+deb12u1\
+  libreadline-dev:${ARCH}=8.2-1.3 libncurses5-dev:${ARCH}=6.4-4 libncursesw5-dev:${ARCH}=6.4-4 libyaml-cpp-dev:${ARCH}=0.7.0+dfsg-8+b1 \
   libboost-atomic-dev:${ARCH}=1.74.0.3 libboost-chrono-dev:${ARCH}=1.74.0.3 libboost-date-time-dev:${ARCH}=1.74.0.3 \
   libboost-filesystem-dev:${ARCH}=1.74.0.3 libboost-regex-dev:${ARCH}=1.74.0.3 libboost-program-options-dev:${ARCH}=1.74.0.3 \
   libboost-serialization-dev:${ARCH}=1.74.0.3 libboost-system-dev:${ARCH}=1.74.0.3 libboost-thread-dev:${ARCH}=1.74.0.3 \
-  libboost-log-dev:${ARCH}=1.74.0.3 procps:${ARCH}=2:3.3.17-5 libmbedtls-dev:${ARCH}=2.16.9-0.1 libglib2.0-dev:${ARCH}=2.66.8-1+deb11u3"
+  libboost-log-dev:${ARCH}=1.74.0.3 procps:${ARCH}=2:4.0.2-3 libmbedtls-dev:${ARCH}=2.28.3-1 libglib2.0-dev:${ARCH}=2.74.6-2+deb12u2"
 
-ARG HOST_DEPS="ninja-build=1.10.1-1 git=1:2.30.2-1* git-lfs=2.13.2-1+b5 \
-  curl=7.74.0-1.3* pkg-config=0.29.2-1 \
-  ruby=1:2.7+2 ruby-dev=1:2.7+2 lcov=1.14-2 \
-  gcc=4:10.2.1-1 g++=4:10.2.1-1 gdb-multiarch=10.1-1.7 \
+ARG HOST_DEPS="ninja-build=1.11.1-1 git=1:2.39.2-1* git-lfs=3.3.0-1+b5 \
+  curl=7.88.1-10+deb12u5 pkg-config=1.8.1-1 \
+  ruby=1:3.1 ruby-dev=1:3.1 lcov=1.16-1 \
+  gcc=4:12.2.0-3 g++=4:12.2.0-3 gdb-multiarch=13.1-3 \
   build-essential=12.9 \
-  clang=1:11.0-51+nmu5 nlohmann-json3-dev=3.9.1-1 \
-  libdbus-glib-1-dev=0.110-6 libssl-dev=1.1.1w-0* \
-  libgirepository1.0-dev=1.66.1-1+b1 \
-  fakeroot=1.25.3-1.1"
+  clang=1:14.0-55.7~deb12u1 nlohmann-json3-dev=3.11.2-2 \
+  libdbus-glib-1-dev=0.112-3 libssl-dev=3.0.11-1~deb12u2 \
+  libgirepository1.0-dev=1.74.0-3 \
+  fakeroot=1.31-1.2"
 
 # configure additional arches in dpkg/apt
 RUN for arch in ${ARCH} ; do \
