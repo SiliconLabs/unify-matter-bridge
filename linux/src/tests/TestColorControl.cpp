@@ -11,6 +11,8 @@
 
 using namespace unify::matter_bridge;
 using namespace chip::app;
+using namespace chip::app::DataModel;
+using namespace chip::app::Clusters::ColorControl;
 using TestContext = unify::matter_bridge::Test::ClusterContext<ColorControlAttributeAccess, ColorControlClusterCommandHandler>;
 
 static int Initialize(void * context)
@@ -153,7 +155,8 @@ static void TestColorControlAttributeDriftCompensation(nlTestSuite * sSuite, voi
 {
     TestContext & ctx = *static_cast<TestContext *>(apContext);
     CHIP_ERROR err    = ctx.attribute_test<Clusters::ColorControl::Attributes::DriftCompensation::TypeInfo>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/ColorControl/Attributes/DriftCompensation/Reported", R"({ "value": 42 })", 42);
+        sSuite, "ucl/by-unid/zw-0x0002/ep2/ColorControl/Attributes/DriftCompensation/Reported", R"({ "value": "Temperaturemonitoring" })", 
+        DriftCompensationEnum::kTemperaturemonitoring );
     NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
 }
 
@@ -176,7 +179,7 @@ static void TestColorControlAttributeColorTemperatureMireds(nlTestSuite * sSuite
 /*static void TestColorControlAttributeColorMode(nlTestSuite * sSuite, void * apContext)
 {
     TestContext & ctx = *static_cast<TestContext *>(apContext);
-    CHIP_ERROR err    = ctx.attribute_test<Clusters::ColorControl::Attributes::ColorMode::TypeInfo, false>(
+    CHIP_ERROR err    =  ctx.attribute_test<Clusters::ColorControl::Attributes::ColorMode::TypeInfo, false>(
         sSuite, "ucl/by-unid/zw-0x0002/ep2/ColorControl/Attributes/ColorMode/Reported", R"({ "value": 42 })", 42);
     NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
 }*/
@@ -457,13 +460,14 @@ static void TestColorControlAttributeEnhancedCurrentHue(nlTestSuite * sSuite, vo
     NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
 }
 
-/*static void TestColorControlAttributeEnhancedColorMode(nlTestSuite * sSuite, void * apContext)
+static void TestColorControlAttributeEnhancedColorMode(nlTestSuite * sSuite, void * apContext)
 {
     TestContext & ctx = *static_cast<TestContext *>(apContext);
-    CHIP_ERROR err    = ctx.attribute_test<Clusters::ColorControl::Attributes::EnhancedColorMode::TypeInfo, false>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/ColorControl/Attributes/EnhancedColorMode/Reported", R"({ "value": 42 })", 42);
+    CHIP_ERROR err    = ctx.attribute_test<Clusters::ColorControl::Attributes::EnhancedColorMode::TypeInfo>(
+        sSuite, "ucl/by-unid/zw-0x0002/ep2/ColorControl/Attributes/EnhancedColorMode/Reported", R"({ "value": "ColorTemperature" })",
+        ColorControl::EnhancedColorModeEnum::kColorTemperature);
     NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
-}*/
+}
 
 static void TestColorControlAttributeColorLoopActive(nlTestSuite * sSuite, void * apContext)
 {
@@ -764,7 +768,7 @@ static const nlTest sAttributeTests[] = {
     NL_TEST_DEF("ColorControl::TestColorControlAttributeDriftCompensation", TestColorControlAttributeDriftCompensation),
     //NL_TEST_DEF("ColorControl::TestColorControlAttributeCompensationText", TestColorControlAttributeCompensationText),
     NL_TEST_DEF("ColorControl::TestColorControlAttributeColorTemperatureMireds", TestColorControlAttributeColorTemperatureMireds),
-    //NL_TEST_DEF("ColorControl::TestColorControlAttributeColorMode", TestColorControlAttributeColorMode),
+    // NL_TEST_DEF("ColorControl::TestColorControlAttributeColorMode", TestColorControlAttributeColorMode),
     // NL_TEST_DEF("ColorControl::TestColorControlAttributeOptions", TestColorControlAttributeOptions),
     NL_TEST_DEF("ColorControl::TestColorControlAttributeNumberOfPrimaries", TestColorControlAttributeNumberOfPrimaries),
     NL_TEST_DEF("ColorControl::TestColorControlAttributePrimary1X", TestColorControlAttributePrimary1X),
@@ -797,7 +801,7 @@ static const nlTest sAttributeTests[] = {
     NL_TEST_DEF("ColorControl::TestColorControlAttributeColorPointBY", TestColorControlAttributeColorPointBY),
     NL_TEST_DEF("ColorControl::TestColorControlAttributeColorPointBIntensity", TestColorControlAttributeColorPointBIntensity),
     NL_TEST_DEF("ColorControl::TestColorControlAttributeEnhancedCurrentHue", TestColorControlAttributeEnhancedCurrentHue),
-    //NL_TEST_DEF("ColorControl::TestColorControlAttributeEnhancedColorMode", TestColorControlAttributeEnhancedColorMode),
+    NL_TEST_DEF("ColorControl::TestColorControlAttributeEnhancedColorMode", TestColorControlAttributeEnhancedColorMode),
     NL_TEST_DEF("ColorControl::TestColorControlAttributeColorLoopActive", TestColorControlAttributeColorLoopActive),
     NL_TEST_DEF("ColorControl::TestColorControlAttributeColorLoopDirection", TestColorControlAttributeColorLoopDirection),
     NL_TEST_DEF("ColorControl::TestColorControlAttributeColorLoopTime", TestColorControlAttributeColorLoopTime),

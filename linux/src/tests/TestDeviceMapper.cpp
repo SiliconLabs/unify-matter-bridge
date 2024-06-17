@@ -85,13 +85,13 @@ void TestMatterDeviceScore(nlTestSuite * inSuite, void * aContext)
         {
             sl_log_debug(LOG_TAG, "Device DoorLock, matter_miss_count: %d, matter_extra: %d", score.matter_miss_count,
                          score.extra_matter_clusters_count);
-            // Clusters for DoorLock is [Binding, Descriptor, DoorLock,
+            // Clusters for DoorLock is [ Descriptor, DoorLock,
             // Identify, TimeSynchronization] we only provide 3
-            NL_TEST_ASSERT(inSuite, score.matter_miss_count == 2);
-            // By default FixedLabel and BridgedDeviceBasic is enabled, so we
-            // have two extra clusters. In addition, we do ignore the Descriptor
+            NL_TEST_ASSERT(inSuite, score.matter_miss_count == 1);
+            // By default BridgedDeviceBasic is enabled, so we
+            // have one extra clusters. In addition, we do ignore the Descriptor
             // cluster as a spec compliant cluster.
-            NL_TEST_ASSERT(inSuite, score.extra_matter_clusters_count == 3);
+            NL_TEST_ASSERT(inSuite, score.extra_matter_clusters_count == 2);
             // We have 2 clusters that matches
             NL_TEST_ASSERT(inSuite, score.required_matter_clusters_count == 2);
         }
@@ -194,7 +194,7 @@ void TestDeviceMapperPrioritizationConformingToSpec(nlTestSuite * inSuite, void 
     auto scenes_cluster                  = unify_monitor::cluster("Scenes");
     scenes_cluster.attributes            = { "Count" };
     auto level_cluster                   = unify_monitor::cluster("Level");
-    level_cluster.attributes             = { "CurrentLevel", "Options", "RemainingTime", "StartUpCurrentLevel" };
+    level_cluster.attributes             = { "CurrentLevel", "Options", "RemainingTime", "MinLevel", "OnLevel", "StartUpCurrentLevel" };
     level_cluster.supported_commands     = { "MoveToLevel",          "Move",          "Step",          "Stop",
                                          "MoveToLevelWithOnOff", "MoveWithOnOff", "StepWithOnOff", "StopWithOnOff" };
     auto on_off_cluster                  = unify_monitor::cluster("OnOff");
