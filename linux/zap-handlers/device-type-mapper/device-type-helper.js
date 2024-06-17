@@ -58,7 +58,7 @@ function filterClusters(label)
 { 
   switch (label) {
     case "Descriptor": return false
-    case "Scenes": return false
+    case "ScenesManagement": return false
   }
   return true
 }
