@@ -1,4 +1,4 @@
-# Building the Unify Matter Bridge for Debian Bullseye (Or similar Ubuntu) x86_64 
+# Building the Unify Matter Bridge for Debian Bookworm (Or similar Ubuntu) x86_64
 
 > **Note:**
 > In the following subsections the commands should either be run on your local development machine or inside a running Docker container, as distinguished by the structure of the example.
