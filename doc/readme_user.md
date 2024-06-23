@@ -16,7 +16,7 @@ Once a protocol controller is running, the Matter Bridge can be started.
 The following documentation assumes that you have built the Unify Matter Bridge
 application by following the _[Build Guide](./readme_building.md)_ and have
 transferred the _`unify-matter-bridge`_ to your Raspberry Pi 4 (RPi4) running
-the 64-bit version of Raspberry Pi OS Bullseye.
+the 64-bit version of Raspberry Pi OS Bookworm.
 
 ## Running the Matter Bridge
 

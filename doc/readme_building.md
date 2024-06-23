@@ -1,6 +1,6 @@
 # Building the Unify Matter Bridge
 
-This build guide cross-compiles for arm64 architecture to be run on Unify's reference platform - a Raspberry Pi 4 (RPi4) with the 64-bit version of Debian Bullseye.
+This build guide cross-compiles for arm64 architecture to be run on Unify's reference platform - a Raspberry Pi 4 (RPi4) with the 64-bit version of Debian Bookworm.
 
 > **Note:**
 > In the following subsections the commands should either be run on your local development machine or inside a running Docker container, as distinguished by the structure of the example.
