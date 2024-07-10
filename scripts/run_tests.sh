@@ -22,6 +22,7 @@ then
     BUILD_DIR="out/arm_test"
 fi
 
+export LD_LIBRARY_PATH=${BUILD_DIR}/gen/stage/lib
 # Execute either all or one unit test
 if [ -z "$TEST_TO_EXECUTE" ]
 then
