@@ -10,12 +10,7 @@ def main():
 
     # Extract the root_build_dir from the command-line arguments
     root_build_dir = sys.argv[1]
-
-    # Building the unify_path from the root_build_dir
-    path_components = root_build_dir.split('/')
-    unify_path_components = path_components[:-3] + ['third_party', 'UnifySDK']
-    unify_path = '/'.join(unify_path_components)
-
+    
     # Extract the architecture from command-line arguments
     arch = sys.argv[2]
 
@@ -30,7 +25,8 @@ def main():
 
     # Construct the full path to the shell script
     script_path = os.path.join(file_directory, script_name)
-
+    unify_path = os.path.normpath(os.path.join(file_directory, '../linux/third_party/UnifySDK'))
+    
     # Run the shell script with the provided root_build_dir argument
     subprocess.run(['bash', script_path, root_build_dir, arch, unify_path])
 
