@@ -3,7 +3,7 @@
  - [Implementing Cluster Test](#implementing-cluster-test)
 
 ## Prerequisites
- - [Matter Bridge UT framework](./README.md)
+ - [Matter Bridge UT framework](./readme_unit_testing.md)
  - [ClusterTestContext](#clustertestcontext)
  
 ### ClusterTestContext
@@ -21,7 +21,7 @@ Additionally, there is template function that mocks a WriteAttribute and checks 
 #### Command Test Template Function
 This template function mocks the requested matter command and checks if the topic and payload of MQTT message that the bridge publishes in response to command matches with the expected topic and payload passed to this function.
 
-Refer [ClusterTestContext.h](ClusterTestContext.h) for more details.
+Refer [ClusterTestContext.h](../linux/src/tests/ClusterTestContext.h) for more details.
 
 ## Implementing Cluster Test
   1. For the test context of the test suite use the [ClusterTestContext](#clustertestcontext) template 

@@ -7,10 +7,9 @@ Welcome to unify-matter-bridge's documentation!
 ===============================================
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Contents:
         
    Overview<readme_overview.md>
    User Guide<readme_user.md>
-   Build Guide<readme_building.md>
-   x86_64 Build Guide<readme_building_x86_64.md>
+   Developer Guide<developer_guide.rst>

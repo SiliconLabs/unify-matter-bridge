@@ -9,8 +9,8 @@
 project = 'Unify Matter Bridge'
 copyright = 'Copyright © 2024 Silicon Laboratories. All rights reserved.'
 author = 'Silicon Labs'
-release = '1.1.0'
-version = '1.1.0'
+release = '1.3.0'
+version = '1.3.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -22,7 +22,6 @@ templates_path = ['_templates']
 exclude_patterns = ['_build', 
                     'Thumbs.db',
                     '.DS_Store',
-                    'readme_chip_tool_testing.md',
                     'UMB_Design.md'
                     ]
 
