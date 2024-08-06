@@ -45,7 +45,7 @@ Once the base Unify system is up and running, the Unify Matter Bridge may be
 installed on the Raspberry Pi 4.
 
 The
-[Silicon Labs Matter GitHub release](https://github.com/SiliconLabs/matter/releases)
+[Silicon Labs Unify Matter Bridge release](https://github.com/SiliconLabs/unify-matter-bridge/releases)
 contains ready-to-use binaries of the Unify Matter Bridge and the chip-tool.
 
 > Note that the Unify Host SDK uses Raspberry Pi OS as the base system as
