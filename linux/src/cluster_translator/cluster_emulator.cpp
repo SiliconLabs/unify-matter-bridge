@@ -93,6 +93,7 @@ namespace unify::matter_bridge {
 #define ON_OFF_LIGHTING_FEATURE_MAP_MASK 0x01
 #define LEVEL_ONOFF_DEPENDENCY_FEATURE_MAP_MASK 0x01
 #define LEVEL_LIGHTING_FEATURE_MAP_MASK 0x02
+#define LEVEL_FREQUENCY_FEATURE_MAP_MASK 0x04
 #define DOORLOCK_FEATURE_MAP_MASK 0x00
 #define WINDOWCOVERING_FEATURE_MAP_MASK 0x01
 
@@ -192,7 +193,7 @@ uint32_t ClusterEmulator::read_feature_map_revision(const ConcreteReadAttributeP
         /// Check if OnOff is supported
         if (emberAfFindServerCluster(aPath.mEndpointId, OnOff::Id))
         {
-            return (LEVEL_ONOFF_DEPENDENCY_FEATURE_MAP_MASK | LEVEL_LIGHTING_FEATURE_MAP_MASK);
+            return (LEVEL_ONOFF_DEPENDENCY_FEATURE_MAP_MASK | LEVEL_LIGHTING_FEATURE_MAP_MASK | LEVEL_FREQUENCY_FEATURE_MAP_MASK);
         }
         break;
     case Thermostat::Id: {
