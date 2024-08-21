@@ -92,7 +92,7 @@ root@docker:/unify-matter-bridge/linux/third_party/connectedhomeip/examples/chip
 
 ## Troubleshooting
 
-1. If you do not source the `connectedhomeip/scripts/activate.sh` as described above in [Set Up the Matter Build Environment](https://github.com/SiliconLabs/matter/blob/latest/docs/silabs/general/SOFTWARE_REQUIREMENTS.md ),`gn` and other common build tools will not be found.
+1. If you do not source the `connectedhomeip/scripts/activate.sh` as described above in [Activate Matter development environment](#activate-matter-development-environment),`gn` and other common build tools will not be found.
 2. If you are compiling unit tests, do not try to compile the Unify Matter Bridge at
    the same time. This will not work as when compiling unit tests you are also
    compiling unit tests for all other sub-components.
