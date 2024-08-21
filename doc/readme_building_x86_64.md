@@ -34,7 +34,7 @@ dev-machine:~/unify-matter-bridge$ docker run -it -v $PWD:/unify-matter-bridge -
 If you want to be able to use Zap to generate code from Unify XML files you need to export UCL_XML_PATH as well.
 
 ```bash
-root@docker:/uic$ export UCL_XML_PATH=/uic/stage/share/uic/ucl
+root@docker:/uic$ export UCL_XML_PATH=/uic/components/uic_dotdot/dotdot-xml
 ```
 
 ## Activate Matter development environment
@@ -60,8 +60,9 @@ root@docker:/unify-matter-bridge/linux$ gn gen out/host
 root@docker:/unify-matter-bridge/linux$ ninja -C out/host debian
 ```
 
-> 🔴 After building, the `unify-matter-bridge` binary is located at `/unify-matter-bridge/linux/out/host/obj/bin/unify-matter-bridge`.
+> 🔴 After building, the `unify-matter-bridge` binary is located at `/unify-matter-bridge/linux/out/host/obj/bin/unify-matter-bridge` and debian is located at `/unify-matter-bridge/linux/out/amd64/packages/uic-mb_<version>_amd64.deb`.
 
+## Compile the chip-tool
 
 The `chip-tool` is a CLI tool that can be used to commission the bridge and to control end devices.
 
@@ -75,11 +76,6 @@ root@docker:/unify-matter-bridge/linux/third_party/connectedhomeip/examples/chip
 
 > 🔴 After building, the chip-tool binary is located at `/unify-matter-bridge/linux/third_party/connectedhomeip/examples/chip-tool/out/amd64/chip-tool`.
 
-## Unit Testing
-
-Unit testing is always a good idea for quality software. Documentation on writing unit tests for the Matter Unify Bridge is in the
-[README.md](https://github.com/SiliconLabs/matter/blob/latest/silabs_examples/unify-matter-bridge/linux/src/tests/README.md).
-
 ## Troubleshooting
 
-Refer to Troubleshooting section in [readme_building.md](readme_building.md) 
+Refer to Troubleshooting section in [README](./readme_building.md#troubleshooting)

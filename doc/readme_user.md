@@ -382,6 +382,7 @@ the command line take precedence over the options and values in the config file.
                                        Format: <tag>:<severity>,
                                        <tag>:<severity>, ...
  --umb.interface arg (=en0)            Ethernet interface to use
+ --umb.wifi                            Enable Wi-FI connectivity
  --umb.kvs arg (=/var/chip_unify_bridge.kvs)
                                        Matter key value store path
  --umb.vendor arg (=65521)             Vendor ID
@@ -402,30 +403,6 @@ the command line take precedence over the options and values in the config file.
                                        Set the MQTT client ID of the
                                        application.
 ```
-## Running chip-tool tests on Unify Matter Bridge endpoints 
-
-For e.g. OnOff Cluster chip-tool test Test_TC_OO_2_3 can be ran on Unify Matter
-Bridge endpoint 2 for node 1 as follows.
-
-```bash
-./chip-tool tests Test_TC_OO_2_3 --nodeId 1 --endpoint 2 --delayInMs 1400
-```
-
-Mapping of Matter Endpoint to Unify Node IDs can be seen by giving
-"epmap" command to Unify matter bridge command prompt as follows
-
-```shell
-Unify>epmap
-Unify Unid |Unify Endpoint |Matter Endpoint
-zw-CE7F3772-0008|         |         2
-```
-
-Note: Endpoint 0(Root) and Endpoint 1(Aggregator) are Bridge itself. They are
-not shown in the epmap. But these endpoints support some clusters as well. For
-e.g. Identify. Where you might want to run chip-tool tests on those endpoints
-
-For further information on chip-tool tests, refer to the [test suite's README](https://github.com/SiliconLabs/matter/blob/latest/src/app/tests/suites/README.md)
-
 
 ## Troubleshooting
 

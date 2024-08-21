@@ -68,7 +68,7 @@ relationship between them.
 > Matter Bridge. The Unify Matter Bridge cannot '_see_' what else is on the
 > Matter Fabric, let alone control end devices in the Matter Fabric.
 
-See the [GitHub release notes](https://github.com/SiliconLabs/matter/releases)
+See the [GitHub release notes](https://github.com/SiliconLabs/unify-matter-bridge/releases)
 for details on feature additions, bug fixes, and known issues.
 
 ## Supported Clusters/Devices

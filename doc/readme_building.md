@@ -33,12 +33,6 @@ dev-machine:~$ cd unify-matter-bridge/
 dev-machine:~/unify-matter-bridge$ docker run -it -v $PWD:/unify-matter-bridge -v ./linux/third_party/UnifySDK:/uic unify-matter
 ```
 
-If you want to be able to use Zap to generate code from Unify XML files you need to export UCL_XML_PATH as well.
-
-```bash
-root@docker:/uic$ export UCL_XML_PATH=/uic/stage/share/uic/ucl
-```
-
 ## Activate Matter development environment
 
 Once you have all the necessary submodules, source the Matter environment with the following command. This loads a number of build tools and makes sure the correct toolchains and compilers are used for compiling the Unify Matter Bridge.
@@ -52,6 +46,24 @@ root@docker:/unify-matter-bridge/linux/third_party/connectedhomeip$ git config -
 root@docker:/unify-matter-bridge/linux/third_party/connectedhomeip$ source ./scripts/activate.sh
 ```
 
+## Generate Zap Code
+
+This step is optional for normal build, only to be done for changes in Zap files.
+
+To use Zap to generate code from Unify XML files you need to export UCL_XML_PATH as well.
+
+```bash
+root@docker:/unify-matter-bridge$ cd /uic
+root@docker:/uic$ export UCL_XML_PATH=/uic/components/uic_dotdot/dotdot-xml
+```
+
+Run below Zap script to generate zap files for unify matter bridge.
+
+```bash
+root@docker:/unify-matter-bridge$ cd /unify-matter-bridge/linux/zap-handlers
+root@docker:/unify-matter-bridge/linux/zap-handlers$ ./run_all_zap.sh
+```
+
 ## Compile the Unify Matter Bridge
 
 Make sure you are in `/unify-matter-bridge/linux` directory
@@ -62,7 +74,7 @@ root@docker:/unify-matter-bridge/linux$ gn gen out/arm64 --args='target_cpu="arm
 root@docker:/unify-matter-bridge/linux$ ninja -C out/arm64 debian
 ```
 
-> 🔴 After building, the `unify-matter-bridge` binary is located at `/unify-matter-bridge/linux/out/arm64/obj/bin/unify-matter-bridge`.
+> 🔴 After building, the `unify-matter-bridge` binary is located at `/unify-matter-bridge/linux/out/arm64/obj/bin/unify-matter-bridge` and debian is located at `/unify-matter-bridge/linux/out/arm64/packages/uic-mb_<version>_arm64.deb`.
 
 ## Compile the chip-tool
 
@@ -77,11 +89,6 @@ root@docker:/unify-matter-bridge/linux/third_party/connectedhomeip/examples/chip
 ```
 
 > 🔴 After building, the chip-tool binary is located at `/unify-matter-bridge/linux/third_party/connectedhomeip/examples/chip-tool/out/arm64/chip-tool`.
-
-## Unit Testing
-
-Unit testing is always a good idea for quality software. Documentation on writing unit tests for the Matter Unify Bridge is in the
-[README.md](https://github.com/SiliconLabs/matter/blob/latest/silabs_examples/unify-matter-bridge/linux/src/tests/README.md).
 
 ## Troubleshooting
 
