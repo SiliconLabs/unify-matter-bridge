@@ -36,6 +36,7 @@
 #define CONFIG_KEY_PIN_ID "umb.pin"
 #define CONFIG_KEY_STRICT_DEVICE_MAPPING "umb.strict_device_mapping"
 #define CONFIG_KEY_WIFI "umb.wifi"
+constexpr const char* CONFIG_KEY_THREAD = "umb.thread";
 
 #ifdef __APPLE__
 #define DEFAULT_INTERFACE "en0"
@@ -43,6 +44,7 @@
 #define DEFAULT_INTERFACE "eth0"
 #endif
 #define DEFAULT_WIFI false
+#define DEFAULT_THREAD false
 
 static matter_bridge_config_t config;
 
@@ -73,6 +75,7 @@ int matter_bridge_config_init()
     status |= config_add_int(CONFIG_KEY_DISCRIMINATOR_ID, "12 bit Discriminator ID", 0xFFE);
     status |= config_add_int(CONFIG_KEY_PIN_ID, "24 bit pin", random_pin);
     status |= config_add_bool(CONFIG_KEY_WIFI, "UMB Wi-Fi Connectivity", DEFAULT_WIFI);
+    status |= config_add_bool(CONFIG_KEY_THREAD, "UMB Thread Connectivity", DEFAULT_THREAD);
 
     return status != CONFIG_STATUS_OK;
 }
@@ -95,6 +98,7 @@ sl_status_t matter_bridge_config_fixt_setup()
     config_get_as_string(CONFIG_KEY_KVS_PATH, &config.kvs_path);
     config_get_as_bool(CONFIG_KEY_STRICT_DEVICE_MAPPING, &config.strict_device_mapping);
     config_get_as_bool(CONFIG_KEY_WIFI, &config.wifi);
+    config_get_as_bool(CONFIG_KEY_THREAD, &config.thread);
     config.vendor_id     = config_get_int_safe(CONFIG_KEY_VENDOR_ID);
     config.product_id    = config_get_int_safe(CONFIG_KEY_PRODUCT_ID);
     config.discriminator = config_get_int_safe(CONFIG_KEY_DISCRIMINATOR_ID) & 0xFFFFFF;

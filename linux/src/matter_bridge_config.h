@@ -42,6 +42,7 @@ typedef struct
     uint16_t discriminator;
     uint32_t pin;
     bool wifi;
+    bool thread;
 } matter_bridge_config_t;
 
 /**

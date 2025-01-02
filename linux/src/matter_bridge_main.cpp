@@ -121,7 +121,7 @@ int main(int argc, char * argv[])
     opt.payload.rendezvousInformation.Emplace().ClearAll();
     opt.payload.rendezvousInformation.Emplace().Set(RendezvousInformationFlag::kOnNetwork);
     opt.mWiFi                = cfg->wifi;
-    opt.mThread              = false;
+    opt.mThread              = cfg->thread;
     opt.KVS                  = cfg->kvs_path;
     opt.payload.productID    = cfg->product_id;
     opt.payload.vendorID     = cfg->vendor_id;
