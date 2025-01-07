@@ -68,6 +68,7 @@ chip_test_suite_using_nltest("tests") {
     "TestDoorLock.cpp",
     "TestDoorLockCommandResponse.cpp",
     "TestWindowCovering.cpp",
+    "TestPressureMeasurement.cpp",
   ]
 
   cflags = [ "-Wconversion" ]

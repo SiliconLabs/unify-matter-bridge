@@ -98,6 +98,7 @@ constexpr uint8_t DOORLOCK_FEATURE_MAP_MASK = 0x00;
 constexpr uint8_t WINDOWCOVERING_FEATURE_MAP_MASK = 0x01;
 constexpr uint8_t THERMOSTAT_HEATING_FEATURE_MAP = 0x01;
 constexpr uint8_t THERMOSTAT_COOLING_FEATURE_MAP = 0x02;
+constexpr uint8_t PRESSUREMEASUREMENT_EXT_FEATURE_MAP = 0x01;
 
 using namespace chip::app;
 using namespace chip::app::Clusters;
@@ -235,6 +236,35 @@ uint32_t ClusterEmulator::read_feature_map_revision(const ConcreteReadAttributeP
             return WINDOWCOVERING_FEATURE_MAP_MASK;
         }
         break;
+    case PressureMeasurement::Id: {
+        auto scale_value_path = ConcreteAttributePath(aPath.mEndpointId, aPath.mClusterId, 
+                                    PressureMeasurement::Attributes::ScaledValue::Id);
+
+        auto min_scaled_value_path = ConcreteAttributePath(aPath.mEndpointId, aPath.mClusterId, 
+                                    PressureMeasurement::Attributes::MinScaledValue::Id);
+                                    
+        auto max_scaled_value_path = ConcreteAttributePath(aPath.mEndpointId, aPath.mClusterId, 
+                                    PressureMeasurement::Attributes::MaxScaledValue::Id);
+        
+        auto scale_path = ConcreteAttributePath(aPath.mEndpointId, aPath.mClusterId, 
+                                    PressureMeasurement::Attributes::Scale::Id);
+
+        PressureMeasurement::Attributes::ScaledValue::TypeInfo::Type ScaledValue;
+        PressureMeasurement::Attributes::MinScaledValue::TypeInfo::Type MinScaledValue;
+        PressureMeasurement::Attributes::MaxScaledValue::TypeInfo::Type MaxScaledValue;
+        PressureMeasurement::Attributes::Scale::TypeInfo::Type Scale;
+
+        bool hasScaledValue = cache.get<PressureMeasurement::Attributes::ScaledValue::TypeInfo::Type>(scale_value_path, ScaledValue);
+        bool hasMinScaledValue = cache.get<PressureMeasurement::Attributes::MinScaledValue::TypeInfo::Type>(min_scaled_value_path, MinScaledValue);
+        bool hasMaxScaledValue = cache.get<PressureMeasurement::Attributes::MaxScaledValue::TypeInfo::Type>(max_scaled_value_path, MaxScaledValue);
+        bool hasScale = cache.get<PressureMeasurement::Attributes::Scale::TypeInfo::Type>(scale_path, Scale);
+
+        if (hasScaledValue && hasScale && hasMaxScaledValue && hasMinScaledValue)
+        {
+            return PRESSUREMEASUREMENT_EXT_FEATURE_MAP;
+        }
+    }
+    break;
     }
     return 0;
 }
