@@ -12,6 +12,7 @@
  *
  ******************************************************************************/
 #include "group_command_translator.hpp"
+#include "attribute_state_cache.hpp"
 #include "sl_log.h"
 #include "uic_mqtt.h"
 #include <app-common/zap-generated/cluster-objects.h>
@@ -118,6 +119,49 @@ void GroupClusterCommandHandler::InvokeCommand(CommandHandlerInterface::HandlerC
         {
             GroupClusterCommandHandler::RemoveAllGroups(fabric_index);
             cmd = "RemoveAllGroups";
+        }
+    }
+    break;
+    case Commands::AddGroupIfIdentifying::Id: {
+        Commands::AddGroupIfIdentifying::DecodableType addGroupByIdentifyingData;
+        CHIP_ERROR TLVError = DataModel::Decode(tlv, addGroupByIdentifyingData);
+        if (!CHIP_ERROR::IsSuccess(TLVError))
+        {
+            break;
+        }
+        const attribute_state_cache & cache = attribute_state_cache::get_instance();
+
+        Identify::Attributes::IdentifyTime::TypeInfo::Type IdentifyTime;
+
+        auto identify_time_attr_path = ConcreteAttributePath(ctxt.mRequestPath.mEndpointId, Clusters::Identify::Id,
+                            Identify::Attributes::IdentifyTime::Id);
+
+        if (!cache.get<Identify::Attributes::IdentifyTime::TypeInfo::Type>(identify_time_attr_path, IdentifyTime)){
+            break;
+        }
+
+        if (static_cast<int>(IdentifyTime) != 0 ) { // Indicating device is identifying
+            // Checking if the Endpoint is already a part of the GroupID
+            GroupDataProvider * provider = GetGroupDataProvider();
+            if (provider->HasEndpoint(fabric_index, addGroupByIdentifyingData.groupID, ctxt.mRequestPath.mEndpointId))
+            {
+                break;
+            }
+            // Checking if the GroupId has already entry
+            GroupDataProvider::GroupInfo group_info;
+            group_translator::matter_group group = { addGroupByIdentifyingData.groupID, fabric_index };
+            if (CHIP_NO_ERROR != provider->GetGroupInfo(fabric_index, addGroupByIdentifyingData.groupID, group_info) && !m_group_translator.add_matter_group(group))
+            {
+                sl_log_warning(LOG_TAG, "Failed to assign request matter group a corresponding unify group id");
+                break;
+            }
+            std::optional<unify_group_t> unify_group = m_group_translator.get_unify_group(group);
+            if (unify_group.has_value())
+            {
+                cmd                  = "AddGroupIfIdentifying";
+                payload["GroupName"] = std::string(addGroupByIdentifyingData.groupName.begin(), addGroupByIdentifyingData.groupName.end());
+                payload["GroupId"]   = unify_group.value();
+            }
         }
     }
     break;

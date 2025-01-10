@@ -22,12 +22,14 @@
 #include "emulate_doorlock.hpp"
 #include "emulate_windowcovering.hpp"
 #include <app/clusters/identify-server/identify-server.h>
+#include <protocols/interaction_model/StatusCode.h>
 
 #define LOG_TAG "cluster_emulator"
 
 #include <app-common/zap-generated/callback.h>
 
 using namespace chip::app;
+using chip::Protocols::InteractionModel::Status;
 
 /**
  * @brief Use default values for external attribute storage, this functions overrides a _weak_ symbol on the ember framework.
@@ -40,16 +42,32 @@ using namespace chip::app;
  * @param attributeMetadata
  * @param buffer
  * @param maxReadLength
- * @return CHIP_ERROR
+ * @return Status
  */
-CHIP_ERROR emberAfExternalAttributeReadCallback(chip::EndpointId endpoint, chip::ClusterId clusterId,
+Status emberAfExternalAttributeReadCallback(chip::EndpointId endpoint, chip::ClusterId clusterId,
                                                    const EmberAfAttributeMetadata * attributeMetadata, uint8_t * buffer,
                                                    uint16_t maxReadLength)
 {
     sl_log_debug(LOG_TAG, "emberAfExternalAttributeReadCallback: endpoint: %d cluster: %d attribute: %d\n", endpoint, clusterId,
                  attributeMetadata->attributeId);
-    memcpy(buffer, &attributeMetadata->defaultValue, attributeMetadata->size);
-    return CHIP_NO_ERROR;
+
+    // IdentifyTime is being read as part of AddGroupIfIdentifying command using emberAfExternalAttributeReadCallback
+    if (attributeMetadata->attributeId == chip::app::Clusters::Identify::Attributes::IdentifyTime::Id)
+    {
+        const attribute_state_cache & cache = attribute_state_cache::get_instance();
+        auto aPath = ConcreteAttributePath(endpoint, clusterId, attributeMetadata->attributeId);
+        uint16_t IdentifyTime;
+        if (!cache.get(aPath, IdentifyTime))
+        {
+            IdentifyTime = static_cast<uint16_t>(attributeMetadata->defaultValue.defaultValue);
+        }
+        memcpy(buffer, &IdentifyTime , attributeMetadata->size);
+    }
+    else
+    {
+        memcpy(buffer, &attributeMetadata->defaultValue, attributeMetadata->size);
+    }
+    return Status::Success;
 }
 
 void OnIdentifyStart(::Identify *)
