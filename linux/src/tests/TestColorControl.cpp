@@ -464,7 +464,7 @@ static void TestColorControlAttributeEnhancedColorMode(nlTestSuite * sSuite, voi
 {
     TestContext & ctx = *static_cast<TestContext *>(apContext);
     CHIP_ERROR err    = ctx.attribute_test<Clusters::ColorControl::Attributes::EnhancedColorMode::TypeInfo>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/ColorControl/Attributes/EnhancedColorMode/Reported", R"({ "value": "ColorTemperature" })",
+        sSuite, "ucl/by-unid/zw-0x0002/ep2/ColorControl/Attributes/EnhancedColorMode/Reported", R"({ "value": "ColorTemperatureMireds" })",
         ColorControl::EnhancedColorModeEnum::kColorTemperature);
     NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
 }

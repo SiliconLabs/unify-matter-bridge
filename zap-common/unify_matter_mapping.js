@@ -93,7 +93,7 @@ const enums_unify_to_matter = {
     "ColorControlColorLoopActive" : "",  // FIXME
     "ColorControlColorMode" : "ColorMode",
     "ColorControlDriftCompensation" : "",  // FIXME
-    "ColorControlEnhancedColorMode" : "EnhancedColorMode",
+    "ColorControlEnhancedColorMode" : "EnhancedColorModeEnum",
     "ColorLoopSetAction" : "ColorLoopAction",
     "CommissioningNetworkKeyType" : "",  // Not used
     "CommissioningProtocolVersion" : "",  // Not used

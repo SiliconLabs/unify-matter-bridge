@@ -171,8 +171,10 @@ uint32_t ClusterEmulator::read_feature_map_revision(const ConcreteReadAttributeP
     switch (aPath.mClusterId)
     {
     case ColorControl::Id: {
+        ConcreteAttributePath colorCapabilities_atr_path = ConcreteAttributePath(aPath.mEndpointId, aPath.mClusterId,
+                                                                    ColorControl::Attributes::ColorCapabilities::Id);
         ColorControl::Attributes::ColorCapabilities::TypeInfo::Type colorControlCapabilities;
-        if (cache.get<ColorControl::Attributes::ColorCapabilities::TypeInfo::Type>(aPath, colorControlCapabilities))
+        if (cache.get<ColorControl::Attributes::ColorCapabilities::TypeInfo::Type>(colorCapabilities_atr_path, colorControlCapabilities))
         {
             return static_cast<uint32_t>(colorControlCapabilities);
         }

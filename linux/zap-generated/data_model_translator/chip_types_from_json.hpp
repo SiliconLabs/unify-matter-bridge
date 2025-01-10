@@ -1419,7 +1419,7 @@ inline std::optional<ColorControl::EnhancedColorModeEnum> from_json(const nlohma
     const std::map<std::string, ColorControl::EnhancedColorModeEnum> table = {
         { "CurrentHueAndCurrentSaturation", ColorControl::EnhancedColorModeEnum::kCurrentHueAndCurrentSaturation },
         { "CurrentXAndCurrentY", ColorControl::EnhancedColorModeEnum::kCurrentXAndCurrentY },
-        { "ColorTemperature", ColorControl::EnhancedColorModeEnum::kColorTemperature },
+        { "ColorTemperatureMireds", ColorControl::EnhancedColorModeEnum::kColorTemperature },
         { "EnhancedCurrentHueAndCurrentSaturation", ColorControl::EnhancedColorModeEnum::kEnhancedCurrentHueAndCurrentSaturation },
     };
 

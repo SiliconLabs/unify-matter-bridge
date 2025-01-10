@@ -1572,7 +1572,7 @@ nlohmann::json inline to_json(const chip::app::Clusters::ColorControl::EnhancedC
     case EnhancedColorModeEnum::kCurrentXAndCurrentY:
         return "CurrentXAndCurrentY";
     case EnhancedColorModeEnum::kColorTemperature:
-        return "ColorTemperature";
+        return "ColorTemperatureMireds";
     case EnhancedColorModeEnum::kEnhancedCurrentHueAndCurrentSaturation:
         return "EnhancedCurrentHueAndCurrentSaturation";
     default:
