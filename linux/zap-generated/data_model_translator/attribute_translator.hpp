@@ -285,11 +285,8 @@ private:
 /// - EndProductType
 /// - CurrentPositionLiftPercent100ths (optional)
 /// - CurrentPositionTiltPercent100ths (optional)
-/// - InstalledOpenLimitLift (optional)
-/// - InstalledClosedLimitLift (optional)
 /// - InstalledOpenLimitTilt (optional)
 /// - InstalledClosedLimitTilt (optional)
-/// - Mode
 /// - SafetyStatus (optional)
 /// - GeneratedCommandList
 /// - AcceptedCommandList

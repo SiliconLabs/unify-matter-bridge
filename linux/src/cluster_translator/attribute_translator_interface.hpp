@@ -27,6 +27,7 @@
 #include "matter_device_translator.hpp"
 #include "matter_node_state_monitor.hpp"
 #include "unify_mqtt_wrapper.hpp"
+#include "attribute_callback_registry.hpp"
 
 // Unify SDK
 #include "sl_log.h"
@@ -116,7 +117,14 @@ private:
         {
             try
             {
+                const auto& registered_callback = AttributeCallbackRegistry::getInstance();
                 nlohmann::json jsn = nlohmann::json::parse(msg);
+                std::string key = cluster + "::" + attribute;
+                if (const AttributeCallback* callback = registered_callback.get_registered_callback(key); callback != nullptr)
+                {
+                    chip::EndpointId matter_endpoint = unify_node->matter_endpoint;
+                    (*callback)(jsn["value"], matter_endpoint);
+                }
                 reported_updated(unify_node, cluster, attribute, jsn["value"]);
             } catch (const nlohmann::json::parse_error & e)
             {

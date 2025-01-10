@@ -53,6 +53,10 @@ static int Initialize(void * context)
         "OperationalStatus",
         "EndProductType",
         "Mode",
+        "CurrentPositionLift",
+        "CurrentPositionLiftPercentage",
+        "InstalledOpenLimitLift",
+        "InstalledClosedLimitLift",
         "GeneratedCommandList",
         "AcceptedCommandList",
         "AttributeList",
@@ -72,6 +76,42 @@ static int Finalize(void * context)
         return FAILURE;
     }
     return SUCCESS;
+}
+
+static void TestWindowCoveringAttributeInstalledOpenLimitLift(nlTestSuite * sSuite, void * apContext)
+{
+    TestContext & ctx = *static_cast<TestContext *>(apContext);
+    CHIP_ERROR err    = ctx.attribute_test<Clusters::WindowCovering::Attributes::InstalledOpenLimitLift::TypeInfo>(
+        sSuite, "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/InstalledOpenLimitLift/Reported", R"({ "value": 0 })",
+        0);
+    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+}
+
+static void TestWindowCoveringAttributeInstalledClosedLimitLift(nlTestSuite * sSuite, void * apContext)
+{
+    TestContext & ctx = *static_cast<TestContext *>(apContext);
+    CHIP_ERROR err    = ctx.attribute_test<Clusters::WindowCovering::Attributes::InstalledClosedLimitLift::TypeInfo>(
+        sSuite, "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/InstalledClosedLimitLift/Reported", R"({ "value": 65534 })",
+        65534);
+    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+}
+
+static void TestWindowCoveringAttributeCurrentPositionLift(nlTestSuite * sSuite, void * apContext)
+{
+    TestContext & ctx = *static_cast<TestContext *>(apContext);
+    CHIP_ERROR err    = ctx.attribute_test<Clusters::WindowCovering::Attributes::CurrentPositionLift::TypeInfo>(
+        sSuite, "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/CurrentPositionLift/Reported", R"({ "value": 0 })",
+        static_cast<Clusters::WindowCovering::Attributes::CurrentPositionLift::TypeInfo::Type>(0));
+    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+}
+
+static void TestWindowCoveringAttributeCurrentPositionLiftPercentage(nlTestSuite * sSuite, void * apContext)
+{
+    TestContext & ctx = *static_cast<TestContext *>(apContext);
+    CHIP_ERROR err    = ctx.attribute_test<Clusters::WindowCovering::Attributes::CurrentPositionLiftPercentage::TypeInfo>(
+        sSuite, "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/CurrentPositionLiftPercentage/Reported", R"({ "value": 0 })",
+        static_cast<Clusters::WindowCovering::Attributes::CurrentPositionLiftPercentage::TypeInfo::Type>(0));
+    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
 }
 
 static void TestWindowCoveringCommandUpOrOpen(nlTestSuite * sSuite, void * apContext)
@@ -171,7 +211,12 @@ static void TestWindowCoveringAttributeOperationalStatus(nlTestSuite * sSuite, v
  */
 static const nlTest sTests[] = {
 
+    NL_TEST_DEF("WindowCovering::TestWindowCoveringAttributeInstalledOpenLimitLift",TestWindowCoveringAttributeInstalledOpenLimitLift),
+    NL_TEST_DEF("WindowCovering::TestWindowCoveringAttributeInstalledClosedLimitLift",TestWindowCoveringAttributeInstalledClosedLimitLift),
+    NL_TEST_DEF("WindowCovering::TestWindowCoveringAttributeCurrentPositionLift",TestWindowCoveringAttributeCurrentPositionLift),
+    NL_TEST_DEF("WindowCovering::TestWindowCoveringCommandDownOrClose", TestWindowCoveringCommandDownOrClose),
     NL_TEST_DEF("WindowCovering::TestWindowCoveringCommandUpOrOpen", TestWindowCoveringCommandUpOrOpen),
+    NL_TEST_DEF("WindowCovering::TestWindowCoveringAttributeCurrentPositionLiftPercentage",TestWindowCoveringAttributeCurrentPositionLiftPercentage),
     NL_TEST_DEF("WindowCovering::TestWindowCoveringCommandDownOrClose", TestWindowCoveringCommandDownOrClose),
     NL_TEST_DEF("WindowCovering::TestWindowCoveringCommandStopMotion", TestWindowCoveringCommandStopMotion),
     NL_TEST_DEF("WindowCovering::TestWindowCoveringAttributeMode",TestWindowCoveringAttributeMode),

@@ -216,8 +216,32 @@ void {{asUpperCamelCase label}}AttributeAccess::reported_updated(const bridged_e
       {{/if}}
 
       if (value.has_value()) {
-        sl_log_debug(LOG_TAG,"{{asUpperCamelCase label}} attribute value is %s",unify_value.dump().c_str());
-        attribute_state_cache::get_instance().set<T>(attrpath,value.value());
+      {{#if (attributeMaxLimitMismatch parent.label code)}}
+        {{#if isNullable}}
+        T updatedValue;
+        updatedValue.SetNonNull(value->Value());
+
+        if (value->Value() == std::numeric_limits<T::UnderlyingType>::max()) {
+            updatedValue.SetNonNull(std::numeric_limits<T::UnderlyingType>::max() - 1);
+        }
+        if (!updatedValue.IsNull()) {
+        sl_log_debug(LOG_TAG, "{{asUpperCamelCase label}} attribute value is %u", updatedValue.Value());
+        } else {
+            sl_log_debug(LOG_TAG, "{{asUpperCamelCase label}} attribute value is NULL");
+        }
+
+        value = updatedValue;
+        {{else}}
+        T maxValue = std::numeric_limits<T>::max();
+        if (value.value() == maxValue) {
+            value = maxValue - 1;
+        }
+        sl_log_debug(LOG_TAG, "{{asUpperCamelCase label}} attribute value is %s", unify_value.dump().c_str());
+        {{/if}}
+    {{else}}
+        sl_log_debug(LOG_TAG, "{{asUpperCamelCase label}} attribute value is %s", unify_value.dump().c_str());
+    {{/if}}
+        attribute_state_cache::get_instance().set<T>(attrpath, value.value());
         MatterReportingAttributeChangeCallback(
           node_matter_endpoint,
           Clusters::{{asUpperCamelCase parent.label}}::Id,

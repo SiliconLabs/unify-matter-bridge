@@ -1296,9 +1296,13 @@ namespace app {
             namespace Attributes {
                 static const std::unordered_map<std::string, chip::AttributeId> matter_attribute_id_cluster_map {
                     { "Type", Type::Id },
+                    { "CurrentPositionLift", CurrentPositionLift::Id },
                     { "ConfigStatus", ConfigStatus::Id },
+                    { "CurrentPositionLiftPercentage", CurrentPositionLiftPercentage::Id },
                     { "OperationalStatus", OperationalStatus::Id },
                     { "EndProductType", EndProductType::Id },
+                    { "InstalledOpenLimitLift", InstalledOpenLimitLift::Id },
+                    { "InstalledClosedLimitLift", InstalledClosedLimitLift::Id },
                     { "Mode", Mode::Id },
                     { "GeneratedCommandList", GeneratedCommandList::Id },
                     { "AcceptedCommandList", AcceptedCommandList::Id },

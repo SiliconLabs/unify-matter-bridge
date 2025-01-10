@@ -99,6 +99,12 @@ const ClusterFeatureAttributesSupport = {
   "Relative Humidity Measurement": {
     "3": true,      // Tolerance Attribute Support
   },
+  "Window Covering": {
+    "3": true,      // CurrentPositionLift Attribute Support
+    "8": true,      // CurrentPositionLiftPercentage Attribute Support
+    "16": true,     // InstalledOpenLimitLift Attribute Support
+    "17": true      // InstalledClosedLimitLift Attribute Support
+  }
 };
 
 // Function is to publish supported optional attributes

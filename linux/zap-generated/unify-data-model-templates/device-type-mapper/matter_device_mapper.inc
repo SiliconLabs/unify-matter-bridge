@@ -121,7 +121,11 @@ namespace app {
             namespace Attributes {
                 static const std::unordered_map<std::string, chip::AttributeId> unify_to_matter_attribute_id_cluster_map {
                     { "WindowCoveringType", Type::Id },
+                    { "CurrentPositionLift", CurrentPositionLift::Id },
                     { "ConfigOrStatus", ConfigStatus::Id },
+                    { "CurrentPositionLiftPercentage", CurrentPositionLiftPercentage::Id },
+                    { "InstalledOpenLimitLift", InstalledOpenLimitLift::Id },
+                    { "InstalledClosedLimitLift", InstalledClosedLimitLift::Id },
                     { "Mode", Mode::Id },
                 };
             } // namespace Attributes

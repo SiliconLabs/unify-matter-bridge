@@ -303,6 +303,8 @@ function matter_event_enum(cluster_id, event_id, value) {
     "258": // WindowCovering
     {
       "263" : "23", // unify mode attribute id 263, matter mode attribute id 23
+      "256" : "16", // unify installedopenlimitlift attribute id 256, matter installedopenlimitlift attribute id 16
+      "257" : "17"  // unify installedclosedlimitlift attribute id 257, matter installedclosedlimitlift attribute id 17
     },
   }
   
@@ -317,6 +319,25 @@ function matter_event_enum(cluster_id, event_id, value) {
     return attributeID;
   }
   
+  const unify_matter_attribute_id_mapper = {
+    "258": // WindowCovering
+    {
+      "23" : "263", // unify mode attribute id 263, matter mode attribute id 23
+      "16" : "256", // unify installedopenlimitlift attribute id 256, matter installedopenlimitlift attribute id 16
+      "17" : "257"  // unify installedclosedlimitlift attribute id 257, matter installedclosedlimitlift attribute id 17
+    },
+  }
+
+  // Funtion to allign mismatching attribute IDs between unify and matter
+  function matter_attribute_pre_mapping(clusterID, attributeID)
+  {
+    if (unify_matter_attribute_id_mapper.hasOwnProperty(clusterID)) {
+      if (unify_matter_attribute_id_mapper[clusterID].hasOwnProperty(attributeID)) {
+        return unify_matter_attribute_id_mapper[clusterID][attributeID];
+      }
+    }
+    return attributeID;
+  }
 
 exports.unify_bitmap_name = unify_bitmap_name
 exports.matter_bitmap_name = matter_bitmap_name
@@ -325,3 +346,4 @@ exports.matter_enum_name = matter_enum_name
 exports.matter_event_name = matter_event_name
 exports.matter_event_enum = matter_event_enum
 exports.unify_attribute_pre_mapping = unify_attribute_pre_mapping
+exports.matter_attribute_pre_mapping = matter_attribute_pre_mapping

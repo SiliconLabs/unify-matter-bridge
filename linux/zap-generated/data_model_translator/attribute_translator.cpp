@@ -2293,26 +2293,33 @@ CHIP_ERROR WindowCoveringAttributeAccess::Write(const ConcreteDataAttributePath&
     }
 
     switch (aPath.mAttributeId) {
-        // Type is not supported by UCL
-        // PhysicalClosedLimitLift is not supported by UCL
-        // PhysicalClosedLimitTilt is not supported by UCL
-        // CurrentPositionLift is not supported by UCL
-        // CurrentPositionTilt is not supported by UCL
-        // NumberOfActuationsLift is not supported by UCL
-        // NumberOfActuationsTilt is not supported by UCL
-        // ConfigStatus is not supported by UCL
-        // CurrentPositionLiftPercentage is not supported by UCL
-        // CurrentPositionTiltPercentage is not supported by UCL
-        // OperationalStatus is not supported by UCL
-        // TargetPositionLiftPercent100ths is not supported by UCL
-        // TargetPositionTiltPercent100ths is not supported by UCL
-        // EndProductType is not supported by UCL
-        // CurrentPositionLiftPercent100ths is not supported by UCL
-        // CurrentPositionTiltPercent100ths is not supported by UCL
-        // InstalledOpenLimitLift is not supported by UCL
-        // InstalledClosedLimitLift is not supported by UCL
-        // InstalledOpenLimitTilt is not supported by UCL
-        // InstalledClosedLimitTilt is not supported by UCL
+    // Type is not supported by UCL
+    // PhysicalClosedLimitLift is not supported by UCL
+    // PhysicalClosedLimitTilt is not supported by UCL
+    // CurrentPositionLift is not supported by UCL
+    // CurrentPositionTilt is not supported by UCL
+    // NumberOfActuationsLift is not supported by UCL
+    // NumberOfActuationsTilt is not supported by UCL
+    // ConfigStatus is not supported by UCL
+    // CurrentPositionLiftPercentage is not supported by UCL
+    // CurrentPositionTiltPercentage is not supported by UCL
+    // OperationalStatus is not supported by UCL
+    // TargetPositionLiftPercent100ths is not supported by UCL
+    // TargetPositionTiltPercent100ths is not supported by UCL
+    // EndProductType is not supported by UCL
+    // CurrentPositionLiftPercent100ths is not supported by UCL
+    // CurrentPositionTiltPercent100ths is not supported by UCL
+    // InstalledOpenLimitLift is not supported by UCL
+    // InstalledClosedLimitLift is not supported by UCL
+    // InstalledOpenLimitTilt is not supported by UCL
+    // InstalledClosedLimitTilt is not supported by UCL
+    case Attributes::Mode::Id: {
+
+        Attributes::Mode::TypeInfo::DecodableType value;
+        aDecoder.Decode(value);
+        jsn["Mode"] = to_json(value);
+        break;
+    }
         // SafetyStatus is not supported by UCL
         // GeneratedCommandList is not supported by UCL
         // AcceptedCommandList is not supported by UCL
@@ -2398,7 +2405,19 @@ void WindowCoveringAttributeAccess::reported_updated(const bridged_endpoint* ep,
         std::optional<T> value = from_json<T>(unify_value);
 
         if (value.has_value()) {
-            sl_log_debug(LOG_TAG, "CurrentPositionLift attribute value is %s", unify_value.dump().c_str());
+            T updatedValue;
+            updatedValue.SetNonNull(value->Value());
+
+            if (value->Value() == std::numeric_limits<T::UnderlyingType>::max()) {
+                updatedValue.SetNonNull(std::numeric_limits<T::UnderlyingType>::max() - 1);
+            }
+            if (!updatedValue.IsNull()) {
+                sl_log_debug(LOG_TAG, "CurrentPositionLift attribute value is %u", updatedValue.Value());
+            } else {
+                sl_log_debug(LOG_TAG, "CurrentPositionLift attribute value is NULL");
+            }
+
+            value = updatedValue;
             attribute_state_cache::get_instance().set<T>(attrpath, value.value());
             MatterReportingAttributeChangeCallback(node_matter_endpoint, Clusters::WindowCovering::Id, MN::CurrentPositionLift::Id);
         }
@@ -2477,6 +2496,52 @@ void WindowCoveringAttributeAccess::reported_updated(const bridged_endpoint* ep,
             attribute_state_cache::get_instance().set<T>(attrpath, value.value());
             MatterReportingAttributeChangeCallback(node_matter_endpoint, Clusters::WindowCovering::Id,
                 MN::CurrentPositionTiltPercentage::Id);
+        }
+        break;
+    }
+        // type is int16u
+    case MN::InstalledOpenLimitLift::Id: {
+        using T = MN::InstalledOpenLimitLift::TypeInfo::Type;
+        std::optional<T> value = from_json<T>(unify_value);
+
+        if (value.has_value()) {
+            T maxValue = std::numeric_limits<T>::max();
+            if (value.value() == maxValue) {
+                value = maxValue - 1;
+            }
+            sl_log_debug(LOG_TAG, "InstalledOpenLimitLift attribute value is %s", unify_value.dump().c_str());
+            attribute_state_cache::get_instance().set<T>(attrpath, value.value());
+            MatterReportingAttributeChangeCallback(node_matter_endpoint, Clusters::WindowCovering::Id,
+                MN::InstalledOpenLimitLift::Id);
+        }
+        break;
+    }
+        // type is int16u
+    case MN::InstalledClosedLimitLift::Id: {
+        using T = MN::InstalledClosedLimitLift::TypeInfo::Type;
+        std::optional<T> value = from_json<T>(unify_value);
+
+        if (value.has_value()) {
+            T maxValue = std::numeric_limits<T>::max();
+            if (value.value() == maxValue) {
+                value = maxValue - 1;
+            }
+            sl_log_debug(LOG_TAG, "InstalledClosedLimitLift attribute value is %s", unify_value.dump().c_str());
+            attribute_state_cache::get_instance().set<T>(attrpath, value.value());
+            MatterReportingAttributeChangeCallback(node_matter_endpoint, Clusters::WindowCovering::Id,
+                MN::InstalledClosedLimitLift::Id);
+        }
+        break;
+    }
+        // type is Mode
+    case MN::Mode::Id: {
+        using T = MN::Mode::TypeInfo::Type;
+        std::optional<T> value = from_json<T>(unify_value);
+
+        if (value.has_value()) {
+            sl_log_debug(LOG_TAG, "Mode attribute value is %s", unify_value.dump().c_str());
+            attribute_state_cache::get_instance().set<T>(attrpath, value.value());
+            MatterReportingAttributeChangeCallback(node_matter_endpoint, Clusters::WindowCovering::Id, MN::Mode::Id);
         }
         break;
     }

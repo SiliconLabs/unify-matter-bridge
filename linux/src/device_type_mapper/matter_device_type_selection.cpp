@@ -19,6 +19,7 @@
 // Application library
 #include "matter_device_translator.hpp"
 #include "matter_device_types_clusters_list.inc"
+#include "matter_required_additional_command_attribute_list.inc"
 
 // Unify components
 #include "sl_log.h"
@@ -159,51 +160,101 @@ bool compare_commands(const chip::CommandId * commands, const std::string requir
     return true;
 }
 
+bool compare_additional_required_attributes(const EmberAfAttributeMetadata * attributes,
+                                     const uint16_t attribute_count,
+                                     const std::string & required_cluster_name,
+                                     const unify::matter_bridge::device_translator & dev_translator)
+{
+    // Find the required cluster in the map
+    auto it = custom_cluster_mandatory_command_attribute_custom_map.find(required_cluster_name);
+    if (it == custom_cluster_mandatory_command_attribute_custom_map.end()) {
+        return true;
+    }
+
+    const auto & custom_data = it->second;
+    const auto & required_attributes = custom_data.additional_required_attributes;
+
+    for (const auto & required_attribute : required_attributes) {
+        auto attribute_id = dev_translator.get_matter_attribute_id(required_cluster_name, required_attribute);
+        if (!attribute_id.has_value()) {
+            return false;
+        }
+
+        bool attribute_found = false;
+        for (uint8_t i = 0; i < attribute_count; i++) {
+            if (attributes[i].attributeId == attribute_id.value()) {
+                attribute_found = true;
+                break;
+            }
+        }
+
+        if (!attribute_found) {
+            sl_log_debug(LOG_TAG, "Attribute %s:%d not found in cluster %s",
+                        required_attribute.c_str(), attribute_id.value(), required_cluster_name.c_str());
+            return false;
+        }
+    }
+
+    return true;
+}
+
 bool matter_clusters_conform_to_device_type(const std::vector<EmberAfCluster> & matter_cluster_list,
                                             const std::vector<DeviceClusterData> & device_type_cluster_data,
                                             const unify::matter_bridge::device_translator & dev_translator)
 {
     for (const auto & matter_device_cluster_data : device_type_cluster_data)
     {
-        if (matter_device_cluster_data.is_mandatory)
+        if (!matter_device_cluster_data.is_mandatory) {
+            continue;
+        }
+
+        auto device_cluster_type = dev_translator.get_matter_cluster_id(matter_device_cluster_data.cluster_name);
+        if (!device_cluster_type.has_value()) {
+            sl_log_warning(LOG_TAG, "Failed to get cluster id for cluster %s. Stating device does not conform to spec.",
+                           matter_device_cluster_data.cluster_name);
+            return false;
+        }
+
+        if (!dev_translator.m_spec_compliant) {
+            continue;
+        }
+
+        const int8_t matter_cluster_index =
+            check_if_cluster_in_array_of_clusters(device_cluster_type.value(), matter_cluster_list);
+        if (matter_cluster_index == -1) {
+            sl_log_warning(LOG_TAG, "Device mandatory cluster %s not found in mapped device clusters",
+                           matter_device_cluster_data.cluster_name);
+            return false;
+        }
+
+        const auto & matter_cluster = matter_cluster_list.at(matter_cluster_index);
+
+        if (!compare_attributes(matter_cluster.attributes,
+                                matter_cluster.attributeCount,
+                                matter_device_cluster_data.cluster_name,
+                                matter_device_cluster_data.required_attributes,
+                                dev_translator))
         {
-            auto device_cluster_type = dev_translator.get_matter_cluster_id(matter_device_cluster_data.cluster_name);
-            if (!device_cluster_type.has_value())
-            {
-                sl_log_warning(LOG_TAG, "Failed to get cluster id for cluster %s. Stating device does not conform to spec.",
-                               matter_device_cluster_data.cluster_name);
-                return false;
-            }
+            return false;
+        }
 
-            // Agreed to not count scenes as a spec compliant cluster as Matter spec is not sure on how to implement it
-            if (dev_translator.m_spec_compliant)
-            {
-                const int8_t matter_cluster_index =
-                    check_if_cluster_in_array_of_clusters(device_cluster_type.value(), matter_cluster_list);
-                if (matter_cluster_index == -1)
-                {
-                    sl_log_warning(LOG_TAG, "Device mandatory cluster %s not found in mapped device clusters",
-                                   matter_device_cluster_data.cluster_name);
-                    return false;
-                }
+        if (!compare_commands(matter_cluster.acceptedCommandList,
+                              matter_device_cluster_data.cluster_name,
+                              matter_device_cluster_data.required_commands,
+                              dev_translator))
+        {
+            return false;
+        }
 
-                if (!compare_attributes(matter_cluster_list.at(matter_cluster_index).attributes,
-                                        matter_cluster_list.at(matter_cluster_index).attributeCount,
-                                        matter_device_cluster_data.cluster_name, matter_device_cluster_data.required_attributes,
-                                        dev_translator))
-                {
-                    return false;
-                }
-
-                if (!compare_commands(matter_cluster_list.at(matter_cluster_index).acceptedCommandList,
-                                      matter_device_cluster_data.cluster_name, matter_device_cluster_data.required_commands,
-                                      dev_translator))
-                {
-                    return false;
-                }
-            }
+        if (!compare_additional_required_attributes(matter_cluster.attributes,
+                                                    matter_cluster.attributeCount,
+                                                    matter_device_cluster_data.cluster_name,
+                                                    dev_translator))
+        {
+            return false;
         }
     }
+
     return true;
 }
 

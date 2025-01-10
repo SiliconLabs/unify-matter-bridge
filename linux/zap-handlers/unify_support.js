@@ -55,14 +55,17 @@ function unifyClusterCommandResponseName(clusterID,commandID) {
 
 function unifySupportedClusterAttribute(clusterID,attributeID) {
   if(unify.model.hasOwnProperty(clusterID)) {
-    return unify.model[clusterID].attributes.hasOwnProperty(attributeID);
+    unifyattributeID = unify_matter_mapping.matter_attribute_pre_mapping(clusterID, attributeID);
+    return unify.model[clusterID].attributes.hasOwnProperty(unifyattributeID);
   }
   return false;
 }
 
 function unifyClusterAttributeName(clusterID,attributesID) {
   if( unifySupportedClusterAttribute(clusterID,attributesID) ) {
-    return unify.model[clusterID].attributes[attributesID]
+    unifyattributeID = unify_matter_mapping.matter_attribute_pre_mapping(clusterID, attributesID);
+
+    return unify.model[clusterID].attributes[unifyattributeID]
   } else {
     return "Attribute_"+attributesID
   }
@@ -237,6 +240,26 @@ function unifySupportedStruct(label) {
   }
   }
 
+const attribute_max_limit_mismatch_attributes = {
+  "Window Covering" : {
+    "3": true,
+    "16": true,
+    "17": true
+  }
+}
+
+function attributeMaxLimitMismatch(cluster_name, attribute_id){
+  if (attribute_max_limit_mismatch_attributes.hasOwnProperty(cluster_name)) {
+    const cluster = attribute_max_limit_mismatch_attributes[cluster_name];
+    const attributeid = String(attribute_id);
+
+    if (cluster.hasOwnProperty(attributeid)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 exports.getSpecialValues = getSpecialValues
 exports.attributeHasSpecialValues = attributeHasSpecialValues
 exports.unifySupportedCluster = unifySupportedCluster
@@ -259,3 +282,4 @@ exports.unifySupportedClusterEvents = unifySupportedClusterEvents
 exports.getMatterEventNameForAttribute = getMatterEventNameForAttribute
 exports.getMatterEventEnum = getMatterEventEnum
 exports.unifySupportedStruct = unifySupportedStruct
+exports.attributeMaxLimitMismatch = attributeMaxLimitMismatch

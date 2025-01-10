@@ -2137,9 +2137,13 @@ exports.model = {
     /*currently we only support mandatory and feature mandatory attributes, hence only mapping of those as listed here.*/
     attributes : {
       0 : "Type",
+      3 : "CurrentPositionLift",
       7 : "ConfigStatus",
+      8 : "CurrentPositionLiftPercentage",
       10 : "OperationalStatus",
       13 : "EndProductType",
+      16 : "InstalledOpenLimitLift",
+      17 : "InstalledClosedLimitLift",
       23 : "Mode",
       65528 : "GeneratedCommandList",
       65529 : "AcceptedCommandList",
@@ -4169,12 +4173,6 @@ exports.model = {
       "EnhancedCurrentHueAndCurrentSaturation",
     ], //
     "ErrorStateEnum" : [
-      "NoError",
-      "UnableToStartOrResume",
-      "UnableToCompleteOperation",
-      "CommandInvalidInState",
-    ], //
-    "ErrorStateEnum" : [
       "FailedToFindChargingDock",
       "Stuck",
       "DustBinMissing",
@@ -4183,6 +4181,12 @@ exports.model = {
       "WaterTankMissing",
       "WaterTankLidOpen",
       "MopCleaningPadMissing",
+    ], //
+    "ErrorStateEnum" : [
+      "NoError",
+      "UnableToStartOrResume",
+      "UnableToCompleteOperation",
+      "CommandInvalidInState",
     ], //
     "ExpressedStateEnum" : [
       "Normal",
@@ -4444,26 +4448,26 @@ exports.model = {
       "Defrost",
     ], //
     "ModeTag" : [
-      "Normal",
-      "Heavy",
-      "Light",
-    ], //
-    "ModeTag" : [
-      "Normal",
-      "Delicate",
-      "Heavy",
-      "Whites",
-    ], //
-    "ModeTag" : [
       "NoOptimization",
       "DeviceOptimization",
       "LocalOptimization",
       "GridOptimization",
     ], //
     "ModeTag" : [
+      "Normal",
+      "Heavy",
+      "Light",
+    ], //
+    "ModeTag" : [
       "Manual",
       "TimeOfUse",
       "SolarCharging",
+    ], //
+    "ModeTag" : [
+      "Normal",
+      "Delicate",
+      "Heavy",
+      "Whites",
     ], //
     "ModeTag" : [
       "Bake",
@@ -4587,15 +4591,15 @@ exports.model = {
       "Aliro",
     ], //
     "OperationalStateEnum" : [
+      "SeekingCharger",
+      "Charging",
+      "Docked",
+    ], //
+    "OperationalStateEnum" : [
       "Stopped",
       "Running",
       "Paused",
       "Error",
-    ], //
-    "OperationalStateEnum" : [
-      "SeekingCharger",
-      "Charging",
-      "Docked",
     ], //
     "OptOutStateEnum" : [
       "NoOptOut",
@@ -5016,15 +5020,15 @@ exports.model = {
       16 : "FanFail",
     },
     "AlarmBitmap" : {
+      1 : "DoorOpen",
+    },
+    "AlarmBitmap" : {
       1 : "InflowError",
       2 : "DrainError",
       4 : "DoorError",
       8 : "TempTooLow",
       16 : "TempTooHigh",
       32 : "WaterLevelError",
-    },
-    "AlarmBitmap" : {
-      1 : "DoorOpen",
     },
     "AlarmModeBitmap" : {
       1 : "Visual",
@@ -5288,13 +5292,7 @@ exports.model = {
       0 : "NoFeatures",
     },
     "Feature" : {
-      1 : "Reset",
-    },
-    "Feature" : {
-      1 : "ImportedEnergy",
-      2 : "ExportedEnergy",
-      4 : "CumulativeEnergy",
-      8 : "PeriodicEnergy",
+      1 : "TemperatureUnit",
     },
     "Feature" : {
       1 : "Visual",
@@ -5303,14 +5301,20 @@ exports.model = {
       8 : "SensitivityLevel",
     },
     "Feature" : {
-      1 : "TemperatureUnit",
+      1 : "ImportedEnergy",
+      2 : "ExportedEnergy",
+      4 : "CumulativeEnergy",
+      8 : "PeriodicEnergy",
+    },
+    "Feature" : {
+      1 : "Reset",
+    },
+    "Feature" : {
+      1 : "Extended",
     },
     "Feature" : {
       1 : "PacketCounts",
       2 : "ErrorCounts",
-    },
-    "Feature" : {
-      1 : "Extended",
     },
     "Feature" : {
       1 : "Watermarks",
@@ -5325,6 +5329,10 @@ exports.model = {
     },
     "Feature" : {
       1 : "CalendarFormat",
+    },
+    "Feature" : {
+      1 : "TimeSync",
+      2 : "Level",
     },
     "Feature" : {
       1 : "ApplicationPlatform",
@@ -5345,10 +5353,6 @@ exports.model = {
     },
     "Feature" : {
       1 : "NameUpdates",
-    },
-    "Feature" : {
-      1 : "TimeSync",
-      2 : "Level",
     },
     "Feature" : {
       1 : "Condition",
@@ -5455,17 +5459,17 @@ exports.model = {
       8 : "Replaceable",
     },
     "Feature" : {
+      1 : "ChannelList",
+      2 : "LineupInfo",
+      4 : "ElectronicGuide",
+      8 : "RecordProgram",
+    },
+    "Feature" : {
       1 : "ChargingPreferences",
       2 : "SoCReporting",
       4 : "PlugAndCharge",
       8 : "Rfid",
       16 : "V2x",
-    },
-    "Feature" : {
-      1 : "ChannelList",
-      2 : "LineupInfo",
-      4 : "ElectronicGuide",
-      8 : "RecordProgram",
     },
     "Feature" : {
       1 : "Lift",

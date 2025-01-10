@@ -415,6 +415,71 @@ void TestDeviceMapperSpecOnOffDeviceComplying(nlTestSuite * inSuite, void * aCon
     NL_TEST_ASSERT(inSuite, compliance == true);
 }
 
+void TestDeviceMapperSpecWindowCoveringComplying(nlTestSuite * inSuite, void * aContext)
+{
+    // Compliant Window Covering device
+    auto identify_cluster               = unify_monitor::cluster("Identify");
+    identify_cluster.attributes         = { "IdentifyTime" };
+    identify_cluster.supported_commands = { "Identify", "TriggerEffect" };
+    auto window_covering_cluster        = unify_monitor::cluster("WindowCovering");
+    window_covering_cluster.attributes            = { "CurrentPositionLift", "CurrentPositionLiftPercentage", "InstalledOpenLimitLift", "InstalledClosedLimitLift" };
+    window_covering_cluster.supported_commands    = { "UpOrOpen", "DownOrClose", "StopMotion" };
+    auto groups_cluster                 = unify_monitor::cluster("Groups");
+    groups_cluster.supported_commands   = { "AddGroup",           "AddGroupResponse",           "ViewGroup",   "ViewGroupResponse",
+                                          "GetGroupMembership", "GetGroupMembershipResponse", "RemoveGroup", "RemoveGroupResponse",
+                                          "RemoveAllGroups",    "AddGroupIfIdentifying" };
+    groups_cluster.attributes           = { "NameSupport" };
+
+    std::unordered_map<std::string, unify_monitor::cluster> new_clusters = {
+        { "WindowCovering", window_covering_cluster },
+        { "Identify", identify_cluster },
+        { "Groups", groups_cluster },
+    };
+
+    const device_translator dev_translator(true);
+    matter_endpoint_builder new_builder;
+    ClusterEmulator emulator;
+    cluster_interactor cluster_interactor(emulator, dev_translator, new_builder);
+    cluster_interactor.build_matter_cluster(new_clusters);
+
+    chip::DeviceTypeId windowcovering = 0x0202;
+
+    const DeviceTypeData windowcovering_requirements = matter_device_type_vs_clusters_map.at(windowcovering);
+
+    bool compliance = matter_clusters_conform_to_device_type(cluster_interactor.endpoint_builder.clusters,
+                                                             windowcovering_requirements.clusters, dev_translator);
+    NL_TEST_ASSERT(inSuite, compliance == true);
+}
+
+void TestDeviceMapperSpecWindowCoveringFail(nlTestSuite * inSuite, void * aContext)
+{
+    // Compliant Window Covering device
+    auto identify_cluster               = unify_monitor::cluster("Identify");
+    identify_cluster.attributes         = { "IdentifyTime" };
+    identify_cluster.supported_commands = { "RandomNonesenseRequiredCommand" };
+    auto window_covering_cluster        = unify_monitor::cluster("WindowCovering");
+    window_covering_cluster.attributes  = { "CurrentPositionLift", "CurrentPositionLiftPercentage", "InstalledOpenLimitLift" };
+
+    std::unordered_map<std::string, unify_monitor::cluster> new_clusters = {
+        { "WindowCovering", window_covering_cluster },
+        { "Identify", identify_cluster },
+    };
+
+    const device_translator dev_translator(true);
+    matter_endpoint_builder new_builder;
+    ClusterEmulator emulator;
+    cluster_interactor cluster_interactor(emulator, dev_translator, new_builder);
+    cluster_interactor.build_matter_cluster(new_clusters);
+
+    chip::DeviceTypeId window_covering = 0x0202;
+
+    const DeviceTypeData window_covering_requirements = matter_device_type_vs_clusters_map.at(window_covering);
+
+    bool compliance = matter_clusters_conform_to_device_type(cluster_interactor.endpoint_builder.clusters,
+                                                             window_covering_requirements.clusters, dev_translator);
+    NL_TEST_ASSERT(inSuite, compliance == false);
+}
+
 void TestDeviceMapperGetDeviceType(nlTestSuite * inSuite, void * aContext)
 {
     const device_translator dev_translator(false);
@@ -501,6 +566,8 @@ static const nlTest sTests[] = {
     NL_TEST_DEF("TestDeviceMapperSpecAttributesFail", TestDeviceMapperSpecAttributesFail),
     NL_TEST_DEF("TestDeviceMapperSpecOnOffDeviceFail", TestDeviceMapperSpecOnOffDeviceFail),
     NL_TEST_DEF("TestDeviceMapperSpecOnOffDeviceComplying", TestDeviceMapperSpecOnOffDeviceComplying),
+    NL_TEST_DEF("TestDeviceMapperSpecWindowCoveringComplying", TestDeviceMapperSpecWindowCoveringComplying),
+    NL_TEST_DEF("TestDeviceMapperSpecWindowCoveringFail", TestDeviceMapperSpecWindowCoveringFail),
     NL_TEST_DEF("TestDeviceMapperGetDeviceType", TestDeviceMapperGetDeviceType),
     NL_TEST_DEF("TestDeviceMapperGetClusterId", TestDeviceMapperGetClusterId),
     NL_TEST_DEF("TestDeviceMapperGetAttributeIdAndCommandId", TestDeviceMapperGetAttributeIdAndCommandId),
