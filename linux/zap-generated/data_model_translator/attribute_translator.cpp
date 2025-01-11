@@ -114,7 +114,10 @@ CHIP_ERROR IdentifyAttributeAccess::Write(const ConcreteDataAttributePath& aPath
     nlohmann::json jsn;
 
     if (m_node_state_monitor.emulator().is_attribute_emulated(aPath)) {
-        return m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        auto err_Result = m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        if (err_Result != CHIP_ERROR_IN_PROGRESS) {
+            return err_Result;
+        }
     }
 
     switch (aPath.mAttributeId) {
@@ -251,7 +254,10 @@ CHIP_ERROR GroupsAttributeAccess::Write(const ConcreteDataAttributePath& aPath, 
     nlohmann::json jsn;
 
     if (m_node_state_monitor.emulator().is_attribute_emulated(aPath)) {
-        return m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        auto err_Result = m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        if (err_Result != CHIP_ERROR_IN_PROGRESS) {
+            return err_Result;
+        }
     }
 
     switch (aPath.mAttributeId) {
@@ -409,7 +415,10 @@ CHIP_ERROR OnOffAttributeAccess::Write(const ConcreteDataAttributePath& aPath, A
     nlohmann::json jsn;
 
     if (m_node_state_monitor.emulator().is_attribute_emulated(aPath)) {
-        return m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        auto err_Result = m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        if (err_Result != CHIP_ERROR_IN_PROGRESS) {
+            return err_Result;
+        }
     }
 
     switch (aPath.mAttributeId) {
@@ -700,7 +709,10 @@ CHIP_ERROR LevelControlAttributeAccess::Write(const ConcreteDataAttributePath& a
     nlohmann::json jsn;
 
     if (m_node_state_monitor.emulator().is_attribute_emulated(aPath)) {
-        return m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        auto err_Result = m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        if (err_Result != CHIP_ERROR_IN_PROGRESS) {
+            return err_Result;
+        }
     }
 
     switch (aPath.mAttributeId) {
@@ -1343,7 +1355,10 @@ CHIP_ERROR DoorLockAttributeAccess::Write(const ConcreteDataAttributePath& aPath
     nlohmann::json jsn;
 
     if (m_node_state_monitor.emulator().is_attribute_emulated(aPath)) {
-        return m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        auto err_Result = m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        if (err_Result != CHIP_ERROR_IN_PROGRESS) {
+            return err_Result;
+        }
     }
 
     switch (aPath.mAttributeId) {
@@ -2289,7 +2304,10 @@ CHIP_ERROR WindowCoveringAttributeAccess::Write(const ConcreteDataAttributePath&
     nlohmann::json jsn;
 
     if (m_node_state_monitor.emulator().is_attribute_emulated(aPath)) {
-        return m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        auto err_Result = m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        if (err_Result != CHIP_ERROR_IN_PROGRESS) {
+            return err_Result;
+        }
     }
 
     switch (aPath.mAttributeId) {
@@ -3017,7 +3035,10 @@ CHIP_ERROR ThermostatAttributeAccess::Write(const ConcreteDataAttributePath& aPa
     nlohmann::json jsn;
 
     if (m_node_state_monitor.emulator().is_attribute_emulated(aPath)) {
-        return m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        auto err_Result = m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        if (err_Result != CHIP_ERROR_IN_PROGRESS) {
+            return err_Result;
+        }
     }
 
     switch (aPath.mAttributeId) {
@@ -4312,7 +4333,10 @@ CHIP_ERROR ColorControlAttributeAccess::Write(const ConcreteDataAttributePath& a
     nlohmann::json jsn;
 
     if (m_node_state_monitor.emulator().is_attribute_emulated(aPath)) {
-        return m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        auto err_Result = m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        if (err_Result != CHIP_ERROR_IN_PROGRESS) {
+            return err_Result;
+        }
     }
 
     switch (aPath.mAttributeId) {
@@ -5224,7 +5248,10 @@ CHIP_ERROR IlluminanceMeasurementAttributeAccess::Write(const ConcreteDataAttrib
     nlohmann::json jsn;
 
     if (m_node_state_monitor.emulator().is_attribute_emulated(aPath)) {
-        return m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        auto err_Result = m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        if (err_Result != CHIP_ERROR_IN_PROGRESS) {
+            return err_Result;
+        }
     }
 
     switch (aPath.mAttributeId) {
@@ -5431,7 +5458,10 @@ CHIP_ERROR TemperatureMeasurementAttributeAccess::Write(const ConcreteDataAttrib
     nlohmann::json jsn;
 
     if (m_node_state_monitor.emulator().is_attribute_emulated(aPath)) {
-        return m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        auto err_Result = m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        if (err_Result != CHIP_ERROR_IN_PROGRESS) {
+            return err_Result;
+        }
     }
 
     switch (aPath.mAttributeId) {
@@ -5659,7 +5689,10 @@ CHIP_ERROR PressureMeasurementAttributeAccess::Write(const ConcreteDataAttribute
     nlohmann::json jsn;
 
     if (m_node_state_monitor.emulator().is_attribute_emulated(aPath)) {
-        return m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        auto err_Result = m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        if (err_Result != CHIP_ERROR_IN_PROGRESS) {
+            return err_Result;
+        }
     }
 
     switch (aPath.mAttributeId) {
@@ -5917,7 +5950,10 @@ CHIP_ERROR FlowMeasurementAttributeAccess::Write(const ConcreteDataAttributePath
     nlohmann::json jsn;
 
     if (m_node_state_monitor.emulator().is_attribute_emulated(aPath)) {
-        return m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        auto err_Result = m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        if (err_Result != CHIP_ERROR_IN_PROGRESS) {
+            return err_Result;
+        }
     }
 
     switch (aPath.mAttributeId) {
@@ -6108,7 +6144,10 @@ CHIP_ERROR RelativeHumidityMeasurementAttributeAccess::Write(const ConcreteDataA
     nlohmann::json jsn;
 
     if (m_node_state_monitor.emulator().is_attribute_emulated(aPath)) {
-        return m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        auto err_Result = m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        if (err_Result != CHIP_ERROR_IN_PROGRESS) {
+            return err_Result;
+        }
     }
 
     switch (aPath.mAttributeId) {
@@ -6358,7 +6397,10 @@ CHIP_ERROR OccupancySensingAttributeAccess::Write(const ConcreteDataAttributePat
     nlohmann::json jsn;
 
     if (m_node_state_monitor.emulator().is_attribute_emulated(aPath)) {
-        return m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        auto err_Result = m_node_state_monitor.emulator().write_attribute(aPath, aDecoder);
+        if (err_Result != CHIP_ERROR_IN_PROGRESS) {
+            return err_Result;
+        }
     }
 
     switch (aPath.mAttributeId) {

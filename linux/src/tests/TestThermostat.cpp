@@ -63,7 +63,7 @@ static void TestThermostatAttributeOccupiedHeatingSetpoint(nlTestSuite * sSuite,
 {
     TestContext & ctx = *static_cast<TestContext *>(apContext);
     CHIP_ERROR err    = ctx.attribute_test<Attributes::OccupiedHeatingSetpoint::TypeInfo>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/Thermostat/Attributes/OccupiedHeatingSetpoint/Reported", R"({ "value": 2200 })", 2200);
+        sSuite, "ucl/by-unid/zw-0x0002/ep2/Thermostat/Attributes/OccupiedHeatingSetpoint/Reported", R"({ "value": 2700 })", 2700);
     NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
 }
 
@@ -143,13 +143,101 @@ static void TestThermostatAttributeSystemMode(nlTestSuite * sSuite, void * apCon
                             (err6 == CHIP_NO_ERROR) && (err7 == CHIP_NO_ERROR) && (err8 == CHIP_NO_ERROR) && (err9 == CHIP_NO_ERROR)));
 }
 
-static void TestThermostatCommandSetpointRaiseOrLower(nlTestSuite * sSuite, void * apContext)
+static void TestThermostatCommandSetpointRaiseOrLowerHeat(nlTestSuite * sSuite, void * apContext)
 {
     TestContext & ctx = *static_cast<TestContext *>(apContext);
     Commands::SetpointRaiseLower::Type request;
+    request.mode = SetpointRaiseLowerModeEnum::kHeat;
+    request.amount = 0;
+
     CHIP_ERROR err = ctx.command_test<Commands::SetpointRaiseLower::Type>(
         sSuite, "ucl/by-unid/zw-0x0002/ep2/Thermostat/Commands/SetpointRaiseOrLower",
         R"({"Mode":"Heat","Amount":0})", request);
+
+    NL_TEST_ASSERT(sSuite, (err == CHIP_NO_ERROR));
+}
+
+static void TestThermostatCommandSetpointRaiseOrLowerCool(nlTestSuite * sSuite, void * apContext)
+{
+    TestContext & ctx = *static_cast<TestContext *>(apContext);
+    Commands::SetpointRaiseLower::Type request;
+    request.mode = SetpointRaiseLowerModeEnum::kCool;
+    request.amount = 5;
+
+    CHIP_ERROR err = ctx.command_test<Commands::SetpointRaiseLower::Type>(
+        sSuite, "ucl/by-unid/zw-0x0002/ep2/Thermostat/Commands/SetpointRaiseOrLower",
+        R"({"Mode":"Cool","Amount":5})", request);
+
+    NL_TEST_ASSERT(sSuite, (err == CHIP_NO_ERROR));
+}
+
+static void TestThermostatCommandSetpointRaiseOrLowerBoth(nlTestSuite * sSuite, void * apContext)
+{
+    TestContext & ctx = *static_cast<TestContext *>(apContext);
+    Commands::SetpointRaiseLower::Type request;
+    request.mode = SetpointRaiseLowerModeEnum::kBoth;
+    request.amount = 10;
+
+    CHIP_ERROR err = ctx.command_test<Commands::SetpointRaiseLower::Type>(
+        sSuite, "ucl/by-unid/zw-0x0002/ep2/Thermostat/Commands/SetpointRaiseOrLower",
+        R"({"Mode":"Both","Amount":10})", request);
+
+    NL_TEST_ASSERT(sSuite, (err == CHIP_NO_ERROR));
+}
+
+static void TestThermostatCommandSetpointRaiseOrLowerUpdatOccupiedHeatingSetpointMin(nlTestSuite * sSuite, void * apContext)
+{
+    TestContext & ctx = *static_cast<TestContext *>(apContext);
+    Commands::SetpointRaiseLower::Type request;
+    request.mode = SetpointRaiseLowerModeEnum::kHeat;
+    request.amount = -128;
+
+    CHIP_ERROR err = ctx.command_test<Commands::SetpointRaiseLower::Type>(
+        sSuite, "ucl/by-unid/zw-0x0002/ep2/Thermostat/Commands/SetpointRaiseOrLower",
+        R"({"Mode":"Heat","Amount":-120})", request);
+
+    NL_TEST_ASSERT(sSuite, (err == CHIP_NO_ERROR));
+}
+
+static void TestThermostatCommandSetpointRaiseOrLowerUpdatOccupiedHeatingSetpointMax(nlTestSuite * sSuite, void * apContext)
+{
+    TestContext & ctx = *static_cast<TestContext *>(apContext);
+    Commands::SetpointRaiseLower::Type request;
+    request.mode = SetpointRaiseLowerModeEnum::kHeat;
+    request.amount = 127;
+
+    CHIP_ERROR err = ctx.command_test<Commands::SetpointRaiseLower::Type>(
+        sSuite, "ucl/by-unid/zw-0x0002/ep2/Thermostat/Commands/SetpointRaiseOrLower",
+        R"({"Mode":"Heat","Amount":130})", request);
+
+    NL_TEST_ASSERT(sSuite, (err == CHIP_NO_ERROR));
+}
+
+static void TestThermostatCommandSetpointRaiseOrLowerUpdatOccupiedCoolingSetpointMin(nlTestSuite * sSuite, void * apContext)
+{
+    TestContext & ctx = *static_cast<TestContext *>(apContext);
+    Commands::SetpointRaiseLower::Type request;
+    request.mode = SetpointRaiseLowerModeEnum::kCool;
+    request.amount = -120;
+
+    CHIP_ERROR err = ctx.command_test<Commands::SetpointRaiseLower::Type>(
+        sSuite, "ucl/by-unid/zw-0x0002/ep2/Thermostat/Commands/SetpointRaiseOrLower",
+        R"({"Mode":"Cool","Amount":-50})", request);
+
+    NL_TEST_ASSERT(sSuite, (err == CHIP_NO_ERROR));
+}
+
+static void TestThermostatCommandSetpointRaiseOrLowerUpdatOccupiedCoolingSetpointMax(nlTestSuite * sSuite, void * apContext)
+{
+    TestContext & ctx = *static_cast<TestContext *>(apContext);
+    Commands::SetpointRaiseLower::Type request;
+    request.mode = SetpointRaiseLowerModeEnum::kCool;
+    request.amount = 110;
+
+    CHIP_ERROR err = ctx.command_test<Commands::SetpointRaiseLower::Type>(
+        sSuite, "ucl/by-unid/zw-0x0002/ep2/Thermostat/Commands/SetpointRaiseOrLower",
+        R"({"Mode":"Cool","Amount":100})", request);
+
     NL_TEST_ASSERT(sSuite, (err == CHIP_NO_ERROR));
 }
 
@@ -161,12 +249,48 @@ static void TestThermostatWriteAttributeOccupiedCoolingSetpoint(nlTestSuite * sS
         sSuite, "Thermostat/Commands/WriteAttributes", R"({"OccupiedCoolingSetpoint": 2000})", 2000);
 }
 
+static void TestThermostatWriteAttributeOccupiedCoolingSetpointUpperBound(nlTestSuite * sSuite, void * apContext)
+{
+    using namespace chip::app::Clusters::Thermostat;
+    TestContext & ctx = *static_cast<TestContext *>(apContext);
+    CHIP_ERROR err = ctx.attribute_write_test<Attributes::OccupiedCoolingSetpoint::TypeInfo>(
+        sSuite, "Thermostat/Commands/WriteAttributes", R"({"OccupiedCoolingSetpoint": 3800})", 3800);
+    NL_TEST_ASSERT(sSuite, (chip::app::StatusIB(err).mStatus == Protocols::InteractionModel::Status::ConstraintError));
+}
+
+static void TestThermostatWriteAttributeOccupiedCoolingSetpointLowerBound(nlTestSuite * sSuite, void * apContext)
+{
+    using namespace chip::app::Clusters::Thermostat;
+    TestContext & ctx = *static_cast<TestContext *>(apContext);
+    CHIP_ERROR err = ctx.attribute_write_test<Attributes::OccupiedCoolingSetpoint::TypeInfo>(
+        sSuite, "Thermostat/Commands/WriteAttributes", R"({"OccupiedCoolingSetpoint": 800})", 800);
+    NL_TEST_ASSERT(sSuite, (chip::app::StatusIB(err).mStatus == Protocols::InteractionModel::Status::ConstraintError));
+}
+
 static void TestThermostatWriteAttributeOccupiedHeatingSetpoint(nlTestSuite * sSuite, void * apContext)
 {
     using namespace chip::app::Clusters::Thermostat;
     TestContext & ctx = *static_cast<TestContext *>(apContext);
     ctx.attribute_write_test<Attributes::OccupiedHeatingSetpoint::TypeInfo>(
         sSuite, "Thermostat/Commands/WriteAttributes", R"({"OccupiedHeatingSetpoint": 2200})", 2200);
+}
+
+static void TestThermostatWriteAttributeOccupiedHeatingSetpointUpperBound(nlTestSuite * sSuite, void * apContext)
+{
+    using namespace chip::app::Clusters::Thermostat;
+    TestContext & ctx = *static_cast<TestContext *>(apContext);
+    CHIP_ERROR err = ctx.attribute_write_test<Attributes::OccupiedHeatingSetpoint::TypeInfo>(
+        sSuite, "Thermostat/Commands/WriteAttributes", R"({"OccupiedHeatingSetpoint": 3800})", 3800);
+    NL_TEST_ASSERT(sSuite, (chip::app::StatusIB(err).mStatus == Protocols::InteractionModel::Status::ConstraintError));
+}
+
+static void TestThermostatWriteAttributeOccupiedHeatingSetpointLowerBound(nlTestSuite * sSuite, void * apContext)
+{
+    using namespace chip::app::Clusters::Thermostat;
+    TestContext & ctx = *static_cast<TestContext *>(apContext);
+    CHIP_ERROR err = ctx.attribute_write_test<Attributes::OccupiedHeatingSetpoint::TypeInfo>(
+        sSuite, "Thermostat/Commands/WriteAttributes", R"({"OccupiedHeatingSetpoint": 500})", 500);
+    NL_TEST_ASSERT(sSuite, (chip::app::StatusIB(err).mStatus == Protocols::InteractionModel::Status::ConstraintError));
 }
 
 static void TestThermostatWriteAttributeMinHeatSetpointLimit(nlTestSuite * sSuite, void * apContext)
@@ -239,7 +363,6 @@ static const nlTest sTests[] = {
     NL_TEST_DEF("Thermostat::TestThermostatAttributeMaxCoolSetpointLimit", TestThermostatAttributeMaxCoolSetpointLimit),
     NL_TEST_DEF("Thermostat::TestThermostatAttributeControlSequenceOfOperation", TestThermostatAttributeControlSequenceOfOperation),
     NL_TEST_DEF("Thermostat::TestThermostatAttributeSystemMode", TestThermostatAttributeSystemMode),
-    NL_TEST_DEF("Thermostat::TestThermostatCommandSetpointRaiseOrLower", TestThermostatCommandSetpointRaiseOrLower),
     NL_TEST_DEF("Thermostat::TestThermostatWriteAttributeOccupiedCoolingSetpoint", TestThermostatWriteAttributeOccupiedCoolingSetpoint),
     NL_TEST_DEF("Thermostat::TestThermostatWriteAttributeOccupiedHeatingSetpoint", TestThermostatWriteAttributeOccupiedHeatingSetpoint),
     NL_TEST_DEF("Thermostat::TestThermostatWriteAttributeMinHeatSetpointLimit", TestThermostatWriteAttributeMinHeatSetpointLimit),
@@ -249,6 +372,17 @@ static const nlTest sTests[] = {
     NL_TEST_DEF("Thermostat::TestThermostatWriteAttributeControlSequenceOfOperation", TestThermostatWriteAttributeControlSequenceOfOperation),
     NL_TEST_DEF("Thermostat::TestThermostatWriteAttributeSystemMode", TestThermostatWriteAttributeSystemMode),
     NL_TEST_DEF("Thermostat::TestThermostatAttributeFeatureMap", TestThermostatAttributeFeatureMap),
+    NL_TEST_DEF("Thermostat::TestThermostatWriteAttributeOccupiedCoolingSetpointUpperBound", TestThermostatWriteAttributeOccupiedCoolingSetpointUpperBound),
+    NL_TEST_DEF("Thermostat::TestThermostatWriteAttributeOccupiedCoolingSetpointLowerBound", TestThermostatWriteAttributeOccupiedCoolingSetpointLowerBound),
+    NL_TEST_DEF("Thermostat::TestThermostatWriteAttributeOccupiedHeatingSetpointUpperBound", TestThermostatWriteAttributeOccupiedHeatingSetpointUpperBound),
+    NL_TEST_DEF("Thermostat::TestThermostatWriteAttributeOccupiedHeatingSetpointLowerBound", TestThermostatWriteAttributeOccupiedHeatingSetpointLowerBound),
+    NL_TEST_DEF("Thermostat::TestThermostatCommandSetpointRaiseOrLowerHeat", TestThermostatCommandSetpointRaiseOrLowerHeat),
+    NL_TEST_DEF("Thermostat::TestThermostatCommandSetpointRaiseOrLowerCool", TestThermostatCommandSetpointRaiseOrLowerCool),
+    NL_TEST_DEF("Thermostat::TestThermostatCommandSetpointRaiseOrLowerBoth", TestThermostatCommandSetpointRaiseOrLowerBoth),
+    NL_TEST_DEF("Thermostat::TestThermostatCommandSetpointRaiseOrLowerUpdatOccupiedHeatingSetpointMin", TestThermostatCommandSetpointRaiseOrLowerUpdatOccupiedHeatingSetpointMin),
+    NL_TEST_DEF("Thermostat::TestThermostatCommandSetpointRaiseOrLowerUpdatOccupiedHeatingSetpointMax", TestThermostatCommandSetpointRaiseOrLowerUpdatOccupiedHeatingSetpointMax),
+    NL_TEST_DEF("Thermostat::TestThermostatCommandSetpointRaiseOrLowerUpdatOccupiedCoolingSetpointMin", TestThermostatCommandSetpointRaiseOrLowerUpdatOccupiedCoolingSetpointMin),
+    NL_TEST_DEF("Thermostat::TestThermostatCommandSetpointRaiseOrLowerUpdatOccupiedCoolingSetpointMax", TestThermostatCommandSetpointRaiseOrLowerUpdatOccupiedCoolingSetpointMax),
     NL_TEST_SENTINEL()
 };
 

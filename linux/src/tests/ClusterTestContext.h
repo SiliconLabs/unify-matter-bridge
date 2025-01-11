@@ -359,31 +359,30 @@ public:
     }
 
     template <typename T>
-    inline void attribute_write_test(nlTestSuite * sSuite, const std::string & topic, const std::string & json_payload,
-                                     typename T::Type value)
+    inline CHIP_ERROR attribute_write_test(nlTestSuite *sSuite, const std::string &topic, const std::string &json_payload,
+                                           typename T::Type value)
     {
-
         auto sessionHandle = GetSessionBobToAlice();
-
-        bool onSuccessCbInvoked = false;
-        bool onFailureCbInvoked = false;
 
         mMqttHandler.reset();
 
-        auto onSuccessCb = [&onSuccessCbInvoked](const chip::app::ConcreteAttributePath & attributePath) {
-            onSuccessCbInvoked = true;
+        CHIP_ERROR err = CHIP_NO_ERROR;
+
+        auto onSuccessCb = [&](const chip::app::ConcreteAttributePath &attributePath)
+        {
+            NL_TEST_ASSERT_EQUAL_JSON(sSuite, json_payload, mMqttHandler.publish_payload);
+            err = CHIP_NO_ERROR;
         };
-        auto onFailureCb = [&onFailureCbInvoked](const chip::app::ConcreteAttributePath * attributePath, CHIP_ERROR aError) {
-            onFailureCbInvoked = true;
+        auto onFailureCb = [&](const chip::app::ConcreteAttributePath *attributePath, CHIP_ERROR aError)
+        {
+            err = aError;
         };
 
         chip::Controller::WriteAttribute<T>(sessionHandle, kEndpointId, value, onSuccessCb, onFailureCb);
 
         DrainAndServiceIO();
 
-        NL_TEST_ASSERT_EQUAL(sSuite, true, onSuccessCbInvoked);
-        NL_TEST_ASSERT_EQUAL(sSuite, false, onFailureCbInvoked);
-        NL_TEST_ASSERT_EQUAL_JSON(sSuite, json_payload, mMqttHandler.publish_payload);
+        return err;
     }
 
     /**
@@ -400,23 +399,21 @@ public:
      */
     template <typename T>
     inline CHIP_ERROR
-    command_test(nlTestSuite * sSuite, const std::string & topic, const std::string & json_payload, T & request,
+    command_test(nlTestSuite *sSuite, const std::string &topic, const std::string &json_payload, T &request,
                  typename chip::Controller::TypedCommandCallback<typename T::ResponseType>::OnSuccessCallbackType onSuccessCb,
-                 const chip::Optional<uint16_t> & timedInvokeTimeoutMs)
+                 const chip::Optional<uint16_t> &timedInvokeTimeoutMs)
     {
-        CHIP_ERROR err   = CHIP_NO_ERROR;
-        auto onFailureCb = [&err](CHIP_ERROR aError) { err = aError; };
+        CHIP_ERROR err = CHIP_NO_ERROR;
 
-        err = chip::Controller::InvokeCommandRequest<T>(&GetExchangeManager(), GetSessionBobToAlice(), kEndpointId, request,
-                                                        onSuccessCb, onFailureCb, timedInvokeTimeoutMs);
-        NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+        err = chip::Controller::InvokeCommandRequest<T>(&GetExchangeManager(), GetSessionBobToAlice(), kEndpointId, request, onSuccessCb, [&err](CHIP_ERROR aError)
+                                                        { err = aError; }, timedInvokeTimeoutMs);
+                                                        
         DrainAndServiceIO();
 
         if (err == CHIP_NO_ERROR)
         {
             NL_TEST_ASSERT(sSuite, mMqttHandler.publish_topic == topic);
-            NL_TEST_ASSERT_EQUAL_JSON(sSuite, json_payload, mMqttHandler.publish_payload);
-        }
+        }  
 
         return err;
     }

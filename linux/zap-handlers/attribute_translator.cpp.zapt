@@ -106,7 +106,11 @@ CHIP_ERROR {{asUpperCamelCase label}}AttributeAccess::Write(const ConcreteDataAt
   nlohmann::json jsn;
 
   if( m_node_state_monitor.emulator().is_attribute_emulated(aPath) ) {
-    return m_node_state_monitor.emulator().write_attribute(aPath,aDecoder);
+    auto err_Result = m_node_state_monitor.emulator().write_attribute(aPath,aDecoder);
+    if (err_Result != CHIP_ERROR_IN_PROGRESS)
+    {
+      return err_Result;
+    }
   }
 
   switch (aPath.mAttributeId) {

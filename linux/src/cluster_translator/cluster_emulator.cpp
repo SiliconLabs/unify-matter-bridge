@@ -21,6 +21,7 @@
 #include "emulate_level.hpp"
 #include "emulate_doorlock.hpp"
 #include "emulate_windowcovering.hpp"
+#include "emulate_thermostat.hpp"
 #include <app/clusters/identify-server/identify-server.h>
 #include <protocols/interaction_model/StatusCode.h>
 
@@ -127,7 +128,8 @@ ClusterEmulator::ClusterEmulator()
                                                                   std::make_shared<EmulateLevelControl>(),
                                                                   std::make_shared<EmulateDoorLock>(),
                                                                   std::make_shared<EmulateWindowCovering>(),
-                                                                  std::make_shared<EmulateGroups>() };
+                                                                  std::make_shared<EmulateGroups>(),
+                                                                  std::make_shared<EmulateThermostat>() };
     for (auto e : emulators)
     {
         cluster_emulators_string_map.insert(std::make_pair(e->emulated_cluster_name(), e));
