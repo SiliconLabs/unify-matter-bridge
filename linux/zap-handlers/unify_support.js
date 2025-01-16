@@ -130,20 +130,6 @@ function unifyCanPassThroughEnumValue(cluster_name, attribute_id) {
   return false;
 }
 
-function unifyCanUseChipBitMap(cluster_name, attribute_id) {
-  // List of Cluster (and array of attributes) whose values bitmap values
-  // can be mapped using the chip::BitMask type.
-  const can_use_chip_bitmask = new Map([
-    ["Color Control" , [0x400A]], // ColorControl::ColorCapabilities
-  ]);
-
-  if ((can_use_chip_bitmask.get(cluster_name) !== undefined) &&
-  can_use_chip_bitmask.get(cluster_name).includes(attribute_id)) {
-    return true;
-  }
-  return false;
-}
-
 // List of Cluster whose attributes/enum need cluster name append at start
 const attribute_type_need_cluster_name_append = {
   "On/Off": {
@@ -276,7 +262,6 @@ exports.unifyMatchStringValue = unifyMatchStringValue
 exports.unifyClusterCommandArgument = unifyClusterCommandArgument
 exports.unifyTypeExists = unifyTypeExists
 exports.unifyCanPassThroughEnumValue = unifyCanPassThroughEnumValue
-exports.unifyCanUseChipBitMap = unifyCanUseChipBitMap
 exports.unifyAppendClusterToAttrType = unifyAppendClusterToAttrType
 exports.unifySupportedClusterEvents = unifySupportedClusterEvents
 exports.getMatterEventNameForAttribute = getMatterEventNameForAttribute

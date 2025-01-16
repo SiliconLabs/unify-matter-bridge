@@ -46,7 +46,7 @@ public:
         chip::app::CommandHandlerInterface(chip::Optional<chip::EndpointId>::Missing(), id),
         m_node_state_monitor(node_state_monitor), cluster_name(name), m_unify_mqtt(unify_mqtt), m_group_translator(group_translator), m_dev_translator(dev_translator)
     {
-        chip::app::InteractionModelEngine::GetInstance()->RegisterCommandHandler(this);
+        chip::app::CommandHandlerInterfaceRegistry::Instance().RegisterCommandHandler(this);
         // Register the an event listener for subscriptions
         auto f = [&](const bridged_endpoint & ep, matter_node_state_monitor::update_t update) {
             commands_response_subscription(ep, update);

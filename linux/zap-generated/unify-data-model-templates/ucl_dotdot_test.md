@@ -57,3 +57,6 @@ AoXLocator
 AoXPositionEstimation
 ProtocolController-NetworkManagement
 Descriptor
+UnifyFanControl
+UnifyThermostat
+UnifyHumidityControl

@@ -74,7 +74,7 @@ static sl_status_t epmap_cli_func(const handle_args_t & arg)
 static sl_status_t attribute_store_cli_func(const handle_args_t & arg)
 {
     for (uint16_t ep = 0; ep < emberAfEndpointCount(); ep++) {
-            const EmberAfEndpointType * endpointType = emAfEndpoints[ep].endpointType;
+            const EmberAfEndpointType * endpointType = emberAfFindEndpointType(ep);
             if (!endpointType) return SL_STATUS_OK;
             sl_log_info(LOG_TAG, " ep: %d \n", ep);
             for (uint8_t clusterIndex = 0; clusterIndex < endpointType->clusterCount; clusterIndex++) {

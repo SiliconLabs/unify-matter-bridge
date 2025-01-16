@@ -26,8 +26,8 @@ class device_type_translator {
 
 class matter_app_interface {
   register_dynamic_endpoint()
-  registerAttributeAccessOverride()
-  RegisterCommandHandler()
+  AttributeAccessInterfaceRegistry::Instance().Register()
+  CommandHandlerInterfaceRegistry::Instance().RegisterCommandHandler()
 }
 
 class data_storage {

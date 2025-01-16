@@ -36,13 +36,13 @@ namespace unify::matter_bridge {
  * The translator has a ZAP generated handler, which implements a generic
  * handler for all clusters which is able to send translate Matter commands
  * into mqtt messages. The translator uses
- * `InteractionModelEngine::RegisterCommandHandler` to register itself with
+ * `CommandHandlerInterfaceRegistry::Instance().RegisterCommandHandler` to register itself with
  * the matter application framework. As the default behavior the translator
  * will directly translate the matter command into a unify mqtt command.
  *
  * The translator will also handle attribute read and attribute writes. For
  * attributes the translator uses the system
- * `registerAttributeAccessOverride, when an attribute read is requested the
+ * `AttributeAccessInterfaceRegistry::Instance().Register, when an attribute read is requested the
  * Unify Reported value should be reported when an attribute write is
  * requested the corresponding /WriteAttribute command is published on the
  * mqtt side.

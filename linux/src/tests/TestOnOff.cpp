@@ -2,16 +2,26 @@
 #include "command_translator.hpp"
 #include "attribute_translator.hpp"
 
-// Chip components
-#include <lib/support/UnitTestContext.h>
-#include <lib/support/UnitTestRegistration.h>
 
 // Third party library
-#include <nlunit-test.h>
+#include <gtest/gtest.h>
+#include <app/tests/AppTestContext.h>
+#include <pw_unit_test/framework.h>
 
 using namespace unify::matter_bridge;
 using namespace chip::app;
 using TestContext = unify::matter_bridge::Test::ClusterContext<OnOffAttributeAccess, OnOffClusterCommandHandler>;
+
+class TestOnOff : public TestContext {
+public:
+
+    void SetUp() {
+        EXPECT_EQ(TestOnOff::Initialize(this),1);
+    }
+
+    void TearDown() {
+        EXPECT_EQ(TestContext::Finalize(this),1);
+    }
 
 static int Initialize(void * context)
 {
@@ -48,40 +58,35 @@ static int Initialize(void * context)
 
     return ctx->register_endpoint(ep);
 }
+};
 
-static void TestOnOffAttributeOnOff(nlTestSuite * sSuite, void * apContext)
-{
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
-    CHIP_ERROR err    = ctx.attribute_test<Clusters::OnOff::Attributes::OnOff::TypeInfo>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/OnOff/Attributes/OnOff/Reported", R"({ "value": true })", true);
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+TEST_F(TestOnOff, TestOnOffAttributeOnOff) {
+    CHIP_ERROR err    = attribute_test<Clusters::OnOff::Attributes::OnOff::TypeInfo>(
+        "ucl/by-unid/zw-0x0002/ep2/OnOff/Attributes/OnOff/Reported", R"({ "value": true })", true);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
-static void TestOnOffAttributeGlobalSceneControl(nlTestSuite * sSuite, void * apContext)
-{
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
-    CHIP_ERROR err    = ctx.attribute_test<Clusters::OnOff::Attributes::GlobalSceneControl::TypeInfo>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/OnOff/Attributes/GlobalSceneControl/Reported", R"({ "value": true })", true);
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+TEST_F(TestOnOff, TestOnOffAttributeGlobalSceneControl) {
+    CHIP_ERROR err    = attribute_test<Clusters::OnOff::Attributes::GlobalSceneControl::TypeInfo>(
+        "ucl/by-unid/zw-0x0002/ep2/OnOff/Attributes/GlobalSceneControl/Reported", R"({ "value": true })", true);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
-static void TestOnOffAttributeOnTime(nlTestSuite * sSuite, void * apContext)
+TEST_F(TestOnOff, TestOnOffAttributeOnTime)
 {
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
-    CHIP_ERROR err    = ctx.attribute_test<Clusters::OnOff::Attributes::OnTime::TypeInfo>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/OnOff/Attributes/OnTime/Reported", R"({ "value": 42 })", 42);
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+    CHIP_ERROR err    = attribute_test<Clusters::OnOff::Attributes::OnTime::TypeInfo>(
+        "ucl/by-unid/zw-0x0002/ep2/OnOff/Attributes/OnTime/Reported", R"({ "value": 42 })", 42);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
-static void TestOnOffAttributeOffWaitTime(nlTestSuite * sSuite, void * apContext)
+TEST_F(TestOnOff, TestOnOffAttributeOffWaitTime)
 {
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
-    CHIP_ERROR err    = ctx.attribute_test<Clusters::OnOff::Attributes::OffWaitTime::TypeInfo>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/OnOff/Attributes/OffWaitTime/Reported", R"({ "value": 42 })", 42);
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+    CHIP_ERROR err    = attribute_test<Clusters::OnOff::Attributes::OffWaitTime::TypeInfo>(
+        "ucl/by-unid/zw-0x0002/ep2/OnOff/Attributes/OffWaitTime/Reported", R"({ "value": 42 })", 42);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
-static void TestOnOffAttributeStartUpOnOff(nlTestSuite * sSuite, void * apContext)
+TEST_F(TestOnOff, TestOnOffAttributeStartUpOnOff)
 {
 /*
 TODO make the text context be able to handle nullable types
@@ -89,107 +94,63 @@ TODO make the text context be able to handle nullable types
     CHIP_ERROR err    = CHIP_NO_ERROR;
     DataModel::Nullable<Clusters::OnOff::OnOffStartUpOnOff> value;
     value.SetNonNull(Clusters::OnOff::OnOffStartUpOnOff::kOff);
-    err = ctx.attribute_test<Clusters::OnOff::Attributes::StartUpOnOff::TypeInfo, false>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/OnOff/Attributes/StartUpOnOff/Reported", R"({ "value": "SetOnOffTo0" })", value);
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+    err = attribute_test<Clusters::OnOff::Attributes::StartUpOnOff::TypeInfo, false>(
+        "ucl/by-unid/zw-0x0002/ep2/OnOff/Attributes/StartUpOnOff/Reported", R"({ "value": "SetOnOffTo0" })", value);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 
     value.SetNonNull(Clusters::OnOff::OnOffStartUpOnOff::kOn);
-    err = ctx.attribute_test<Clusters::OnOff::Attributes::StartUpOnOff::TypeInfo, false>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/OnOff/Attributes/StartUpOnOff/Reported", R"({ "value": "SetOnOffTo1" })", value);
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+    err = attribute_test<Clusters::OnOff::Attributes::StartUpOnOff::TypeInfo, false>(
+        "ucl/by-unid/zw-0x0002/ep2/OnOff/Attributes/StartUpOnOff/Reported", R"({ "value": "SetOnOffTo1" })", value);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
  */
 }
 
-static void TestOnOffAttributeGeneratedCommandList(nlTestSuite * sSuite, void * apContext) {}
-static void TestOnOffAttributeAcceptedCommandList(nlTestSuite * sSuite, void * apContext) {}
-static void TestOnOffAttributeAttributeList(nlTestSuite * sSuite, void * apContext) {}
-static void TestOnOffAttributeFeatureMap(nlTestSuite * sSuite, void * apContext) {}
-static void TestOnOffAttributeClusterRevision(nlTestSuite * sSuite, void * apContext) {}
-
-static void TestOnOffCommandOff(nlTestSuite * sSuite, void * apContext)
+TEST_F(TestOnOff, TestOnOffCommandOff)
 {
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
     Clusters::OnOff::Commands::Off::Type request;
-    CHIP_ERROR err = ctx.command_test<Clusters::OnOff::Commands::Off::Type>(sSuite, "ucl/by-unid/zw-0x0002/ep2/OnOff/Commands/Off",
+    CHIP_ERROR err = command_test<Clusters::OnOff::Commands::Off::Type>("ucl/by-unid/zw-0x0002/ep2/OnOff/Commands/Off",
                                                                             "{}", request);
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
-static void TestOnOffCommandOn(nlTestSuite * sSuite, void * apContext)
+TEST_F(TestOnOff, TestOnOffCommandOn)
 {
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
     Clusters::OnOff::Commands::On::Type request;
     CHIP_ERROR err =
-        ctx.command_test<Clusters::OnOff::Commands::On::Type>(sSuite, "ucl/by-unid/zw-0x0002/ep2/OnOff/Commands/On", "{}", request);
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+        command_test<Clusters::OnOff::Commands::On::Type>("ucl/by-unid/zw-0x0002/ep2/OnOff/Commands/On", "{}", request);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
-static void TestOnOffCommandToggle(nlTestSuite * sSuite, void * apContext)
+TEST_F(TestOnOff, TestOnOffCommandToggle)
 {
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
     Clusters::OnOff::Commands::Toggle::Type request;
-    CHIP_ERROR err = ctx.command_test<Clusters::OnOff::Commands::Toggle::Type>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/OnOff/Commands/Toggle", "{}", request);
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+    CHIP_ERROR err = command_test<Clusters::OnOff::Commands::Toggle::Type>(
+        "ucl/by-unid/zw-0x0002/ep2/OnOff/Commands/Toggle", "{}", request);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
-static void TestOnOffCommandOffWithEffect(nlTestSuite * sSuite, void * apContext)
+TEST_F(TestOnOff, TestOnOffCommandOffWithEffect)
 {
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
     Clusters::OnOff::Commands::OffWithEffect::Type request;
-    CHIP_ERROR err = ctx.command_test<Clusters::OnOff::Commands::OffWithEffect::Type>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/OnOff/Commands/OffWithEffect",
+    CHIP_ERROR err = command_test<Clusters::OnOff::Commands::OffWithEffect::Type>(
+        "ucl/by-unid/zw-0x0002/ep2/OnOff/Commands/OffWithEffect",
         R"({"EffectIdentifier":"DelayedAllOff","EffectVariant":0})", request);
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
-static void TestOnOffCommandOnWithRecallGlobalScene(nlTestSuite * sSuite, void * apContext)
+TEST_F(TestOnOff, TestOnOffCommandOnWithRecallGlobalScene)
 {
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
     Clusters::OnOff::Commands::OnWithRecallGlobalScene::Type request;
-    CHIP_ERROR err = ctx.command_test<Clusters::OnOff::Commands::OnWithRecallGlobalScene::Type>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/OnOff/Commands/OnWithRecallGlobalScene", "{}", request);
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+    CHIP_ERROR err = command_test<Clusters::OnOff::Commands::OnWithRecallGlobalScene::Type>(
+        "ucl/by-unid/zw-0x0002/ep2/OnOff/Commands/OnWithRecallGlobalScene", "{}", request);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
-static void TestOnOffCommandOnWithTimedOff(nlTestSuite * sSuite, void * apContext)
+TEST_F(TestOnOff, TestOnOffCommandOnWithTimedOff)
 {
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
     Clusters::OnOff::Commands::OnWithTimedOff::Type request;
-    CHIP_ERROR err = ctx.command_test<Clusters::OnOff::Commands::OnWithTimedOff::Type>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/OnOff/Commands/OnWithTimedOff",
+    CHIP_ERROR err = command_test<Clusters::OnOff::Commands::OnWithTimedOff::Type>(
+        "ucl/by-unid/zw-0x0002/ep2/OnOff/Commands/OnWithTimedOff",
         R"({"OffWaitTime":0,"OnOffControl":{"AcceptOnlyWhenOn":false},"OnTime":0})", request);
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
-
-/**
- *   Test Suite. It lists all the test functions.
- */
-static const nlTest sTests[] = {
-    NL_TEST_DEF("OnOff::TestOnOffAttributeOnOff", TestOnOffAttributeOnOff),
-    NL_TEST_DEF("OnOff::TestOnOffAttributeGlobalSceneControl", TestOnOffAttributeGlobalSceneControl),
-    NL_TEST_DEF("OnOff::TestOnOffAttributeOnTime", TestOnOffAttributeOnTime),
-    NL_TEST_DEF("OnOff::TestOnOffAttributeOffWaitTime", TestOnOffAttributeOffWaitTime),
-    NL_TEST_DEF("OnOff::TestOnOffAttributeStartUpOnOff", TestOnOffAttributeStartUpOnOff),
-    NL_TEST_DEF("OnOff::TestOnOffAttributeGeneratedCommandList", TestOnOffAttributeGeneratedCommandList),
-    NL_TEST_DEF("OnOff::TestOnOffAttributeAcceptedCommandList", TestOnOffAttributeAcceptedCommandList),
-    NL_TEST_DEF("OnOff::TestOnOffAttributeAttributeList", TestOnOffAttributeAttributeList),
-    NL_TEST_DEF("OnOff::TestOnOffAttributeFeatureMap", TestOnOffAttributeFeatureMap),
-    NL_TEST_DEF("OnOff::TestOnOffAttributeClusterRevision", TestOnOffAttributeClusterRevision),
-    NL_TEST_DEF("OnOff::TestOnOffCommandOff", TestOnOffCommandOff),
-    NL_TEST_DEF("OnOff::TestOnOffCommandOn", TestOnOffCommandOn),
-    NL_TEST_DEF("OnOff::TestOnOffCommandToggle", TestOnOffCommandToggle),
-    NL_TEST_DEF("OnOff::TestOnOffCommandOffWithEffect", TestOnOffCommandOffWithEffect),
-    NL_TEST_DEF("OnOff::TestOnOffCommandOnWithRecallGlobalScene", TestOnOffCommandOnWithRecallGlobalScene),
-    NL_TEST_DEF("OnOff::TestOnOffCommandOnWithTimedOff", TestOnOffCommandOnWithTimedOff),
-    NL_TEST_SENTINEL()
-};
-
-static nlTestSuite sSuite = { "OnOffTests", &sTests[0], Initialize, TestContext::Finalize };
-
-int TestOnOffSuite(void)
-{
-    return chip::ExecuteTestsWithContext<TestContext>(&sSuite);
-}
-
-CHIP_REGISTER_TEST_SUITE(TestOnOffSuite)

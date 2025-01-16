@@ -1308,34 +1308,10 @@ void ThermostatClusterCommandHandler::InvokeCommand(CommandHandlerInterface::Han
             Invoke_SetActivePresetRequest(ctxt, data);
         }
     } break;
-    case Commands::StartPresetsSchedulesEditRequest::Id: {
-        Commands::StartPresetsSchedulesEditRequest::DecodableType data;
+    case Commands::AtomicRequest::Id: {
+        Commands::AtomicRequest::DecodableType data;
         if (DataModel::Decode(ctxt.GetReader(), data) == CHIP_NO_ERROR) {
-            Invoke_StartPresetsSchedulesEditRequest(ctxt, data);
-        }
-    } break;
-    case Commands::CancelPresetsSchedulesEditRequest::Id: {
-        Commands::CancelPresetsSchedulesEditRequest::DecodableType data;
-        if (DataModel::Decode(ctxt.GetReader(), data) == CHIP_NO_ERROR) {
-            Invoke_CancelPresetsSchedulesEditRequest(ctxt, data);
-        }
-    } break;
-    case Commands::CommitPresetsSchedulesRequest::Id: {
-        Commands::CommitPresetsSchedulesRequest::DecodableType data;
-        if (DataModel::Decode(ctxt.GetReader(), data) == CHIP_NO_ERROR) {
-            Invoke_CommitPresetsSchedulesRequest(ctxt, data);
-        }
-    } break;
-    case Commands::CancelSetActivePresetRequest::Id: {
-        Commands::CancelSetActivePresetRequest::DecodableType data;
-        if (DataModel::Decode(ctxt.GetReader(), data) == CHIP_NO_ERROR) {
-            Invoke_CancelSetActivePresetRequest(ctxt, data);
-        }
-    } break;
-    case Commands::SetTemperatureSetpointHoldPolicy::Id: {
-        Commands::SetTemperatureSetpointHoldPolicy::DecodableType data;
-        if (DataModel::Decode(ctxt.GetReader(), data) == CHIP_NO_ERROR) {
-            Invoke_SetTemperatureSetpointHoldPolicy(ctxt, data);
+            Invoke_AtomicRequest(ctxt, data);
         }
     } break;
     }

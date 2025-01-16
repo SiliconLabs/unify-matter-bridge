@@ -51,7 +51,7 @@ public:
         chip::app::AttributeAccessInterface(chip::Optional<chip::EndpointId>::Missing(), id),
         m_node_state_monitor(node_state_monitor), LOG_TAG(log_tag), m_unify_mqtt(unify_mqtt), m_dev_translator(dev_translator)
     {
-        registerAttributeAccessOverride(this);
+        chip::app::AttributeAccessInterfaceRegistry::Instance().Register(this);
 
         // Register the an event listener for subscriptions
         auto f = [&](const bridged_endpoint & ep, matter_node_state_monitor::update_t update) {

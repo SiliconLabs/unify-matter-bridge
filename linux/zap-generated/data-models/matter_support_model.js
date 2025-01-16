@@ -171,22 +171,6 @@ exports.model = {
       65533 : "ClusterRevision",
     },
   },
-  7 : {
-    name : "OnOffSwitchConfiguration",
-    /*currently we only support mandatory and feature mandatory commands, hence only mapping of those as listed here.*/
-    commands : {},
-    /*currently we only support mandatory and feature mandatory attributes, hence only mapping of those as listed here.*/
-    attributes : {
-      0 : "SwitchType",
-      16 : "SwitchActions",
-      65528 : "GeneratedCommandList",
-      65529 : "AcceptedCommandList",
-      65530 : "EventList",
-      65531 : "AttributeList",
-      65532 : "FeatureMap",
-      65533 : "ClusterRevision",
-    },
-  },
   8 : {
     name : "LevelControl",
     /*currently we only support mandatory and feature mandatory commands, hence only mapping of those as listed here.*/
@@ -284,23 +268,6 @@ exports.model = {
       19 : "OffTransitionTime",
       20 : "DefaultMoveRate",
       16384 : "StartUpCurrentLevel",
-      65528 : "GeneratedCommandList",
-      65529 : "AcceptedCommandList",
-      65530 : "EventList",
-      65531 : "AttributeList",
-      65532 : "FeatureMap",
-      65533 : "ClusterRevision",
-    },
-  },
-  15 : {
-    name : "BinaryInputBasic",
-    /*currently we only support mandatory and feature mandatory commands, hence only mapping of those as listed here.*/
-    commands : {},
-    /*currently we only support mandatory and feature mandatory attributes, hence only mapping of those as listed here.*/
-    attributes : {
-      81 : "OutOfService",
-      85 : "PresentValue",
-      111 : "StatusFlags",
       65528 : "GeneratedCommandList",
       65529 : "AcceptedCommandList",
       65530 : "EventList",
@@ -407,6 +374,7 @@ exports.model = {
       8 : "HardwareVersionString",
       9 : "SoftwareVersion",
       10 : "SoftwareVersionString",
+      18 : "UniqueID",
       19 : "CapabilityMinima",
       21 : "SpecificationVersion",
       22 : "MaxPathsPerInvoke",
@@ -838,6 +806,7 @@ exports.model = {
     /*currently we only support mandatory and feature mandatory attributes, hence only mapping of those as listed here.*/
     attributes : {
       17 : "Reachable",
+      18 : "UniqueID",
       65528 : "GeneratedCommandList",
       65529 : "AcceptedCommandList",
       65530 : "EventList",
@@ -1842,6 +1811,36 @@ exports.model = {
       65533 : "ClusterRevision",
     },
   },
+  148 : {
+    name : "WaterHeaterManagement",
+    /*currently we only support mandatory and feature mandatory commands, hence only mapping of those as listed here.*/
+    commands : {
+      0 : {
+        name : "Boost",
+        arguments : [
+          "BoostInfo",
+        ],
+      },
+      1 : {
+        name : "CancelBoost",
+        arguments : [
+
+        ],
+      },
+    },
+    /*currently we only support mandatory and feature mandatory attributes, hence only mapping of those as listed here.*/
+    attributes : {
+      0 : "HeaterTypes",
+      1 : "HeatDemand",
+      5 : "BoostState",
+      65528 : "GeneratedCommandList",
+      65529 : "AcceptedCommandList",
+      65530 : "EventList",
+      65531 : "AttributeList",
+      65532 : "FeatureMap",
+      65533 : "ClusterRevision",
+    },
+  },
   150 : {
     name : "DemandResponseLoadControl",
     /*currently we only support mandatory and feature mandatory commands, hence only mapping of those as listed here.*/
@@ -2041,6 +2040,36 @@ exports.model = {
       65533 : "ClusterRevision",
     },
   },
+  158 : {
+    name : "WaterHeaterMode",
+    /*currently we only support mandatory and feature mandatory commands, hence only mapping of those as listed here.*/
+    commands : {
+      0 : {
+        name : "ChangeToMode",
+        arguments : [
+          "NewMode",
+        ],
+      },
+      1 : {
+        name : "ChangeToModeResponse",
+        arguments : [
+          "Status",
+          "StatusText",
+        ],
+      },
+    },
+    /*currently we only support mandatory and feature mandatory attributes, hence only mapping of those as listed here.*/
+    attributes : {
+      0 : "SupportedModes",
+      1 : "CurrentMode",
+      65528 : "GeneratedCommandList",
+      65529 : "AcceptedCommandList",
+      65530 : "EventList",
+      65531 : "AttributeList",
+      65532 : "FeatureMap",
+      65533 : "ClusterRevision",
+    },
+  },
   159 : {
     name : "DeviceEnergyManagementMode",
     /*currently we only support mandatory and feature mandatory commands, hence only mapping of those as listed here.*/
@@ -2153,29 +2182,28 @@ exports.model = {
       65533 : "ClusterRevision",
     },
   },
-  259 : {
-    name : "BarrierControl",
+  336 : {
+    name : "ServiceArea",
     /*currently we only support mandatory and feature mandatory commands, hence only mapping of those as listed here.*/
     commands : {
       0 : {
-        name : "BarrierControlGoToPercent",
+        name : "SelectAreas",
         arguments : [
-          "PercentOpen",
+          "NewAreas",
         ],
       },
       1 : {
-        name : "BarrierControlStop",
+        name : "SelectAreasResponse",
         arguments : [
-
+          "Status",
+          "StatusText",
         ],
       },
     },
     /*currently we only support mandatory and feature mandatory attributes, hence only mapping of those as listed here.*/
     attributes : {
-      1 : "BarrierMovingState",
-      2 : "BarrierSafetyStatus",
-      3 : "BarrierCapabilities",
-      10 : "BarrierPosition",
+      0 : "SupportedAreas",
+      2 : "SelectedAreas",
       65528 : "GeneratedCommandList",
       65529 : "AcceptedCommandList",
       65530 : "EventList",
@@ -2794,6 +2822,123 @@ exports.model = {
       65533 : "ClusterRevision",
     },
   },
+  1105 : {
+    name : "WiFiNetworkManagement",
+    /*currently we only support mandatory and feature mandatory commands, hence only mapping of those as listed here.*/
+    commands : {
+      0 : {
+        name : "NetworkPassphraseRequest",
+        arguments : [
+
+        ],
+      },
+      1 : {
+        name : "NetworkPassphraseResponse",
+        arguments : [
+          "Passphrase",
+        ],
+      },
+    },
+    /*currently we only support mandatory and feature mandatory attributes, hence only mapping of those as listed here.*/
+    attributes : {
+      0 : "Ssid",
+      1 : "PassphraseSurrogate",
+      65528 : "GeneratedCommandList",
+      65529 : "AcceptedCommandList",
+      65530 : "EventList",
+      65531 : "AttributeList",
+      65532 : "FeatureMap",
+      65533 : "ClusterRevision",
+    },
+  },
+  1106 : {
+    name : "ThreadBorderRouterManagement",
+    /*currently we only support mandatory and feature mandatory commands, hence only mapping of those as listed here.*/
+    commands : {
+      0 : {
+        name : "GetActiveDatasetRequest",
+        arguments : [
+
+        ],
+      },
+      1 : {
+        name : "GetPendingDatasetRequest",
+        arguments : [
+
+        ],
+      },
+      2 : {
+        name : "DatasetResponse",
+        arguments : [
+          "Dataset",
+        ],
+      },
+      3 : {
+        name : "SetActiveDatasetRequest",
+        arguments : [
+          "ActiveDataset",
+          "Breadcrumb",
+        ],
+      },
+    },
+    /*currently we only support mandatory and feature mandatory attributes, hence only mapping of those as listed here.*/
+    attributes : {
+      0 : "BorderRouterName",
+      1 : "BorderAgentID",
+      2 : "ThreadVersion",
+      3 : "InterfaceEnabled",
+      4 : "ActiveDatasetTimestamp",
+      5 : "PendingDatasetTimestamp",
+      65528 : "GeneratedCommandList",
+      65529 : "AcceptedCommandList",
+      65530 : "EventList",
+      65531 : "AttributeList",
+      65532 : "FeatureMap",
+      65533 : "ClusterRevision",
+    },
+  },
+  1107 : {
+    name : "ThreadNetworkDirectory",
+    /*currently we only support mandatory and feature mandatory commands, hence only mapping of those as listed here.*/
+    commands : {
+      0 : {
+        name : "AddNetwork",
+        arguments : [
+          "OperationalDataset",
+        ],
+      },
+      1 : {
+        name : "RemoveNetwork",
+        arguments : [
+          "ExtendedPanID",
+        ],
+      },
+      2 : {
+        name : "GetOperationalDataset",
+        arguments : [
+          "ExtendedPanID",
+        ],
+      },
+      3 : {
+        name : "OperationalDatasetResponse",
+        arguments : [
+          "OperationalDataset",
+        ],
+      },
+    },
+    /*currently we only support mandatory and feature mandatory attributes, hence only mapping of those as listed here.*/
+    attributes : {
+      0 : "PreferredExtendedPanID",
+      1 : "ThreadNetworks",
+      2 : "ThreadNetworkTableSize",
+      65528 : "GeneratedCommandList",
+      65529 : "AcceptedCommandList",
+      65530 : "EventList",
+      65531 : "AttributeList",
+      65532 : "FeatureMap",
+      65533 : "ClusterRevision",
+    },
+  },
   1283 : {
     name : "WakeOnLan",
     /*currently we only support mandatory and feature mandatory commands, hence only mapping of those as listed here.*/
@@ -3174,12 +3319,158 @@ exports.model = {
       65533 : "ClusterRevision",
     },
   },
-  2820 : {
-    name : "ElectricalMeasurement",
+  1363 : {
+    name : "WebRTCTransportProvider",
+    /*currently we only support mandatory and feature mandatory commands, hence only mapping of those as listed here.*/
+    commands : {
+      1 : {
+        name : "SolicitOffer",
+        arguments : [
+          "StreamType",
+          "VideoStreamID",
+          "AudioStreamID",
+          "ICEServers",
+          "ICETransportPolicy",
+          "MetadataOptions",
+        ],
+      },
+      2 : {
+        name : "SolicitOfferResponse",
+        arguments : [
+          "WebRTCSessionID",
+          "DeferredOffer",
+          "VideoStreamID",
+          "AudioStreamID",
+        ],
+      },
+      3 : {
+        name : "ProvideOffer",
+        arguments : [
+          "WebRTCSessionID",
+          "Sdp",
+          "StreamType",
+          "VideoStreamID",
+          "AudioStreamID",
+          "ICEServers",
+          "ICETransportPolicy",
+          "MetadataOptions",
+        ],
+      },
+      4 : {
+        name : "ProvideOfferResponse",
+        arguments : [
+          "WebRTCSessionID",
+          "VideoStreamID",
+          "AudioStreamID",
+        ],
+      },
+      5 : {
+        name : "ProvideAnswer",
+        arguments : [
+          "WebRTCSessionID",
+          "Sdp",
+        ],
+      },
+      6 : {
+        name : "ProvideICECandidate",
+        arguments : [
+          "WebRTCSessionID",
+          "ICECandidate",
+        ],
+      },
+      7 : {
+        name : "EndSession",
+        arguments : [
+          "WebRTCSessionID",
+          "Reason",
+        ],
+      },
+    },
+    /*currently we only support mandatory and feature mandatory attributes, hence only mapping of those as listed here.*/
+    attributes : {
+      0 : "CurrentSessions",
+      65528 : "GeneratedCommandList",
+      65529 : "AcceptedCommandList",
+      65530 : "EventList",
+      65531 : "AttributeList",
+      65532 : "FeatureMap",
+      65533 : "ClusterRevision",
+    },
+  },
+  1366 : {
+    name : "Chime",
+    /*currently we only support mandatory and feature mandatory commands, hence only mapping of those as listed here.*/
+    commands : {
+      0 : {
+        name : "PlayChimeSound",
+        arguments : [
+
+        ],
+      },
+    },
+    /*currently we only support mandatory and feature mandatory attributes, hence only mapping of those as listed here.*/
+    attributes : {
+      0 : "InstalledChimeSounds",
+      1 : "ActiveChimeID",
+      2 : "Enabled",
+      65528 : "GeneratedCommandList",
+      65529 : "AcceptedCommandList",
+      65530 : "EventList",
+      65531 : "AttributeList",
+      65532 : "FeatureMap",
+      65533 : "ClusterRevision",
+    },
+  },
+  1872 : {
+    name : "EcosystemInformation",
     /*currently we only support mandatory and feature mandatory commands, hence only mapping of those as listed here.*/
     commands : {},
     /*currently we only support mandatory and feature mandatory attributes, hence only mapping of those as listed here.*/
     attributes : {
+      0 : "DeviceDirectory",
+      1 : "LocationDirectory",
+      65528 : "GeneratedCommandList",
+      65529 : "AcceptedCommandList",
+      65530 : "EventList",
+      65531 : "AttributeList",
+      65532 : "FeatureMap",
+      65533 : "ClusterRevision",
+    },
+  },
+  1873 : {
+    name : "CommissionerControl",
+    /*currently we only support mandatory and feature mandatory commands, hence only mapping of those as listed here.*/
+    commands : {
+      0 : {
+        name : "RequestCommissioningApproval",
+        arguments : [
+          "RequestID",
+          "VendorID",
+          "ProductID",
+          "Label",
+        ],
+      },
+      1 : {
+        name : "CommissionNode",
+        arguments : [
+          "RequestID",
+          "ResponseTimeoutSeconds",
+        ],
+      },
+      2 : {
+        name : "ReverseOpenCommissioningWindow",
+        arguments : [
+          "CommissioningTimeout",
+          "PAKEPasscodeVerifier",
+          "Discriminator",
+          "Iterations",
+          "Salt",
+        ],
+      },
+    },
+    /*currently we only support mandatory and feature mandatory attributes, hence only mapping of those as listed here.*/
+    attributes : {
+      0 : "SupportedDeviceCategories",
       65528 : "GeneratedCommandList",
       65529 : "AcceptedCommandList",
       65530 : "EventList",
@@ -3260,6 +3551,8 @@ exports.model = {
       48 : "TimedWriteBoolean",
       49 : "GeneralErrorBoolean",
       50 : "ClusterErrorBoolean",
+      51 : "GlobalEnum",
+      52 : "GlobalStruct",
       16384 : "NullableBoolean",
       16385 : "NullableBitmap8",
       16386 : "NullableBitmap16",
@@ -3293,6 +3586,8 @@ exports.model = {
       16423 : "NullableRangeRestrictedInt8s",
       16424 : "NullableRangeRestrictedInt16u",
       16425 : "NullableRangeRestrictedInt16s",
+      16435 : "NullableGlobalEnum",
+      16436 : "NullableGlobalStruct",
       65528 : "GeneratedCommandList",
       65529 : "AcceptedCommandList",
       65530 : "EventList",
@@ -3413,6 +3708,12 @@ exports.model = {
       "Manage",
       "Administer",
     ], //
+    "AccessRestrictionTypeEnum" : [
+      "AttributeAccessForbidden",
+      "AttributeWriteForbidden",
+      "CommandForbidden",
+      "EventForbidden",
+    ], //
     "ActionErrorEnum" : [
       "Unknown",
       "Interrupted",
@@ -3480,11 +3781,113 @@ exports.model = {
       "AwaitNextAction",
       "Discontinue",
     ], //
+    "AreaTypeTag" : [
+      "Aisle",
+      "Attic",
+      "BackDoor",
+      "BackYard",
+      "Balcony",
+      "Ballroom",
+      "Bathroom",
+      "Bedroom",
+      "Border",
+      "Boxroom",
+      "BreakfastRoom",
+      "Carport",
+      "Cellar",
+      "Cloakroom",
+      "Closet",
+      "Conservatory",
+      "Corridor",
+      "CraftRoom",
+      "Cupboard",
+      "Deck",
+      "Den",
+      "Dining",
+      "DrawingRoom",
+      "DressingRoom",
+      "Driveway",
+      "Elevator",
+      "Ensuite",
+      "Entrance",
+      "Entryway",
+      "FamilyRoom",
+      "Foyer",
+      "FrontDoor",
+      "FrontYard",
+      "GameRoom",
+      "Garage",
+      "GarageDoor",
+      "Garden",
+      "GardenDoor",
+      "GuestBathroom",
+      "GuestBedroom",
+      "GuestRestroom",
+      "GuestRoom",
+      "Gym",
+      "Hallway",
+      "HearthRoom",
+      "KidsRoom",
+      "KidsBedroom",
+      "Kitchen",
+      "Larder",
+      "LaundryRoom",
+      "Lawn",
+      "Library",
+      "LivingRoom",
+      "Lounge",
+      "MediaTvRoom",
+      "MudRoom",
+      "MusicRoom",
+      "Nursery",
+      "Office",
+      "OutdoorKitchen",
+      "Outside",
+      "Pantry",
+      "ParkingLot",
+      "Parlor",
+      "Patio",
+      "PlayRoom",
+      "PoolRoom",
+      "Porch",
+      "PrimaryBathroom",
+      "PrimaryBedroom",
+      "Ramp",
+      "ReceptionRoom",
+      "RecreationRoom",
+      "Restroom",
+      "Roof",
+      "Sauna",
+      "Scullery",
+      "SewingRoom",
+      "Shed",
+      "SideDoor",
+      "SideYard",
+      "SittingRoom",
+      "Snug",
+      "Spa",
+      "Staircase",
+      "SteamRoom",
+      "StorageRoom",
+      "Studio",
+      "Study",
+      "SunRoom",
+      "SwimmingPool",
+      "Terrace",
+      "UtilityRoom",
+      "Ward",
+      "Workshop",
+    ], //
     "AssociationFailureCauseEnum" : [
       "Unknown",
       "AssociationFailed",
       "AuthenticationFailed",
       "SsidNotFound",
+    ], //
+    "AtomicRequestTypeEnum" : [
+      "BeginWrite",
+      "CommitWrite",
+      "RollbackWrite",
     ], //
     "BatApprovedChemistryEnum" : [
       "Unspecified",
@@ -3638,6 +4041,10 @@ exports.model = {
       "NotReplaceable",
       "UserReplaceable",
       "FactoryReplaceable",
+    ], //
+    "BoostStateEnum" : [
+      "Inactive",
+      "Active",
     ], //
     "BootReasonEnum" : [
       "Unspecified",
@@ -3825,28 +4232,9 @@ exports.model = {
       "Emergency",
       "Karaoke",
     ], //
-    "ColorEnum" : [
-      "Black",
-      "Navy",
-      "Green",
-      "Teal",
-      "Maroon",
-      "Purple",
-      "Olive",
-      "Gray",
-      "Blue",
-      "Lime",
-      "Aqua",
-      "Red",
-      "Fuchsia",
-      "Yellow",
-      "White",
-      "Nickel",
-      "Chrome",
-      "Brass",
-      "Copper",
-      "Silver",
-      "Gold",
+    "ClientTypeEnum" : [
+      "Permanent",
+      "Ephemeral",
     ], //
     "ColorEnum" : [
       "Black",
@@ -3871,19 +4259,42 @@ exports.model = {
       "Silver",
       "Gold",
     ], //
-    "ColorLoopAction" : [
+    "ColorEnum" : [
+      "Black",
+      "Navy",
+      "Green",
+      "Teal",
+      "Maroon",
+      "Purple",
+      "Olive",
+      "Gray",
+      "Blue",
+      "Lime",
+      "Aqua",
+      "Red",
+      "Fuchsia",
+      "Yellow",
+      "White",
+      "Nickel",
+      "Chrome",
+      "Brass",
+      "Copper",
+      "Silver",
+      "Gold",
+    ], //
+    "ColorLoopActionEnum" : [
       "Deactivate",
       "ActivateFromColorLoopStartEnhancedHue",
       "ActivateFromEnhancedCurrentHue",
     ], //
-    "ColorLoopDirection" : [
-      "DecrementHue",
-      "IncrementHue",
+    "ColorLoopDirectionEnum" : [
+      "Decrement",
+      "Increment",
     ], //
-    "ColorMode" : [
+    "ColorModeEnum" : [
       "CurrentHueAndCurrentSaturation",
       "CurrentXAndCurrentY",
-      "ColorTemperature",
+      "ColorTemperatureMireds",
     ], //
     "CommissioningErrorEnum" : [
       "Ok",
@@ -3891,6 +4302,9 @@ exports.model = {
       "InvalidAuthentication",
       "NoFailSafe",
       "BusyWithOtherAdmin",
+      "RequiredTCNotAccepted",
+      "TCAcknowledgementsNotReceived",
+      "TCMinVersionNotMet",
     ], //
     "CommissioningWindowStatusEnum" : [
       "WindowNotOpen",
@@ -3974,6 +4388,12 @@ exports.model = {
       "DelayedOffFastFade",
       "NoFade",
       "DelayedOffSlowFade",
+    ], //
+    "DirectionEnum" : [
+      "Shortest",
+      "Longest",
+      "Up",
+      "Down",
     ], //
     "DlLockState" : [
       "NotFullyLocked",
@@ -4066,8 +4486,8 @@ exports.model = {
     ], //
     "DriftCompensationEnum" : [
       "None",
-      "OtherUnknown",
-      "Temperaturemonitoring",
+      "OtherOrUnknown",
+      "TemperatureMonitoring",
       "OpticalLuminanceMonitoringAndFeedback",
       "OpticalColorMonitoringAndFeedback",
     ], //
@@ -4169,10 +4589,26 @@ exports.model = {
     "EnhancedColorModeEnum" : [
       "CurrentHueAndCurrentSaturation",
       "CurrentXAndCurrentY",
-      "ColorTemperature",
+      "ColorTemperatureMireds",
       "EnhancedCurrentHueAndCurrentSaturation",
     ], //
     "ErrorStateEnum" : [
+      "NoError",
+      "UnableToStartOrResume",
+      "UnableToCompleteOperation",
+      "CommandInvalidInState",
+    ], //
+    "ErrorStateEnum" : [
+      "NoError",
+      "UnableToStartOrResume",
+      "UnableToCompleteOperation",
+      "CommandInvalidInState",
+    ], //
+    "ErrorStateEnum" : [
+      "NoError",
+      "UnableToStartOrResume",
+      "UnableToCompleteOperation",
+      "CommandInvalidInState",
       "FailedToFindChargingDock",
       "Stuck",
       "DustBinMissing",
@@ -4181,12 +4617,6 @@ exports.model = {
       "WaterTankMissing",
       "WaterTankLidOpen",
       "MopCleaningPadMissing",
-    ], //
-    "ErrorStateEnum" : [
-      "NoError",
-      "UnableToStartOrResume",
-      "UnableToCompleteOperation",
-      "CommandInvalidInState",
     ], //
     "ExpressedStateEnum" : [
       "Normal",
@@ -4242,6 +4672,32 @@ exports.model = {
       "ChipFault",
       "CertFault",
     ], //
+    "FloorSurfaceTag" : [
+      "Carpet",
+      "Ceramic",
+      "Concrete",
+      "Cork",
+      "DeepCarpet",
+      "Dirt",
+      "EngineeredWood",
+      "Glass",
+      "Grass",
+      "Hardwood",
+      "Laminate",
+      "Linoleum",
+      "Mat",
+      "Metal",
+      "Plastic",
+      "PolishedConcrete",
+      "Rubber",
+      "Rug",
+      "Sand",
+      "Stone",
+      "Tatami",
+      "Terrazzo",
+      "Tile",
+      "Vinyl",
+    ], //
     "ForecastUpdateReasonEnum" : [
       "InternalOptimization",
       "LocalOptimization",
@@ -4288,21 +4744,6 @@ exports.model = {
       "24hr",
       "UseActiveLocale",
     ], //
-    "HueDirection" : [
-      "ShortestDistance",
-      "LongestDistance",
-      "Up",
-      "Down",
-    ], //
-    "HueMoveMode" : [
-      "Stop",
-      "Up",
-      "Down",
-    ], //
-    "HueStepMode" : [
-      "Up",
-      "Down",
-    ], //
     "IdentifyTypeEnum" : [
       "None",
       "LightOutput",
@@ -4344,6 +4785,59 @@ exports.model = {
       "Lockout3",
       "Lockout4",
       "Lockout5",
+    ], //
+    "LandmarkTag" : [
+      "AirConditioner",
+      "AirPurifier",
+      "BackDoor",
+      "BarStool",
+      "BathMat",
+      "Bathtub",
+      "Bed",
+      "Bookshelf",
+      "Chair",
+      "ChristmasTree",
+      "CoatRack",
+      "CoffeeTable",
+      "CookingRange",
+      "Couch",
+      "Countertop",
+      "Cradle",
+      "Crib",
+      "Desk",
+      "DiningTable",
+      "Dishwasher",
+      "Door",
+      "Dresser",
+      "LaundryDryer",
+      "Fan",
+      "Fireplace",
+      "Freezer",
+      "FrontDoor",
+      "HighChair",
+      "KitchenIsland",
+      "Lamp",
+      "LitterBox",
+      "Mirror",
+      "Nightstand",
+      "Oven",
+      "PetBed",
+      "PetBowl",
+      "PetCrate",
+      "Refrigerator",
+      "ScratchingPost",
+      "ShoeRack",
+      "Shower",
+      "SideDoor",
+      "Sink",
+      "Sofa",
+      "Stove",
+      "Table",
+      "Toilet",
+      "TrashCan",
+      "LaundryWasher",
+      "Window",
+      "WineCooler",
     ], //
     "LevelValueEnum" : [
       "Unknown",
@@ -4444,32 +4938,106 @@ exports.model = {
       "Percentage",
     ], //
     "ModeTag" : [
+      "Auto",
+      "Quick",
+      "Quiet",
+      "LowNoise",
+      "LowEnergy",
+      "Vacation",
+      "Min",
+      "Max",
+      "Night",
+      "Day",
       "Normal",
       "Defrost",
     ], //
     "ModeTag" : [
+      "Auto",
+      "Quick",
+      "Quiet",
+      "LowNoise",
+      "LowEnergy",
+      "Vacation",
+      "Min",
+      "Max",
+      "Night",
+      "Day",
+      "Normal",
+      "Heavy",
+      "Light",
+    ], //
+    "ModeTag" : [
+      "Auto",
+      "Quick",
+      "Quiet",
+      "LowNoise",
+      "LowEnergy",
+      "Vacation",
+      "Min",
+      "Max",
+      "Night",
+      "Day",
       "NoOptimization",
       "DeviceOptimization",
       "LocalOptimization",
       "GridOptimization",
     ], //
     "ModeTag" : [
-      "Normal",
-      "Heavy",
-      "Light",
-    ], //
-    "ModeTag" : [
-      "Manual",
-      "TimeOfUse",
-      "SolarCharging",
-    ], //
-    "ModeTag" : [
+      "Auto",
+      "Quick",
+      "Quiet",
+      "LowNoise",
+      "LowEnergy",
+      "Vacation",
+      "Min",
+      "Max",
+      "Night",
+      "Day",
       "Normal",
       "Delicate",
       "Heavy",
       "Whites",
     ], //
     "ModeTag" : [
+      "Auto",
+      "Quick",
+      "Quiet",
+      "LowNoise",
+      "LowEnergy",
+      "Vacation",
+      "Min",
+      "Max",
+      "Night",
+      "Day",
+      "RapidCool",
+      "RapidFreeze",
+    ], //
+    "ModeTag" : [
+      "Auto",
+      "Quick",
+      "Quiet",
+      "LowNoise",
+      "LowEnergy",
+      "Vacation",
+      "Min",
+      "Max",
+      "Night",
+      "Day",
+      "Manual",
+      "TimeOfUse",
+      "SolarCharging",
+    ], //
+    "ModeTag" : [
+      "Auto",
+      "Quick",
+      "Quiet",
+      "LowNoise",
+      "LowEnergy",
+      "Vacation",
+      "Min",
+      "Max",
+      "Night",
+      "Day",
       "Bake",
       "Convection",
       "Grill",
@@ -4481,20 +5049,56 @@ exports.model = {
       "Proofing",
     ], //
     "ModeTag" : [
-      "RapidCool",
-      "RapidFreeze",
+      "Auto",
+      "Quick",
+      "Quiet",
+      "LowNoise",
+      "LowEnergy",
+      "Vacation",
+      "Min",
+      "Max",
+      "Night",
+      "Day",
+      "Off",
+      "Manual",
+      "Timed",
     ], //
     "ModeTag" : [
+      "Auto",
+      "Quick",
+      "Quiet",
+      "LowNoise",
+      "LowEnergy",
+      "Vacation",
+      "Min",
+      "Max",
+      "Night",
+      "Day",
       "DeepClean",
       "Vacuum",
       "Mop",
     ], //
     "ModeTag" : [
+      "Auto",
+      "Quick",
+      "Quiet",
+      "LowNoise",
+      "LowEnergy",
+      "Vacation",
+      "Min",
+      "Max",
+      "Night",
+      "Day",
       "Idle",
       "Cleaning",
       "Mapping",
     ], //
     "MoveModeEnum" : [
+      "Up",
+      "Down",
+    ], //
+    "MoveModeEnum" : [
+      "Stop",
       "Up",
       "Down",
     ], //
@@ -4591,15 +5195,31 @@ exports.model = {
       "Aliro",
     ], //
     "OperationalStateEnum" : [
-      "SeekingCharger",
-      "Charging",
-      "Docked",
+      "Stopped",
+      "Running",
+      "Paused",
+      "Error",
     ], //
     "OperationalStateEnum" : [
       "Stopped",
       "Running",
       "Paused",
       "Error",
+    ], //
+    "OperationalStateEnum" : [
+      "Stopped",
+      "Running",
+      "Paused",
+      "Error",
+      "SeekingCharger",
+      "Charging",
+      "Docked",
+    ], //
+    "OperationalStatusEnum" : [
+      "Pending",
+      "Operating",
+      "Skipped",
+      "Completed",
     ], //
     "OptOutStateEnum" : [
       "NoOptOut",
@@ -4652,6 +5272,20 @@ exports.model = {
       "NotPlaying",
       "Buffering",
     ], //
+    "PositionTag" : [
+      "Left",
+      "Right",
+      "Top",
+      "Bottom",
+      "Middle",
+      "Row",
+      "Column",
+    ], //
+    "PowerAdjustReasonEnum" : [
+      "NoAdjustment",
+      "LocalOptimizationAdjustment",
+      "GridOptimizationAdjustment",
+    ], //
     "PowerModeEnum" : [
       "Unknown",
       "Dc",
@@ -4664,12 +5298,12 @@ exports.model = {
       "Unavailable",
     ], //
     "PresetScenarioEnum" : [
-      "Unspecified",
       "Occupied",
       "Unoccupied",
       "Sleep",
       "Wake",
       "Vacation",
+      "GoingToSleep",
       "UserDefined",
     ], //
     "ProductFinishEnum" : [
@@ -4709,6 +5343,15 @@ exports.model = {
       "Outdoor",
       "IndoorOutdoor",
     ], //
+    "RelativePositionTag" : [
+      "Under",
+      "NextTo",
+      "Around",
+      "On",
+      "Above",
+      "FrontOf",
+      "Behind",
+    ], //
     "RoutingRoleEnum" : [
       "Unspecified",
       "Unassigned",
@@ -4717,15 +5360,6 @@ exports.model = {
       "Reed",
       "Router",
       "Leader",
-    ], //
-    "SaturationMoveMode" : [
-      "Stop",
-      "Up",
-      "Down",
-    ], //
-    "SaturationStepMode" : [
-      "Up",
-      "Down",
     ], //
     "ScheduleProgrammingVisibilityEnum" : [
       "ScheduleProgrammingPermitted",
@@ -4738,6 +5372,12 @@ exports.model = {
       "Wpa",
       "Wpa2",
       "Wpa3",
+    ], //
+    "SelectAreasStatus" : [
+      "Success",
+      "UnsupportedArea",
+      "InvalidInMode",
+      "InvalidSet",
     ], //
     "SensitivityEnum" : [
       "High",
@@ -4759,6 +5399,12 @@ exports.model = {
       "ValueA",
       "ValueB",
       "ValueC",
+    ], //
+    "SkipAreaStatus" : [
+      "Success",
+      "InvalidAreaList",
+      "InvalidInMode",
+      "InvalidSkippedArea",
     ], //
     "StartOfWeekEnum" : [
       "Sunday",
@@ -4825,6 +5471,9 @@ exports.model = {
       "Success",
       "AppNotAvailable",
       "SystemBusy",
+      "PendingUserApproval",
+      "Downloading",
+      "Installing",
     ], //
     "StatusEnum" : [
       "Success",
@@ -4867,12 +5516,23 @@ exports.model = {
       "Up",
       "Down",
     ], //
+    "StepModeEnum" : [
+      "Up",
+      "Down",
+    ], //
+    "StreamTypeEnum" : [
+      "Internal",
+      "Recording",
+      "Analysis",
+      "LiveView",
+    ], //
     "SupplyStateEnum" : [
       "Disabled",
       "ChargingEnabled",
       "DischargingEnabled",
       "DisabledError",
       "DisabledDiagnostics",
+      "Enabled",
     ], //
     "SystemModeEnum" : [
       "Off",
@@ -4898,10 +5558,21 @@ exports.model = {
       "SetpointHoldOff",
       "SetpointHoldOn",
     ], //
+    "TestGlobalEnum" : [
+      "SomeValue",
+      "SomeOtherValue",
+      "FinalValue",
+    ], //
     "ThermostatRunningModeEnum" : [
       "Off",
       "Cool",
       "Heat",
+    ], //
+    "ThreeLevelAutoEnum" : [
+      "Low",
+      "Medium",
+      "High",
+      "Automatic",
     ], //
     "TimeSourceEnum" : [
       "None",
@@ -4983,6 +5654,20 @@ exports.model = {
       "Open",
       "Transitioning",
     ], //
+    "WebRTCEndReasonEnum" : [
+      "IceFailed",
+      "IceTimeout",
+      "UserHangup",
+      "UserBusy",
+      "Replaced",
+      "NoUserMedia",
+      "InviteTimeout",
+      "AnsweredElsewhere",
+      "OutOfResources",
+      "MediaTimeout",
+      "LowPower",
+      "UnknownReason",
+    ], //
     "WiFiBandEnum" : [
       "2g4",
       "3g65",
@@ -5020,15 +5705,15 @@ exports.model = {
       16 : "FanFail",
     },
     "AlarmBitmap" : {
-      1 : "DoorOpen",
-    },
-    "AlarmBitmap" : {
       1 : "InflowError",
       2 : "DrainError",
       4 : "DoorError",
       8 : "TempTooLow",
       16 : "TempTooHigh",
       32 : "WaterLevelError",
+    },
+    "AlarmBitmap" : {
+      1 : "DoorOpen",
     },
     "AlarmModeBitmap" : {
       1 : "Visual",
@@ -5037,15 +5722,6 @@ exports.model = {
     "BallastStatusBitmap" : {
       1 : "BallastNonOperational",
       2 : "LampFailure",
-    },
-    "BarrierControlCapabilities" : {
-      1 : "PartialBarrier",
-    },
-    "BarrierControlSafetyStatus" : {
-      1 : "RemoteLockout",
-      2 : "TemperDetected",
-      4 : "FailedCommunication",
-      8 : "PositionFailure",
     },
     "Bitmap16MaskMap" : {
       1 : "MaskVal1",
@@ -5074,18 +5750,12 @@ exports.model = {
     "CancelControlBitmap" : {
       1 : "RandomEnd",
     },
-    "ColorCapabilities" : {
-      1 : "HueSaturationSupported",
-      2 : "EnhancedHueSupported",
-      4 : "ColorLoopSupported",
-      8 : "XYAttributesSupported",
-      16 : "ColorTemperatureSupported",
-    },
-    "ColorLoopUpdateFlags" : {
-      1 : "UpdateAction",
-      2 : "UpdateDirection",
-      4 : "UpdateTime",
-      8 : "UpdateStartHue",
+    "ColorCapabilitiesBitmap" : {
+      1 : "HueSaturation",
+      2 : "EnhancedHue",
+      4 : "ColorLoop",
+      8 : "Xy",
+      16 : "ColorTemperature",
     },
     "CommandBits" : {
       1 : "InstantAction",
@@ -5260,14 +5930,14 @@ exports.model = {
       8 : "ExtremelyPoor",
     },
     "Feature" : {
+      1 : "Spin",
+      2 : "Rinse",
+    },
+    "Feature" : {
       1 : "NodeTopology",
       2 : "TreeTopology",
       4 : "SetTopology",
       8 : "DynamicPowerFlow",
-    },
-    "Feature" : {
-      1 : "Spin",
-      2 : "Rinse",
     },
     "Feature" : {
       1 : "TagList",
@@ -5278,21 +5948,45 @@ exports.model = {
       4 : "NumberKeys",
     },
     "Feature" : {
-      1 : "OnOff",
-    },
-    "Feature" : {
       1 : "TemperatureNumber",
       2 : "TemperatureLevel",
       4 : "TemperatureStep",
     },
     "Feature" : {
-      0 : "NoFeatures",
+      1 : "OnOff",
     },
     "Feature" : {
-      0 : "NoFeatures",
+      1 : "OnOff",
+    },
+    "Feature" : {
+      1 : "Reset",
+    },
+    "Feature" : {
+      1 : "OnOff",
+    },
+    "Feature" : {
+      1 : "OnOff",
+    },
+    "Feature" : {
+      65536 : "DirectModeChange",
+    },
+    "Feature" : {
+      1 : "OnOff",
+    },
+    "Feature" : {
+      65536 : "DirectModeChange",
     },
     "Feature" : {
       1 : "TemperatureUnit",
+    },
+    "Feature" : {
+      1 : "OnOff",
+    },
+    "Feature" : {
+      1 : "OnOff",
+    },
+    "Feature" : {
+      1 : "OnOff",
     },
     "Feature" : {
       1 : "Visual",
@@ -5307,12 +6001,6 @@ exports.model = {
       8 : "PeriodicEnergy",
     },
     "Feature" : {
-      1 : "Reset",
-    },
-    "Feature" : {
-      1 : "Extended",
-    },
-    "Feature" : {
       1 : "PacketCounts",
       2 : "ErrorCounts",
     },
@@ -5323,16 +6011,19 @@ exports.model = {
       1 : "Reset",
     },
     "Feature" : {
+      1 : "Extended",
+    },
+    "Feature" : {
       1 : "PowerAsNumber",
       2 : "PowerInWatts",
       4 : "PowerNumberLimits",
     },
     "Feature" : {
-      1 : "CalendarFormat",
-    },
-    "Feature" : {
       1 : "TimeSync",
       2 : "Level",
+    },
+    "Feature" : {
+      1 : "CalendarFormat",
     },
     "Feature" : {
       1 : "ApplicationPlatform",
@@ -5352,16 +6043,12 @@ exports.model = {
       32 : "AirflowDirection",
     },
     "Feature" : {
+      1 : "SelectWhileRunning",
+      2 : "ProgressReporting",
+      4 : "Maps",
+    },
+    "Feature" : {
       1 : "NameUpdates",
-    },
-    "Feature" : {
-      1 : "Condition",
-      2 : "Warning",
-      4 : "ReplacementProductList",
-    },
-    "Feature" : {
-      1 : "PacketCounts",
-      2 : "ErrorCounts",
     },
     "Feature" : {
       1 : "Lighting",
@@ -5369,14 +6056,35 @@ exports.model = {
       4 : "OffOnly",
     },
     "Feature" : {
+      1 : "Condition",
+      2 : "Warning",
+      4 : "ReplacementProductList",
+    },
+    "Feature" : {
+      1 : "Condition",
+      2 : "Warning",
+      4 : "ReplacementProductList",
+    },
+    "Feature" : {
+      1 : "EnergyManagement",
+      2 : "TankPercent",
+    },
+    "Feature" : {
+      1 : "PacketCounts",
+      2 : "ErrorCounts",
+    },
+    "Feature" : {
       1 : "NameUpdates",
     },
     "Feature" : {
       1 : "ContentSearch",
       2 : "URLPlayback",
-      3 : "AdvancedSeek",
-      4 : "TextTracks",
-      5 : "AudioTracks",
+      4 : "AdvancedSeek",
+      8 : "TextTracks",
+      16 : "AudioTracks",
+    },
+    "Feature" : {
+      1048576 : "BridgedICDSupport",
     },
     "Feature" : {
       1 : "EnergyBalance",
@@ -5388,6 +6096,7 @@ exports.model = {
       4 : "MomentarySwitchRelease",
       8 : "MomentarySwitchLongPress",
       16 : "MomentarySwitchMultiPress",
+      32 : "ActionSwitch",
     },
     "Feature" : {
       1 : "DirectCurrent",
@@ -5432,12 +6141,16 @@ exports.model = {
       64 : "ConstraintBasedAdjustment",
     },
     "Feature" : {
+      1 : "PANChange",
+    },
+    "Feature" : {
       1 : "CacheAndSync",
     },
     "Feature" : {
       1 : "CheckInProtocolSupport",
       2 : "UserActiveModeTrigger",
       4 : "LongIdleTimeSupport",
+      8 : "DynamicSitLitSupport",
     },
     "Feature" : {
       1 : "AdvancedSeek",
@@ -5447,22 +6160,21 @@ exports.model = {
       16 : "AudioAdvance",
     },
     "Feature" : {
+      1 : "Extension",
+      2 : "ManagedDevice",
+    },
+    "Feature" : {
+      1 : "Lift",
+      2 : "Tilt",
+      4 : "PositionAwareLift",
+      8 : "AbsolutePosition",
+      16 : "PositionAwareTilt",
+    },
+    "Feature" : {
       1 : "TimeZone",
       2 : "NTPClient",
       4 : "NTPServer",
       8 : "TimeSyncClient",
-    },
-    "Feature" : {
-      1 : "Wired",
-      2 : "Battery",
-      4 : "Rechargeable",
-      8 : "Replaceable",
-    },
-    "Feature" : {
-      1 : "ChannelList",
-      2 : "LineupInfo",
-      4 : "ElectronicGuide",
-      8 : "RecordProgram",
     },
     "Feature" : {
       1 : "ChargingPreferences",
@@ -5472,11 +6184,19 @@ exports.model = {
       16 : "V2x",
     },
     "Feature" : {
-      1 : "Lift",
-      2 : "Tilt",
-      4 : "PositionAwareLift",
-      8 : "AbsolutePosition",
-      16 : "PositionAwareTilt",
+      1 : "ChannelList",
+      2 : "LineupInfo",
+      4 : "ElectronicGuide",
+      8 : "RecordProgram",
+    },
+    "Feature" : {
+      1 : "Wired",
+      2 : "Battery",
+      4 : "Rechargeable",
+      8 : "Replaceable",
+    },
+    "Feature" : {
+      1 : "TermsAndConditions",
     },
     "Feature" : {
       1 : "GroupNames",
@@ -5494,6 +6214,16 @@ exports.model = {
       16 : "ConstantTemperature",
       32 : "Automatic",
       64 : "LocalOperation",
+    },
+    "Feature" : {
+      1 : "Other",
+      2 : "PassiveInfrared",
+      4 : "Ultrasonic",
+      8 : "PhysicalContact",
+      16 : "ActiveInfrared",
+      32 : "Radar",
+      64 : "RFSensing",
+      128 : "Vision",
     },
     "Feature" : {
       1 : "PacketCounts",
@@ -5518,14 +6248,6 @@ exports.model = {
       16 : "ColorTemperature",
     },
     "Feature" : {
-      1 : "NumericMeasurement",
-      2 : "LevelIndication",
-      4 : "MediumLevel",
-      8 : "CriticalLevel",
-      16 : "PeakMeasurement",
-      32 : "AverageMeasurement",
-    },
-    "Feature" : {
       1 : "Heating",
       2 : "Cooling",
       4 : "Occupancy",
@@ -5535,8 +6257,86 @@ exports.model = {
       64 : "LocalTemperatureNotExposed",
       128 : "MatterScheduleConfiguration",
       256 : "Presets",
-      512 : "Setpoints",
-      1024 : "QueuedPresetsSupported",
+    },
+    "Feature" : {
+      1 : "NumericMeasurement",
+      2 : "LevelIndication",
+      4 : "MediumLevel",
+      8 : "CriticalLevel",
+      16 : "PeakMeasurement",
+      32 : "AverageMeasurement",
+    },
+    "Feature" : {
+      1 : "NumericMeasurement",
+      2 : "LevelIndication",
+      4 : "MediumLevel",
+      8 : "CriticalLevel",
+      16 : "PeakMeasurement",
+      32 : "AverageMeasurement",
+    },
+    "Feature" : {
+      1 : "NumericMeasurement",
+      2 : "LevelIndication",
+      4 : "MediumLevel",
+      8 : "CriticalLevel",
+      16 : "PeakMeasurement",
+      32 : "AverageMeasurement",
+    },
+    "Feature" : {
+      1 : "NumericMeasurement",
+      2 : "LevelIndication",
+      4 : "MediumLevel",
+      8 : "CriticalLevel",
+      16 : "PeakMeasurement",
+      32 : "AverageMeasurement",
+    },
+    "Feature" : {
+      1 : "NumericMeasurement",
+      2 : "LevelIndication",
+      4 : "MediumLevel",
+      8 : "CriticalLevel",
+      16 : "PeakMeasurement",
+      32 : "AverageMeasurement",
+    },
+    "Feature" : {
+      1 : "NumericMeasurement",
+      2 : "LevelIndication",
+      4 : "MediumLevel",
+      8 : "CriticalLevel",
+      16 : "PeakMeasurement",
+      32 : "AverageMeasurement",
+    },
+    "Feature" : {
+      1 : "NumericMeasurement",
+      2 : "LevelIndication",
+      4 : "MediumLevel",
+      8 : "CriticalLevel",
+      16 : "PeakMeasurement",
+      32 : "AverageMeasurement",
+    },
+    "Feature" : {
+      1 : "NumericMeasurement",
+      2 : "LevelIndication",
+      4 : "MediumLevel",
+      8 : "CriticalLevel",
+      16 : "PeakMeasurement",
+      32 : "AverageMeasurement",
+    },
+    "Feature" : {
+      1 : "NumericMeasurement",
+      2 : "LevelIndication",
+      4 : "MediumLevel",
+      8 : "CriticalLevel",
+      16 : "PeakMeasurement",
+      32 : "AverageMeasurement",
+    },
+    "Feature" : {
+      1 : "NumericMeasurement",
+      2 : "LevelIndication",
+      4 : "MediumLevel",
+      8 : "CriticalLevel",
+      16 : "PeakMeasurement",
+      32 : "AverageMeasurement",
     },
     "Feature" : {
       1 : "PinCredential",
@@ -5579,6 +6379,9 @@ exports.model = {
     },
     "NameSupportBitmap" : {
       128 : "GroupNames",
+    },
+    "OccupancyBitmap" : {
+      1 : "Occupied",
     },
     "OccupancyBitmap" : {
       1 : "Occupied",
@@ -5689,6 +6492,9 @@ exports.model = {
       2 : "ValueB",
       4 : "ValueC",
     },
+    "SupportedDeviceCategoryBitmap" : {
+      1 : "FabricSynchronization",
+    },
     "SupportedProtocolsBitmap" : {
       1 : "Dash",
       2 : "Hls",
@@ -5702,9 +6508,9 @@ exports.model = {
       32 : "Friday",
       64 : "Saturday",
     },
-    "TemperatureSetpointHoldPolicyBitmap" : {
-      1 : "HoldDurationElapsed",
-      2 : "HoldDurationElapsedOrPresetChanged",
+    "TestGlobalBitmap" : {
+      1 : "FirstBit",
+      2 : "SecondBit",
     },
     "ThreadCapabilitiesBitmap" : {
       1 : "IsBorderRouterCapable",
@@ -5712,6 +6518,12 @@ exports.model = {
       4 : "IsSleepyEndDeviceCapable",
       8 : "IsFullThreadDevice",
       16 : "IsSynchronizedSleepyEndDeviceCapable",
+    },
+    "UpdateFlagsBitmap" : {
+      1 : "UpdateAction",
+      2 : "UpdateDirection",
+      4 : "UpdateTime",
+      8 : "UpdateStartHue",
     },
     "UserActiveModeTriggerBitmap" : {
       1 : "PowerCycle",
@@ -5739,6 +6551,16 @@ exports.model = {
       8 : "NotConnected",
       16 : "ShortCircuit",
       32 : "CurrentExceeded",
+    },
+    "WaterHeaterHeatSourceBitmap" : {
+      1 : "ImmersionElement1",
+      2 : "ImmersionElement2",
+      4 : "HeatPump",
+      8 : "Boiler",
+      16 : "Other",
+    },
+    "WebRTCMetadataOptions" : {
+      1 : "DataTLV",
     },
     "WiFiSecurityBitmap" : {
       1 : "Unencrypted",

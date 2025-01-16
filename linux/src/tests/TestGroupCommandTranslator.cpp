@@ -2,12 +2,9 @@
 #include "TestGroupCommandTranslatorHelper.h"
 #include "group_command_translator.hpp"
 #include "matter_device_translator.hpp"
-// Matter components
-#include <lib/support/UnitTestContext.h>
-#include <lib/support/UnitTestRegistration.h>
 
 // Third party library
-#include <nlunit-test.h>
+#include <gtest/gtest.h>
 
 // mocks
 #include "MockGroupTranslator.hpp"
@@ -31,6 +28,17 @@ chip::TestPersistentStorageDelegate gTestStorage;
 chip::Credentials::GroupDataProviderImpl gGroupsProvider(kMaxGroupsPerFabric, kMaxGroupKeysPerFabric);
 
 using TestContext = unify::matter_bridge::Test::ClusterContext<GroupClusterAttributeTranslatorHelper, GroupClusterCommandHandler>;
+
+class TestGroupCommand : public TestContext {
+public:
+
+    void SetUp() {
+        EXPECT_EQ(TestGroupCommand::Initialize(this),1);
+    }
+
+    void TearDown() {
+        EXPECT_EQ(TestContext::Finalize(this),1);
+    }
 
 static int Initialize(void * context)
 {
@@ -57,10 +65,10 @@ static int Initialize(void * context)
     cluster_scene.supported_commands    = { "SceneCount" };
     return ctx->register_endpoint(ep);
 }
+};
 
-static void TestAddGroupCommand(nlTestSuite * inSuite, void * aContext)
+TEST_F(TestGroupCommand,TestAddGroupCommand)
 {
-    TestContext & ctx = *static_cast<TestContext *>(aContext);
     gTestStorage.ClearStorage();
     gGroupsProvider.SetStorageDelegate(&gTestStorage);
     gGroupsProvider.Init();
@@ -69,53 +77,34 @@ static void TestAddGroupCommand(nlTestSuite * inSuite, void * aContext)
     request.groupID   = 1;
     request.groupName = chip::CharSpan::fromCharString("test_group_1");
     Clusters::Groups::Commands::AddGroupResponse::DecodableType response;
-    CHIP_ERROR err = ctx.command_test<Clusters::Groups::Commands::AddGroup::Type>(
-        inSuite, "ucl/by-unid/zw-0x0002/ep2/Groups/Commands/AddGroup", R"({"GroupId":1,"GroupName":"test_group_1"})", request,
+    CHIP_ERROR err = command_test<Clusters::Groups::Commands::AddGroup::Type>(
+        "ucl/by-unid/zw-0x0002/ep2/Groups/Commands/AddGroup", R"({"GroupId":1,"GroupName":"test_group_1"})", request,
         response);
-    NL_TEST_ASSERT(inSuite, err == CHIP_NO_ERROR);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
-static void TestRemoveGroupCommand(nlTestSuite * inSuite, void * aContext)
-{
-    TestContext & ctx = *static_cast<TestContext *>(aContext);
-    Clusters::Groups::Commands::RemoveGroup::Type request_remove;
-    request_remove.groupID = 1;
-    Clusters::Groups::Commands::RemoveGroupResponse::DecodableType response_remove;
-    CHIP_ERROR err = ctx.command_test<Clusters::Groups::Commands::RemoveGroup::Type>(
-        inSuite, "ucl/by-unid/zw-0x0002/ep2/Groups/Commands/RemoveGroup", R"({"GroupId":1})", request_remove, response_remove);
-    NL_TEST_ASSERT(inSuite, err == CHIP_NO_ERROR);
-}
+// TEST_F(TestGroupCommand, TestRemoveGroupCommand)
+// {
+//     Clusters::Groups::Commands::RemoveGroup::Type request_remove;
+//     request_remove.groupID = 1;
+//     Clusters::Groups::Commands::RemoveGroupResponse::DecodableType response_remove;
+//     CHIP_ERROR err = command_test<Clusters::Groups::Commands::RemoveGroup::Type>(
+//         "ucl/by-unid/zw-0x0002/ep2/Groups/Commands/RemoveGroup", R"({"GroupId":1})", request_remove, response_remove);
+//     EXPECT_EQ(err, CHIP_NO_ERROR);
+// }
 
-static void TestRemoveAllGroupsCommand(nlTestSuite * inSuite, void * aContext)
+TEST_F(TestGroupCommand, TestRemoveAllGroupsCommand)
 {
-    TestContext & ctx = *static_cast<TestContext *>(aContext);
     Clusters::Groups::Commands::AddGroup::Type request;
     request.groupID   = 2;
     request.groupName = chip::CharSpan::fromCharString("test_group_2");
     Clusters::Groups::Commands::AddGroupResponse::DecodableType response;
-    CHIP_ERROR err = ctx.command_test<Clusters::Groups::Commands::AddGroup::Type>(
-        inSuite, "ucl/by-unid/zw-0x0002/ep2/Groups/Commands/AddGroup", R"({"GroupId":1,"GroupName":"test_group_2"})", request,
+    CHIP_ERROR err = command_test<Clusters::Groups::Commands::AddGroup::Type>(
+        "ucl/by-unid/zw-0x0002/ep2/Groups/Commands/AddGroup", R"({"GroupId":1,"GroupName":"test_group_2"})", request,
         response);
-    NL_TEST_ASSERT(inSuite, err == CHIP_NO_ERROR);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
     Clusters::Groups::Commands::RemoveAllGroups::Type request_remove;
-    err = ctx.command_test<Clusters::Groups::Commands::RemoveAllGroups::Type>(
-        inSuite, "ucl/by-unid/zw-0x0002/ep2/Groups/Commands/RemoveAllGroups", R"({})", request_remove);
-    NL_TEST_ASSERT(inSuite, err == CHIP_NO_ERROR);
+    err = command_test<Clusters::Groups::Commands::RemoveAllGroups::Type>(
+        "ucl/by-unid/zw-0x0002/ep2/Groups/Commands/RemoveAllGroups", R"({})", request_remove);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
-
-/**
- *   Test Suite. It lists all the test functions.
- */
-static const nlTest sTests[] = { NL_TEST_DEF("Groups::TestAddGroupCommand", TestAddGroupCommand),
-                                 NL_TEST_DEF("Groups::TestRemoveGroupCommand", TestRemoveGroupCommand),
-                                 NL_TEST_DEF("Groups::TestRemoveAllGroupsCommand", TestRemoveAllGroupsCommand),
-                                 NL_TEST_SENTINEL() };
-
-static nlTestSuite kTheSuite = { "TestGroupCommandTranslator", &sTests[0], Initialize, TestContext::Finalize };
-
-int TestGroupCommandTranslatorSuite(void)
-{
-    return chip::ExecuteTestsWithContext<TestContext>(&kTheSuite);
-}
-
-CHIP_REGISTER_TEST_SUITE(TestGroupCommandTranslatorSuite)

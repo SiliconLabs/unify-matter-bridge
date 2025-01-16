@@ -1621,8 +1621,8 @@ exports.model = {
       "InvalidArmDisarmCode",
     ], //
     "CCColorLoopDirection" : [
-      "DecrementEnhancedCurrentHue",
-      "IncrementEnhancedCurrentHue",
+      "ColorLoopHueDecrement",
+      "ColorLoopHueIncrement",
     ], //
     "CCDirection" : [
       "ShortestDistance",
@@ -1642,6 +1642,10 @@ exports.model = {
     "ColorControlColorLoopActive" : [
       "ColorLoopInactive",
       "ColorLoopActive",
+    ], //
+    "ColorControlColorLoopDirection" : [
+      "DecrementEnhancedCurrentHue",
+      "IncrementEnhancedCurrentHue",
     ], //
     "ColorControlColorMode" : [
       "CurrentHueAndCurrentSaturation",
@@ -2018,6 +2022,12 @@ exports.model = {
       "Unitless",
       "MegaJouleMegaJoulePerSecond",
     ], //
+    "ModeType" : [
+      "Off",
+      "Humidify",
+      "Dehumidify",
+      "Auto",
+    ], //
     "MoveStepMode" : [
       "Up",
       "Down",
@@ -2154,10 +2164,19 @@ exports.model = {
       "Closing",
       "Opening",
     ], //
+    "ScaleType" : [
+      "Percentage",
+      "Absolute",
+    ], //
     "SetpointRaiseOrLowerMode" : [
       "Heat",
       "Cool",
       "Both",
+    ], //
+    "SetpointType" : [
+      "Humidifier",
+      "Dehumidifier",
+      "Auto",
     ], //
     "ShadeConfigurationMode" : [
       "Normal",
@@ -2287,6 +2306,43 @@ exports.model = {
       "Other",
       "Unknown",
     ], //
+    "UnifyHumidityControlCurrentState" : [
+      "Idle",
+      "Humidifying",
+      "Dehumidifying",
+    ], //
+    "UnifyThermostatOperatingState" : [
+      "Off",
+      "Heating",
+      "Cooling",
+      "FanOnly",
+      "PendingHeat",
+      "PendingCool",
+      "Vent/Economizer",
+      "AuxHeating",
+      "2ndStageHeating",
+      "2ndStageCooling",
+      "2ndStageAuxHeat",
+      "3rdStageAuxHeat",
+    ], //
+    "UnifyThermostatThermostatMode" : [
+      "Off",
+      "Heat",
+      "Cool",
+      "Auto",
+      "Auxiliary",
+      "Resume",
+      "Fan",
+      "Furnace",
+      "Dry",
+      "Moist",
+      "AutoChangeover",
+      "EnergyHeat",
+      "EnergyCool",
+      "Away",
+      "FullPower",
+      "ManufacturerSpecific",
+    ], //
     "WindowCoveringWindowCoveringType" : [
       "Rollershade",
       "Rollershade2Motor",
@@ -2298,6 +2354,31 @@ exports.model = {
       "TiltBlindTiltOnly",
       "TiltBlindLiftAndTilt",
       "ProjectorScreen",
+    ], //
+    "ZWaveFanModeEnum" : [
+      "Auto",
+      "Low",
+      "AutoHigh",
+      "High",
+      "AutoMedium",
+      "Medium",
+      "Circulation",
+      "HumidityCirculation",
+      "LeftRight",
+      "UpDown",
+      "Quiet",
+      "ExternalCirculation",
+    ], //
+    "ZWaveFanStateEnum" : [
+      "Idle",
+      "Running",
+      "RunningHigh",
+      "RunningMedium",
+      "Circulation",
+      "HumidityCirculation",
+      "RightLeftCirculation",
+      "UpDownCirculation",
+      "QuietCirculation",
     ], //
     "ZoneEnrollResponseEnrollResponseCode" : [
       "Success",
@@ -2812,6 +2893,48 @@ exports.model = {
     "TstatScheduleMode" : {
       1 : "Heat",
       2 : "Cool",
+    },
+    "UnifyFanControlZWaveSupportedFanMode" : {
+      1 : "Auto",
+      2 : "Low",
+      4 : "AutoHigh",
+      8 : "High",
+      16 : "AutoMedium",
+      32 : "Medium",
+      64 : "Circulation",
+      128 : "HumidityCirculation",
+      256 : "LeftRight",
+      512 : "UpDown",
+      1024 : "Quiet",
+      2048 : "ExternalCirculation",
+    },
+    "UnifyHumidityControlSupportedReportingMode" : {
+      1 : "Humidify",
+      2 : "Dehumidify",
+      4 : "Auto",
+    },
+    "UnifyHumidityControlSupportedSetPoints" : {
+      1 : "Humidifier",
+      2 : "Dehumidifier",
+      4 : "Auto",
+    },
+    "UnifyThermostatSupportedThermostatMode" : {
+      1 : "Off",
+      2 : "Heat",
+      4 : "Cool",
+      8 : "Auto",
+      16 : "Auxiliary",
+      32 : "Resume",
+      64 : "Fan",
+      128 : "Furnace",
+      256 : "Dry",
+      512 : "Moist",
+      1024 : "AutoChangeover",
+      2048 : "EnergyHeat",
+      4096 : "EnergyCool",
+      8192 : "Away",
+      16384 : "FullPower",
+      32768 : "ManufacturerSpecific",
     },
     "WindowCoveringConfigOrStatus" : {
       1 : "Operational",

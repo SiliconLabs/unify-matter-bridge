@@ -31,7 +31,7 @@
 #include "MockUnifyMqtt.hpp"
 
 // Third party library
-#include <nlunit-test.h>
+#include <gtest/gtest.h>
 #include "sl_log.h"
 
 namespace unify::matter_bridge {
@@ -62,10 +62,14 @@ public:
     UnifyEmberInterface mEmberInterface;
     device_translator mDeviceTranslator = device_translator(false);
     matter_data_storage m_matter_data_storage;
-    Test::MockUnifyMqtt mMqttHandler;
-    Test::MockNodeStateMonitor mNodeStateMonitor;
-    Test::MockGroupTranslator mGroupTranslator;
-    Test::MockClusterEmulator mEmulator;
+    unify::matter_bridge::Test::MockUnifyMqtt mMqttHandler;
+    unify::matter_bridge::Test::MockNodeStateMonitor mNodeStateMonitor;
+    unify::matter_bridge::Test::MockGroupTranslator mGroupTranslator;
+    unify::matter_bridge::Test::MockClusterEmulator mEmulator;
+    static const int SUCCESS = 1;
+    static const int FAILURE = 0;
+protected:
+    chip::app::DataModel::Provider * mOldProvider = nullptr;
 };
 
 } // namespace Test

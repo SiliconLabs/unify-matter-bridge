@@ -3,4 +3,4 @@
 	url = https://github.com/SiliconLabs/matter-for-unify.git
 [submodule "linux/third_party/UnifySDK"]
 	path = linux/third_party/UnifySDK
-	url = https://github.com/SiliconLabs/UnifySDK.git
+	url = ssh://git@stash.silabs.com/uic/uic.git

@@ -13,16 +13,18 @@
 #include "UnifyBridgeContext.h"
 #include "MockAttributePersistenceProvider.h"
 #include <app/util/DataModelHandler.h>
+#include <app/InteractionModelEngine.h>
+#include "app/codegen-data-model-provider/Instance.h"
 
 namespace unify::matter_bridge {
-namespace Test {
+namespace Test {    
 
 CHIP_ERROR UnifyBridgeContext::UMB_Initialize()
 {
-    ReturnErrorOnFailure(Super::SetUpTestSuite());
-
+    Super::SetUp();
     MockAttributePersistenceProvider persistence;
     chip::app::SetAttributePersistenceProvider(&persistence);
+    mOldProvider = chip::app::InteractionModelEngine::GetInstance()->SetDataModelProvider(chip::app::CodegenDataModelProviderInstance());
     InitDataModelHandler();
 
     return CHIP_NO_ERROR;
@@ -30,7 +32,8 @@ CHIP_ERROR UnifyBridgeContext::UMB_Initialize()
 
 void UnifyBridgeContext::UMB_Finalize()
 {
-    Super::TearDownTestSuite();
+    chip::app::InteractionModelEngine::GetInstance()->SetDataModelProvider(mOldProvider);
+    Super::TearDown();
 }
 
 } // namespace Test

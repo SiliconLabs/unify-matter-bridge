@@ -8,15 +8,19 @@
 #include "matter_endpoint_builder.hpp"
 
 // Chip components
-#include <lib/support/UnitTestContext.h>
-#include <lib/support/UnitTestRegistration.h>
+// // #include <lib/support/UnitTestContext.h>
+// // #include <lib/support/UnitTestRegistration.h>
 
 // Third party library
-#include <nlunit-test.h>
+#include <gtest/gtest.h>
+#include <pw_unit_test/framework.h>
 
 #define TEST_LOG_TAG "ClusterInteractorTest"
-
-static void TestClusterInteractorNotYetBuilt(nlTestSuite * inSuite, void * aContext)
+namespace chip {
+namespace app {
+namespace TestPath {
+    
+TEST(TestClusterInteractor, TestClusterInteractorNotYetBuilt)
 {
     // Initialize the cluster interactor
     unify::matter_bridge::ClusterEmulator emulator;
@@ -28,10 +32,10 @@ static void TestClusterInteractorNotYetBuilt(nlTestSuite * inSuite, void * aCont
     const char * dt =
         matter_device_type_vs_clusters_map.find(cluster_interactor.get_matter_type().value())->second.device_type_name;
     std::string device_type(dt);
-    NL_TEST_ASSERT(inSuite, device_type == "pressuresensor");
+    EXPECT_EQ(device_type,"pressuresensor");
 }
 
-static void TestClusterInteractorEmpty(nlTestSuite * inSuite, void * aContext)
+TEST(TestClusterInteractor, TestClusterInteractorEmpty)
 {
     // Initialize the cluster interactor
     unify::matter_bridge::device_translator matter_device_translator(false);
@@ -46,10 +50,10 @@ static void TestClusterInteractorEmpty(nlTestSuite * inSuite, void * aContext)
     const char * dt =
         matter_device_type_vs_clusters_map.find(cluster_interactor.get_matter_type().value())->second.device_type_name;
     std::string device_type(dt);
-    NL_TEST_ASSERT(inSuite, device_type == "pressuresensor");
+    EXPECT_EQ(device_type, "pressuresensor");
 }
 
-static void TestClusterInteractorDoorLock(nlTestSuite * inSuite, void * aContext)
+TEST(TestClusterInteractor, TestClusterInteractorDoorLock)
 {
     // Initialize the cluster interactor
     unify::matter_bridge::device_translator matter_device_translator(false);
@@ -76,10 +80,10 @@ static void TestClusterInteractorDoorLock(nlTestSuite * inSuite, void * aContext
     const char * dt =
         matter_device_type_vs_clusters_map.find(cluster_interactor.get_matter_type().value())->second.device_type_name;
     std::string device_type(dt);
-    NL_TEST_ASSERT(inSuite, device_type == "doorlock");
+    EXPECT_EQ(device_type,"doorlock");
 }
 
-static void TestClusterInteractorOccupancySensor(nlTestSuite * inSuite, void * aContext)
+TEST(TestClusterInteractor, TestClusterInteractorOccupancySensor)
 {
     // Initialize the cluster interactor
     unify::matter_bridge::ClusterEmulator emulator;
@@ -104,31 +108,9 @@ static void TestClusterInteractorOccupancySensor(nlTestSuite * inSuite, void * a
     const char * dt =
         matter_device_type_vs_clusters_map.find(cluster_interactor.get_matter_type().value())->second.device_type_name;
     std::string device_type(dt);
-    NL_TEST_ASSERT(inSuite, device_type == "occupancysensor");
+    EXPECT_EQ(device_type,"occupancysensor");
+}
+}
+}
 }
 
-class TestContext
-{
-public:
-    nlTestSuite * mTestSuite;
-    uint32_t mNumTimersHandled;
-};
-
-/**
- *   Test Suite. It lists all the test functions.
- */
-static const nlTest sTests[] = {
-    NL_TEST_DEF("ClusterInteractor::TestClusterInteractorNotYetBuilt", TestClusterInteractorNotYetBuilt),
-    NL_TEST_DEF("ClusterInteractor::TestClusterInteractorEmpty", TestClusterInteractorEmpty),
-    NL_TEST_DEF("ClusterInteractor::TestClusterInteractorDoorLock", TestClusterInteractorDoorLock),
-    NL_TEST_DEF("ClusterInteractor::TestClusterInteractorOccupancySensor", TestClusterInteractorOccupancySensor), NL_TEST_SENTINEL()
-};
-
-static nlTestSuite kTheSuite = { "ClusterInteractorTests", &sTests[0], nullptr, nullptr };
-
-int TestClusterInteractorSuite(void)
-{
-    return chip::ExecuteTestsWithContext<TestContext>(&kTheSuite);
-}
-
-CHIP_REGISTER_TEST_SUITE(TestClusterInteractorSuite)

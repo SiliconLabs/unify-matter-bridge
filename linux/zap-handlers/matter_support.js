@@ -57,13 +57,25 @@ const attribute_type_need_cluster_name_append = {
     "Feature": true,
     "EffectIdentifierEnum": true,
   },
+  "Occupancy Sensing": {
+    "Feature": true,
+    "OccupancyBitmap": true,
+  },
+  "Thermostat": {
+    "Feature": true,
+    "OccupancyBitmap": true,
+  },
   "Level control":{
     "Feature": true,
     "OptionsBitmap": true,
+    "MoveModeEnum":true,
+    "StepModeEnum":true,
   },
   "Color Control": {
     "Feature": true,
     "OptionsBitmap": true,
+    "MoveModeEnum":true,
+    "StepModeEnum":true,
   },
   "*": {
     "Feature": true,

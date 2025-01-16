@@ -36,9 +36,7 @@ namespace app {
             { "Identify", Identify::Id },
             { "Groups", Groups::Id },
             { "OnOff", OnOff::Id },
-            { "OnOffSwitchConfiguration", OnOffSwitchConfiguration::Id },
             { "LevelControl", LevelControl::Id },
-            { "BinaryInputBasic", BinaryInputBasic::Id },
             { "PulseWidthModulation", PulseWidthModulation::Id },
             { "Descriptor", Descriptor::Id },
             { "Binding", Binding::Id },
@@ -100,6 +98,7 @@ namespace app {
             { "ValveConfigurationAndControl", ValveConfigurationAndControl::Id },
             { "ElectricalPowerMeasurement", ElectricalPowerMeasurement::Id },
             { "ElectricalEnergyMeasurement", ElectricalEnergyMeasurement::Id },
+            { "WaterHeaterManagement", WaterHeaterManagement::Id },
             { "DemandResponseLoadControl", DemandResponseLoadControl::Id },
             { "Messages", Messages::Id },
             { "DeviceEnergyManagement", DeviceEnergyManagement::Id },
@@ -107,10 +106,11 @@ namespace app {
             { "EnergyPreference", EnergyPreference::Id },
             { "PowerTopology", PowerTopology::Id },
             { "EnergyEvseMode", EnergyEvseMode::Id },
+            { "WaterHeaterMode", WaterHeaterMode::Id },
             { "DeviceEnergyManagementMode", DeviceEnergyManagementMode::Id },
             { "DoorLock", DoorLock::Id },
             { "WindowCovering", WindowCovering::Id },
-            { "BarrierControl", BarrierControl::Id },
+            { "ServiceArea", ServiceArea::Id },
             { "PumpConfigurationAndControl", PumpConfigurationAndControl::Id },
             { "Thermostat", Thermostat::Id },
             { "FanControl", FanControl::Id },
@@ -133,6 +133,9 @@ namespace app {
             { "Pm10ConcentrationMeasurement", Pm10ConcentrationMeasurement::Id },
             { "TotalVolatileOrganicCompoundsConcentrationMeasurement", TotalVolatileOrganicCompoundsConcentrationMeasurement::Id },
             { "RadonConcentrationMeasurement", RadonConcentrationMeasurement::Id },
+            { "WiFiNetworkManagement", WiFiNetworkManagement::Id },
+            { "ThreadBorderRouterManagement", ThreadBorderRouterManagement::Id },
+            { "ThreadNetworkDirectory", ThreadNetworkDirectory::Id },
             { "WakeOnLan", WakeOnLan::Id },
             { "Channel", Channel::Id },
             { "TargetNavigator", TargetNavigator::Id },
@@ -147,7 +150,10 @@ namespace app {
             { "AccountLogin", AccountLogin::Id },
             { "ContentControl", ContentControl::Id },
             { "ContentAppObserver", ContentAppObserver::Id },
-            { "ElectricalMeasurement", ElectricalMeasurement::Id },
+            { "WebRTCTransportProvider", WebRTCTransportProvider::Id },
+            { "Chime", Chime::Id },
+            { "EcosystemInformation", EcosystemInformation::Id },
+            { "CommissionerControl", CommissionerControl::Id },
             { "UnitTesting", UnitTesting::Id },
             { "FaultInjection", FaultInjection::Id },
             { "SampleMei", SampleMei::Id }
@@ -199,20 +205,6 @@ namespace app {
                 };
             } // namespace Attributes
         } // namespace OnOff
-        namespace OnOffSwitchConfiguration {
-            namespace Attributes {
-                static const std::unordered_map<std::string, chip::AttributeId> matter_attribute_id_cluster_map {
-                    { "SwitchType", SwitchType::Id },
-                    { "SwitchActions", SwitchActions::Id },
-                    { "GeneratedCommandList", GeneratedCommandList::Id },
-                    { "AcceptedCommandList", AcceptedCommandList::Id },
-                    { "EventList", EventList::Id },
-                    { "AttributeList", AttributeList::Id },
-                    { "FeatureMap", FeatureMap::Id },
-                    { "ClusterRevision", ClusterRevision::Id }
-                };
-            } // namespace Attributes
-        } // namespace OnOffSwitchConfiguration
         namespace LevelControl {
             namespace Attributes {
                 static const std::unordered_map<std::string, chip::AttributeId> matter_attribute_id_cluster_map {
@@ -239,21 +231,6 @@ namespace app {
                 };
             } // namespace Attributes
         } // namespace LevelControl
-        namespace BinaryInputBasic {
-            namespace Attributes {
-                static const std::unordered_map<std::string, chip::AttributeId> matter_attribute_id_cluster_map {
-                    { "OutOfService", OutOfService::Id },
-                    { "PresentValue", PresentValue::Id },
-                    { "StatusFlags", StatusFlags::Id },
-                    { "GeneratedCommandList", GeneratedCommandList::Id },
-                    { "AcceptedCommandList", AcceptedCommandList::Id },
-                    { "EventList", EventList::Id },
-                    { "AttributeList", AttributeList::Id },
-                    { "FeatureMap", FeatureMap::Id },
-                    { "ClusterRevision", ClusterRevision::Id }
-                };
-            } // namespace Attributes
-        } // namespace BinaryInputBasic
         namespace PulseWidthModulation {
             namespace Attributes {
                 static const std::unordered_map<std::string, chip::AttributeId> matter_attribute_id_cluster_map {
@@ -339,6 +316,7 @@ namespace app {
                     { "HardwareVersionString", HardwareVersionString::Id },
                     { "SoftwareVersion", SoftwareVersion::Id },
                     { "SoftwareVersionString", SoftwareVersionString::Id },
+                    { "UniqueID", UniqueID::Id },
                     { "CapabilityMinima", CapabilityMinima::Id },
                     { "SpecificationVersion", SpecificationVersion::Id },
                     { "MaxPathsPerInvoke", MaxPathsPerInvoke::Id },
@@ -597,6 +575,7 @@ namespace app {
             namespace Attributes {
                 static const std::unordered_map<std::string, chip::AttributeId> matter_attribute_id_cluster_map {
                     { "Reachable", Reachable::Id },
+                    { "UniqueID", UniqueID::Id },
                     { "GeneratedCommandList", GeneratedCommandList::Id },
                     { "AcceptedCommandList", AcceptedCommandList::Id },
                     { "EventList", EventList::Id },
@@ -1149,6 +1128,21 @@ namespace app {
                 };
             } // namespace Attributes
         } // namespace ElectricalEnergyMeasurement
+        namespace WaterHeaterManagement {
+            namespace Attributes {
+                static const std::unordered_map<std::string, chip::AttributeId> matter_attribute_id_cluster_map {
+                    { "HeaterTypes", HeaterTypes::Id },
+                    { "HeatDemand", HeatDemand::Id },
+                    { "BoostState", BoostState::Id },
+                    { "GeneratedCommandList", GeneratedCommandList::Id },
+                    { "AcceptedCommandList", AcceptedCommandList::Id },
+                    { "EventList", EventList::Id },
+                    { "AttributeList", AttributeList::Id },
+                    { "FeatureMap", FeatureMap::Id },
+                    { "ClusterRevision", ClusterRevision::Id }
+                };
+            } // namespace Attributes
+        } // namespace WaterHeaterManagement
         namespace DemandResponseLoadControl {
             namespace Attributes {
                 static const std::unordered_map<std::string, chip::AttributeId> matter_attribute_id_cluster_map {
@@ -1260,6 +1254,20 @@ namespace app {
                 };
             } // namespace Attributes
         } // namespace EnergyEvseMode
+        namespace WaterHeaterMode {
+            namespace Attributes {
+                static const std::unordered_map<std::string, chip::AttributeId> matter_attribute_id_cluster_map {
+                    { "SupportedModes", SupportedModes::Id },
+                    { "CurrentMode", CurrentMode::Id },
+                    { "GeneratedCommandList", GeneratedCommandList::Id },
+                    { "AcceptedCommandList", AcceptedCommandList::Id },
+                    { "EventList", EventList::Id },
+                    { "AttributeList", AttributeList::Id },
+                    { "FeatureMap", FeatureMap::Id },
+                    { "ClusterRevision", ClusterRevision::Id }
+                };
+            } // namespace Attributes
+        } // namespace WaterHeaterMode
         namespace DeviceEnergyManagementMode {
             namespace Attributes {
                 static const std::unordered_map<std::string, chip::AttributeId> matter_attribute_id_cluster_map {
@@ -1313,13 +1321,11 @@ namespace app {
                 };
             } // namespace Attributes
         } // namespace WindowCovering
-        namespace BarrierControl {
+        namespace ServiceArea {
             namespace Attributes {
                 static const std::unordered_map<std::string, chip::AttributeId> matter_attribute_id_cluster_map {
-                    { "BarrierMovingState", BarrierMovingState::Id },
-                    { "BarrierSafetyStatus", BarrierSafetyStatus::Id },
-                    { "BarrierCapabilities", BarrierCapabilities::Id },
-                    { "BarrierPosition", BarrierPosition::Id },
+                    { "SupportedAreas", SupportedAreas::Id },
+                    { "SelectedAreas", SelectedAreas::Id },
                     { "GeneratedCommandList", GeneratedCommandList::Id },
                     { "AcceptedCommandList", AcceptedCommandList::Id },
                     { "EventList", EventList::Id },
@@ -1328,7 +1334,7 @@ namespace app {
                     { "ClusterRevision", ClusterRevision::Id }
                 };
             } // namespace Attributes
-        } // namespace BarrierControl
+        } // namespace ServiceArea
         namespace PumpConfigurationAndControl {
             namespace Attributes {
                 static const std::unordered_map<std::string, chip::AttributeId> matter_attribute_id_cluster_map {
@@ -1700,6 +1706,53 @@ namespace app {
                 };
             } // namespace Attributes
         } // namespace RadonConcentrationMeasurement
+        namespace WiFiNetworkManagement {
+            namespace Attributes {
+                static const std::unordered_map<std::string, chip::AttributeId> matter_attribute_id_cluster_map {
+                    { "Ssid", Ssid::Id },
+                    { "PassphraseSurrogate", PassphraseSurrogate::Id },
+                    { "GeneratedCommandList", GeneratedCommandList::Id },
+                    { "AcceptedCommandList", AcceptedCommandList::Id },
+                    { "EventList", EventList::Id },
+                    { "AttributeList", AttributeList::Id },
+                    { "FeatureMap", FeatureMap::Id },
+                    { "ClusterRevision", ClusterRevision::Id }
+                };
+            } // namespace Attributes
+        } // namespace WiFiNetworkManagement
+        namespace ThreadBorderRouterManagement {
+            namespace Attributes {
+                static const std::unordered_map<std::string, chip::AttributeId> matter_attribute_id_cluster_map {
+                    { "BorderRouterName", BorderRouterName::Id },
+                    { "BorderAgentID", BorderAgentID::Id },
+                    { "ThreadVersion", ThreadVersion::Id },
+                    { "InterfaceEnabled", InterfaceEnabled::Id },
+                    { "ActiveDatasetTimestamp", ActiveDatasetTimestamp::Id },
+                    { "PendingDatasetTimestamp", PendingDatasetTimestamp::Id },
+                    { "GeneratedCommandList", GeneratedCommandList::Id },
+                    { "AcceptedCommandList", AcceptedCommandList::Id },
+                    { "EventList", EventList::Id },
+                    { "AttributeList", AttributeList::Id },
+                    { "FeatureMap", FeatureMap::Id },
+                    { "ClusterRevision", ClusterRevision::Id }
+                };
+            } // namespace Attributes
+        } // namespace ThreadBorderRouterManagement
+        namespace ThreadNetworkDirectory {
+            namespace Attributes {
+                static const std::unordered_map<std::string, chip::AttributeId> matter_attribute_id_cluster_map {
+                    { "PreferredExtendedPanID", PreferredExtendedPanID::Id },
+                    { "ThreadNetworks", ThreadNetworks::Id },
+                    { "ThreadNetworkTableSize", ThreadNetworkTableSize::Id },
+                    { "GeneratedCommandList", GeneratedCommandList::Id },
+                    { "AcceptedCommandList", AcceptedCommandList::Id },
+                    { "EventList", EventList::Id },
+                    { "AttributeList", AttributeList::Id },
+                    { "FeatureMap", FeatureMap::Id },
+                    { "ClusterRevision", ClusterRevision::Id }
+                };
+            } // namespace Attributes
+        } // namespace ThreadNetworkDirectory
         namespace WakeOnLan {
             namespace Attributes {
                 static const std::unordered_map<std::string, chip::AttributeId> matter_attribute_id_cluster_map {
@@ -1881,9 +1934,10 @@ namespace app {
                 };
             } // namespace Attributes
         } // namespace ContentAppObserver
-        namespace ElectricalMeasurement {
+        namespace WebRTCTransportProvider {
             namespace Attributes {
                 static const std::unordered_map<std::string, chip::AttributeId> matter_attribute_id_cluster_map {
+                    { "CurrentSessions", CurrentSessions::Id },
                     { "GeneratedCommandList", GeneratedCommandList::Id },
                     { "AcceptedCommandList", AcceptedCommandList::Id },
                     { "EventList", EventList::Id },
@@ -1892,7 +1946,49 @@ namespace app {
                     { "ClusterRevision", ClusterRevision::Id }
                 };
             } // namespace Attributes
-        } // namespace ElectricalMeasurement
+        } // namespace WebRTCTransportProvider
+        namespace Chime {
+            namespace Attributes {
+                static const std::unordered_map<std::string, chip::AttributeId> matter_attribute_id_cluster_map {
+                    { "InstalledChimeSounds", InstalledChimeSounds::Id },
+                    { "ActiveChimeID", ActiveChimeID::Id },
+                    { "Enabled", Enabled::Id },
+                    { "GeneratedCommandList", GeneratedCommandList::Id },
+                    { "AcceptedCommandList", AcceptedCommandList::Id },
+                    { "EventList", EventList::Id },
+                    { "AttributeList", AttributeList::Id },
+                    { "FeatureMap", FeatureMap::Id },
+                    { "ClusterRevision", ClusterRevision::Id }
+                };
+            } // namespace Attributes
+        } // namespace Chime
+        namespace EcosystemInformation {
+            namespace Attributes {
+                static const std::unordered_map<std::string, chip::AttributeId> matter_attribute_id_cluster_map {
+                    { "DeviceDirectory", DeviceDirectory::Id },
+                    { "LocationDirectory", LocationDirectory::Id },
+                    { "GeneratedCommandList", GeneratedCommandList::Id },
+                    { "AcceptedCommandList", AcceptedCommandList::Id },
+                    { "EventList", EventList::Id },
+                    { "AttributeList", AttributeList::Id },
+                    { "FeatureMap", FeatureMap::Id },
+                    { "ClusterRevision", ClusterRevision::Id }
+                };
+            } // namespace Attributes
+        } // namespace EcosystemInformation
+        namespace CommissionerControl {
+            namespace Attributes {
+                static const std::unordered_map<std::string, chip::AttributeId> matter_attribute_id_cluster_map {
+                    { "SupportedDeviceCategories", SupportedDeviceCategories::Id },
+                    { "GeneratedCommandList", GeneratedCommandList::Id },
+                    { "AcceptedCommandList", AcceptedCommandList::Id },
+                    { "EventList", EventList::Id },
+                    { "AttributeList", AttributeList::Id },
+                    { "FeatureMap", FeatureMap::Id },
+                    { "ClusterRevision", ClusterRevision::Id }
+                };
+            } // namespace Attributes
+        } // namespace CommissionerControl
         namespace UnitTesting {
             namespace Attributes {
                 static const std::unordered_map<std::string, chip::AttributeId> matter_attribute_id_cluster_map {
@@ -1943,6 +2039,8 @@ namespace app {
                     { "TimedWriteBoolean", TimedWriteBoolean::Id },
                     { "GeneralErrorBoolean", GeneralErrorBoolean::Id },
                     { "ClusterErrorBoolean", ClusterErrorBoolean::Id },
+                    { "GlobalEnum", GlobalEnum::Id },
+                    { "GlobalStruct", GlobalStruct::Id },
                     { "NullableBoolean", NullableBoolean::Id },
                     { "NullableBitmap8", NullableBitmap8::Id },
                     { "NullableBitmap16", NullableBitmap16::Id },
@@ -1976,6 +2074,8 @@ namespace app {
                     { "NullableRangeRestrictedInt8s", NullableRangeRestrictedInt8s::Id },
                     { "NullableRangeRestrictedInt16u", NullableRangeRestrictedInt16u::Id },
                     { "NullableRangeRestrictedInt16s", NullableRangeRestrictedInt16s::Id },
+                    { "NullableGlobalEnum", NullableGlobalEnum::Id },
+                    { "NullableGlobalStruct", NullableGlobalStruct::Id },
                     { "GeneratedCommandList", GeneratedCommandList::Id },
                     { "AcceptedCommandList", AcceptedCommandList::Id },
                     { "EventList", EventList::Id },
@@ -2017,9 +2117,7 @@ namespace app {
             { "Identify", Identify::Attributes::matter_attribute_id_cluster_map },
             { "Groups", Groups::Attributes::matter_attribute_id_cluster_map },
             { "OnOff", OnOff::Attributes::matter_attribute_id_cluster_map },
-            { "OnOffSwitchConfiguration", OnOffSwitchConfiguration::Attributes::matter_attribute_id_cluster_map },
             { "LevelControl", LevelControl::Attributes::matter_attribute_id_cluster_map },
-            { "BinaryInputBasic", BinaryInputBasic::Attributes::matter_attribute_id_cluster_map },
             { "PulseWidthModulation", PulseWidthModulation::Attributes::matter_attribute_id_cluster_map },
             { "Descriptor", Descriptor::Attributes::matter_attribute_id_cluster_map },
             { "Binding", Binding::Attributes::matter_attribute_id_cluster_map },
@@ -2081,6 +2179,7 @@ namespace app {
             { "ValveConfigurationAndControl", ValveConfigurationAndControl::Attributes::matter_attribute_id_cluster_map },
             { "ElectricalPowerMeasurement", ElectricalPowerMeasurement::Attributes::matter_attribute_id_cluster_map },
             { "ElectricalEnergyMeasurement", ElectricalEnergyMeasurement::Attributes::matter_attribute_id_cluster_map },
+            { "WaterHeaterManagement", WaterHeaterManagement::Attributes::matter_attribute_id_cluster_map },
             { "DemandResponseLoadControl", DemandResponseLoadControl::Attributes::matter_attribute_id_cluster_map },
             { "Messages", Messages::Attributes::matter_attribute_id_cluster_map },
             { "DeviceEnergyManagement", DeviceEnergyManagement::Attributes::matter_attribute_id_cluster_map },
@@ -2088,10 +2187,11 @@ namespace app {
             { "EnergyPreference", EnergyPreference::Attributes::matter_attribute_id_cluster_map },
             { "PowerTopology", PowerTopology::Attributes::matter_attribute_id_cluster_map },
             { "EnergyEvseMode", EnergyEvseMode::Attributes::matter_attribute_id_cluster_map },
+            { "WaterHeaterMode", WaterHeaterMode::Attributes::matter_attribute_id_cluster_map },
             { "DeviceEnergyManagementMode", DeviceEnergyManagementMode::Attributes::matter_attribute_id_cluster_map },
             { "DoorLock", DoorLock::Attributes::matter_attribute_id_cluster_map },
             { "WindowCovering", WindowCovering::Attributes::matter_attribute_id_cluster_map },
-            { "BarrierControl", BarrierControl::Attributes::matter_attribute_id_cluster_map },
+            { "ServiceArea", ServiceArea::Attributes::matter_attribute_id_cluster_map },
             { "PumpConfigurationAndControl", PumpConfigurationAndControl::Attributes::matter_attribute_id_cluster_map },
             { "Thermostat", Thermostat::Attributes::matter_attribute_id_cluster_map },
             { "FanControl", FanControl::Attributes::matter_attribute_id_cluster_map },
@@ -2114,6 +2214,9 @@ namespace app {
             { "Pm10ConcentrationMeasurement", Pm10ConcentrationMeasurement::Attributes::matter_attribute_id_cluster_map },
             { "TotalVolatileOrganicCompoundsConcentrationMeasurement", TotalVolatileOrganicCompoundsConcentrationMeasurement::Attributes::matter_attribute_id_cluster_map },
             { "RadonConcentrationMeasurement", RadonConcentrationMeasurement::Attributes::matter_attribute_id_cluster_map },
+            { "WiFiNetworkManagement", WiFiNetworkManagement::Attributes::matter_attribute_id_cluster_map },
+            { "ThreadBorderRouterManagement", ThreadBorderRouterManagement::Attributes::matter_attribute_id_cluster_map },
+            { "ThreadNetworkDirectory", ThreadNetworkDirectory::Attributes::matter_attribute_id_cluster_map },
             { "WakeOnLan", WakeOnLan::Attributes::matter_attribute_id_cluster_map },
             { "Channel", Channel::Attributes::matter_attribute_id_cluster_map },
             { "TargetNavigator", TargetNavigator::Attributes::matter_attribute_id_cluster_map },
@@ -2128,7 +2231,10 @@ namespace app {
             { "AccountLogin", AccountLogin::Attributes::matter_attribute_id_cluster_map },
             { "ContentControl", ContentControl::Attributes::matter_attribute_id_cluster_map },
             { "ContentAppObserver", ContentAppObserver::Attributes::matter_attribute_id_cluster_map },
-            { "ElectricalMeasurement", ElectricalMeasurement::Attributes::matter_attribute_id_cluster_map },
+            { "WebRTCTransportProvider", WebRTCTransportProvider::Attributes::matter_attribute_id_cluster_map },
+            { "Chime", Chime::Attributes::matter_attribute_id_cluster_map },
+            { "EcosystemInformation", EcosystemInformation::Attributes::matter_attribute_id_cluster_map },
+            { "CommissionerControl", CommissionerControl::Attributes::matter_attribute_id_cluster_map },
             { "UnitTesting", UnitTesting::Attributes::matter_attribute_id_cluster_map },
             { "FaultInjection", FaultInjection::Attributes::matter_attribute_id_cluster_map },
             { "SampleMei", SampleMei::Attributes::matter_attribute_id_cluster_map }
@@ -2172,11 +2278,6 @@ namespace app {
                 };
             } // namespace Commands
         } // namespace OnOff
-        namespace OnOffSwitchConfiguration {
-            namespace Commands {
-                static const std::unordered_map<std::string, chip::CommandId> matter_command_id_cluster_map {};
-            } // namespace Commands
-        } // namespace OnOffSwitchConfiguration
         namespace LevelControl {
             namespace Commands {
                 static const std::unordered_map<std::string, chip::CommandId> matter_command_id_cluster_map {
@@ -2192,11 +2293,6 @@ namespace app {
                 };
             } // namespace Commands
         } // namespace LevelControl
-        namespace BinaryInputBasic {
-            namespace Commands {
-                static const std::unordered_map<std::string, chip::CommandId> matter_command_id_cluster_map {};
-            } // namespace Commands
-        } // namespace BinaryInputBasic
         namespace PulseWidthModulation {
             namespace Commands {
                 static const std::unordered_map<std::string, chip::CommandId> matter_command_id_cluster_map {};
@@ -2276,7 +2372,7 @@ namespace app {
                     { "SetRegulatoryConfig", SetRegulatoryConfig::Id },
                     { "SetRegulatoryConfigResponse", SetRegulatoryConfigResponse::Id },
                     { "CommissioningComplete", CommissioningComplete::Id },
-                    { "CommissioningCompleteResponse", CommissioningCompleteResponse::Id }
+                    { "CommissioningCompleteResponse", CommissioningCompleteResponse::Id },
                 };
             } // namespace Commands
         } // namespace GeneralCommissioning
@@ -2591,6 +2687,14 @@ namespace app {
                 static const std::unordered_map<std::string, chip::CommandId> matter_command_id_cluster_map {};
             } // namespace Commands
         } // namespace ElectricalEnergyMeasurement
+        namespace WaterHeaterManagement {
+            namespace Commands {
+                static const std::unordered_map<std::string, chip::CommandId> matter_command_id_cluster_map {
+                    { "Boost", Boost::Id },
+                    { "CancelBoost", CancelBoost::Id }
+                };
+            } // namespace Commands
+        } // namespace WaterHeaterManagement
         namespace DemandResponseLoadControl {
             namespace Commands {
                 static const std::unordered_map<std::string, chip::CommandId> matter_command_id_cluster_map {
@@ -2640,6 +2744,14 @@ namespace app {
                 };
             } // namespace Commands
         } // namespace EnergyEvseMode
+        namespace WaterHeaterMode {
+            namespace Commands {
+                static const std::unordered_map<std::string, chip::CommandId> matter_command_id_cluster_map {
+                    { "ChangeToMode", ChangeToMode::Id },
+                    { "ChangeToModeResponse", ChangeToModeResponse::Id }
+                };
+            } // namespace Commands
+        } // namespace WaterHeaterMode
         namespace DeviceEnergyManagementMode {
             namespace Commands {
                 static const std::unordered_map<std::string, chip::CommandId> matter_command_id_cluster_map {
@@ -2665,14 +2777,14 @@ namespace app {
                 };
             } // namespace Commands
         } // namespace WindowCovering
-        namespace BarrierControl {
+        namespace ServiceArea {
             namespace Commands {
                 static const std::unordered_map<std::string, chip::CommandId> matter_command_id_cluster_map {
-                    { "BarrierControlGoToPercent", BarrierControlGoToPercent::Id },
-                    { "BarrierControlStop", BarrierControlStop::Id }
+                    { "SelectAreas", SelectAreas::Id },
+                    { "SelectAreasResponse", SelectAreasResponse::Id },
                 };
             } // namespace Commands
-        } // namespace BarrierControl
+        } // namespace ServiceArea
         namespace PumpConfigurationAndControl {
             namespace Commands {
                 static const std::unordered_map<std::string, chip::CommandId> matter_command_id_cluster_map {};
@@ -2806,6 +2918,34 @@ namespace app {
                 static const std::unordered_map<std::string, chip::CommandId> matter_command_id_cluster_map {};
             } // namespace Commands
         } // namespace RadonConcentrationMeasurement
+        namespace WiFiNetworkManagement {
+            namespace Commands {
+                static const std::unordered_map<std::string, chip::CommandId> matter_command_id_cluster_map {
+                    { "NetworkPassphraseRequest", NetworkPassphraseRequest::Id },
+                    { "NetworkPassphraseResponse", NetworkPassphraseResponse::Id }
+                };
+            } // namespace Commands
+        } // namespace WiFiNetworkManagement
+        namespace ThreadBorderRouterManagement {
+            namespace Commands {
+                static const std::unordered_map<std::string, chip::CommandId> matter_command_id_cluster_map {
+                    { "GetActiveDatasetRequest", GetActiveDatasetRequest::Id },
+                    { "GetPendingDatasetRequest", GetPendingDatasetRequest::Id },
+                    { "DatasetResponse", DatasetResponse::Id },
+                    { "SetActiveDatasetRequest", SetActiveDatasetRequest::Id },
+                };
+            } // namespace Commands
+        } // namespace ThreadBorderRouterManagement
+        namespace ThreadNetworkDirectory {
+            namespace Commands {
+                static const std::unordered_map<std::string, chip::CommandId> matter_command_id_cluster_map {
+                    { "AddNetwork", AddNetwork::Id },
+                    { "RemoveNetwork", RemoveNetwork::Id },
+                    { "GetOperationalDataset", GetOperationalDataset::Id },
+                    { "OperationalDatasetResponse", OperationalDatasetResponse::Id }
+                };
+            } // namespace Commands
+        } // namespace ThreadNetworkDirectory
         namespace WakeOnLan {
             namespace Commands {
                 static const std::unordered_map<std::string, chip::CommandId> matter_command_id_cluster_map {};
@@ -2911,11 +3051,40 @@ namespace app {
                 };
             } // namespace Commands
         } // namespace ContentAppObserver
-        namespace ElectricalMeasurement {
+        namespace WebRTCTransportProvider {
+            namespace Commands {
+                static const std::unordered_map<std::string, chip::CommandId> matter_command_id_cluster_map {
+                    { "SolicitOffer", SolicitOffer::Id },
+                    { "SolicitOfferResponse", SolicitOfferResponse::Id },
+                    { "ProvideOffer", ProvideOffer::Id },
+                    { "ProvideOfferResponse", ProvideOfferResponse::Id },
+                    { "ProvideAnswer", ProvideAnswer::Id },
+                    { "ProvideICECandidate", ProvideICECandidate::Id },
+                    { "EndSession", EndSession::Id }
+                };
+            } // namespace Commands
+        } // namespace WebRTCTransportProvider
+        namespace Chime {
+            namespace Commands {
+                static const std::unordered_map<std::string, chip::CommandId> matter_command_id_cluster_map {
+                    { "PlayChimeSound", PlayChimeSound::Id }
+                };
+            } // namespace Commands
+        } // namespace Chime
+        namespace EcosystemInformation {
             namespace Commands {
                 static const std::unordered_map<std::string, chip::CommandId> matter_command_id_cluster_map {};
             } // namespace Commands
-        } // namespace ElectricalMeasurement
+        } // namespace EcosystemInformation
+        namespace CommissionerControl {
+            namespace Commands {
+                static const std::unordered_map<std::string, chip::CommandId> matter_command_id_cluster_map {
+                    { "RequestCommissioningApproval", RequestCommissioningApproval::Id },
+                    { "CommissionNode", CommissionNode::Id },
+                    { "ReverseOpenCommissioningWindow", ReverseOpenCommissioningWindow::Id }
+                };
+            } // namespace Commands
+        } // namespace CommissionerControl
         namespace UnitTesting {
             namespace Commands {
                 static const std::unordered_map<std::string, chip::CommandId> matter_command_id_cluster_map {
@@ -2951,9 +3120,7 @@ namespace app {
             { "Identify", Identify::Commands::matter_command_id_cluster_map },
             { "Groups", Groups::Commands::matter_command_id_cluster_map },
             { "OnOff", OnOff::Commands::matter_command_id_cluster_map },
-            { "OnOffSwitchConfiguration", OnOffSwitchConfiguration::Commands::matter_command_id_cluster_map },
             { "LevelControl", LevelControl::Commands::matter_command_id_cluster_map },
-            { "BinaryInputBasic", BinaryInputBasic::Commands::matter_command_id_cluster_map },
             { "PulseWidthModulation", PulseWidthModulation::Commands::matter_command_id_cluster_map },
             { "Descriptor", Descriptor::Commands::matter_command_id_cluster_map },
             { "Binding", Binding::Commands::matter_command_id_cluster_map },
@@ -3015,6 +3182,7 @@ namespace app {
             { "ValveConfigurationAndControl", ValveConfigurationAndControl::Commands::matter_command_id_cluster_map },
             { "ElectricalPowerMeasurement", ElectricalPowerMeasurement::Commands::matter_command_id_cluster_map },
             { "ElectricalEnergyMeasurement", ElectricalEnergyMeasurement::Commands::matter_command_id_cluster_map },
+            { "WaterHeaterManagement", WaterHeaterManagement::Commands::matter_command_id_cluster_map },
             { "DemandResponseLoadControl", DemandResponseLoadControl::Commands::matter_command_id_cluster_map },
             { "Messages", Messages::Commands::matter_command_id_cluster_map },
             { "DeviceEnergyManagement", DeviceEnergyManagement::Commands::matter_command_id_cluster_map },
@@ -3022,10 +3190,11 @@ namespace app {
             { "EnergyPreference", EnergyPreference::Commands::matter_command_id_cluster_map },
             { "PowerTopology", PowerTopology::Commands::matter_command_id_cluster_map },
             { "EnergyEvseMode", EnergyEvseMode::Commands::matter_command_id_cluster_map },
+            { "WaterHeaterMode", WaterHeaterMode::Commands::matter_command_id_cluster_map },
             { "DeviceEnergyManagementMode", DeviceEnergyManagementMode::Commands::matter_command_id_cluster_map },
             { "DoorLock", DoorLock::Commands::matter_command_id_cluster_map },
             { "WindowCovering", WindowCovering::Commands::matter_command_id_cluster_map },
-            { "BarrierControl", BarrierControl::Commands::matter_command_id_cluster_map },
+            { "ServiceArea", ServiceArea::Commands::matter_command_id_cluster_map },
             { "PumpConfigurationAndControl", PumpConfigurationAndControl::Commands::matter_command_id_cluster_map },
             { "Thermostat", Thermostat::Commands::matter_command_id_cluster_map },
             { "FanControl", FanControl::Commands::matter_command_id_cluster_map },
@@ -3048,6 +3217,9 @@ namespace app {
             { "Pm10ConcentrationMeasurement", Pm10ConcentrationMeasurement::Commands::matter_command_id_cluster_map },
             { "TotalVolatileOrganicCompoundsConcentrationMeasurement", TotalVolatileOrganicCompoundsConcentrationMeasurement::Commands::matter_command_id_cluster_map },
             { "RadonConcentrationMeasurement", RadonConcentrationMeasurement::Commands::matter_command_id_cluster_map },
+            { "WiFiNetworkManagement", WiFiNetworkManagement::Commands::matter_command_id_cluster_map },
+            { "ThreadBorderRouterManagement", ThreadBorderRouterManagement::Commands::matter_command_id_cluster_map },
+            { "ThreadNetworkDirectory", ThreadNetworkDirectory::Commands::matter_command_id_cluster_map },
             { "WakeOnLan", WakeOnLan::Commands::matter_command_id_cluster_map },
             { "Channel", Channel::Commands::matter_command_id_cluster_map },
             { "TargetNavigator", TargetNavigator::Commands::matter_command_id_cluster_map },
@@ -3062,7 +3234,10 @@ namespace app {
             { "AccountLogin", AccountLogin::Commands::matter_command_id_cluster_map },
             { "ContentControl", ContentControl::Commands::matter_command_id_cluster_map },
             { "ContentAppObserver", ContentAppObserver::Commands::matter_command_id_cluster_map },
-            { "ElectricalMeasurement", ElectricalMeasurement::Commands::matter_command_id_cluster_map },
+            { "WebRTCTransportProvider", WebRTCTransportProvider::Commands::matter_command_id_cluster_map },
+            { "Chime", Chime::Commands::matter_command_id_cluster_map },
+            { "EcosystemInformation", EcosystemInformation::Commands::matter_command_id_cluster_map },
+            { "CommissionerControl", CommissionerControl::Commands::matter_command_id_cluster_map },
             { "UnitTesting", UnitTesting::Commands::matter_command_id_cluster_map },
             { "FaultInjection", FaultInjection::Commands::matter_command_id_cluster_map },
             { "SampleMei", SampleMei::Commands::matter_command_id_cluster_map }

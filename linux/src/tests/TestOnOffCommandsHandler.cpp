@@ -3,8 +3,8 @@
 #include "matter_device_translator.hpp"
 
 // Chip components
-#include <lib/support/UnitTestContext.h>
-#include <lib/support/UnitTestRegistration.h>
+// #include <lib/support/UnitTestContext.h>
+// #include <lib/support/UnitTestRegistration.h>
 
 // Mocks
 #include "MockMatterDataStorage.hpp"
@@ -13,7 +13,7 @@
 
 // Third party library
 #include <iostream>
-#include <nlunit-test.h>
+#include <gtest/gtest.h>
 #include <string>
 
 using namespace unify::matter_bridge;

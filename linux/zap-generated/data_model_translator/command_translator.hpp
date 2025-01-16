@@ -307,51 +307,10 @@ public:
         ctxt.SetCommandHandled();
     };
     ///
-    /// The command StartPresetsSchedulesEditRequest is not defined in UCL and must be manually handled
+    /// The command AtomicRequest is not defined in UCL and must be manually handled
     ///
-    virtual void Invoke_StartPresetsSchedulesEditRequest(
-        CommandHandlerInterface::HandlerContext& ctxt,
-        chip::app::Clusters::Thermostat::Commands::StartPresetsSchedulesEditRequest::DecodableType data)
-    {
-        ctxt.mCommandHandler.AddStatus(ctxt.mRequestPath, chip::Protocols::InteractionModel::Status::UnsupportedCommand);
-        ctxt.SetCommandHandled();
-    };
-    ///
-    /// The command CancelPresetsSchedulesEditRequest is not defined in UCL and must be manually handled
-    ///
-    virtual void Invoke_CancelPresetsSchedulesEditRequest(
-        CommandHandlerInterface::HandlerContext& ctxt,
-        chip::app::Clusters::Thermostat::Commands::CancelPresetsSchedulesEditRequest::DecodableType data)
-    {
-        ctxt.mCommandHandler.AddStatus(ctxt.mRequestPath, chip::Protocols::InteractionModel::Status::UnsupportedCommand);
-        ctxt.SetCommandHandled();
-    };
-    ///
-    /// The command CommitPresetsSchedulesRequest is not defined in UCL and must be manually handled
-    ///
-    virtual void Invoke_CommitPresetsSchedulesRequest(
-        CommandHandlerInterface::HandlerContext& ctxt,
-        chip::app::Clusters::Thermostat::Commands::CommitPresetsSchedulesRequest::DecodableType data)
-    {
-        ctxt.mCommandHandler.AddStatus(ctxt.mRequestPath, chip::Protocols::InteractionModel::Status::UnsupportedCommand);
-        ctxt.SetCommandHandled();
-    };
-    ///
-    /// The command CancelSetActivePresetRequest is not defined in UCL and must be manually handled
-    ///
-    virtual void
-    Invoke_CancelSetActivePresetRequest(CommandHandlerInterface::HandlerContext& ctxt,
-        chip::app::Clusters::Thermostat::Commands::CancelSetActivePresetRequest::DecodableType data)
-    {
-        ctxt.mCommandHandler.AddStatus(ctxt.mRequestPath, chip::Protocols::InteractionModel::Status::UnsupportedCommand);
-        ctxt.SetCommandHandled();
-    };
-    ///
-    /// The command SetTemperatureSetpointHoldPolicy is not defined in UCL and must be manually handled
-    ///
-    virtual void Invoke_SetTemperatureSetpointHoldPolicy(
-        CommandHandlerInterface::HandlerContext& ctxt,
-        chip::app::Clusters::Thermostat::Commands::SetTemperatureSetpointHoldPolicy::DecodableType data)
+    virtual void Invoke_AtomicRequest(CommandHandlerInterface::HandlerContext& ctxt,
+        chip::app::Clusters::Thermostat::Commands::AtomicRequest::DecodableType data)
     {
         ctxt.mCommandHandler.AddStatus(ctxt.mRequestPath, chip::Protocols::InteractionModel::Status::UnsupportedCommand);
         ctxt.SetCommandHandled();
@@ -367,11 +326,7 @@ public:
             3,
             5,
             6,
-            7,
-            8,
-            9,
-            10,
-            11,
+            254,
         };
         for (const auto& cmd : all_commands) {
             if (callback(cmd, context) != chip::Loop::Continue) {

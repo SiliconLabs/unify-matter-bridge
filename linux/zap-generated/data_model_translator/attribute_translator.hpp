@@ -126,7 +126,6 @@ private:
     UnifyMqtt& m_unify_mqtt;
     device_translator& m_dev_translator;
 };
-// Skipping On/off Switch Configuration
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /// Attribute Handler for the Level Control cluster
@@ -161,7 +160,6 @@ private:
     UnifyMqtt& m_unify_mqtt;
     device_translator& m_dev_translator;
 };
-// Skipping Binary Input (Basic)
 // Skipping Pulse Width Modulation
 // Skipping Descriptor
 // Skipping Binding
@@ -181,7 +179,7 @@ private:
 // Skipping General Diagnostics
 // Skipping Software Diagnostics
 // Skipping Thread Network Diagnostics
-// Skipping WiFi Network Diagnostics
+// Skipping Wi-Fi Network Diagnostics
 // Skipping Ethernet Network Diagnostics
 // Skipping Time Synchronization
 // Skipping Bridged Device Basic Information
@@ -223,6 +221,7 @@ private:
 // Skipping Valve Configuration and Control
 // Skipping Electrical Power Measurement
 // Skipping Electrical Energy Measurement
+// Skipping Water Heater Management
 // Skipping Demand Response Load Control
 // Skipping Messages
 // Skipping Device Energy Management
@@ -230,6 +229,7 @@ private:
 // Skipping Energy Preference
 // Skipping Power Topology
 // Skipping Energy EVSE Mode
+// Skipping Water Heater Mode
 // Skipping Device Energy Management Mode
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -317,7 +317,7 @@ private:
     UnifyMqtt& m_unify_mqtt;
     device_translator& m_dev_translator;
 };
-// Skipping Barrier Control
+// Skipping Service Area
 // Skipping Pump Configuration and Control
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -334,10 +334,7 @@ private:
 /// - ActiveScheduleHandle (optional)
 /// - Presets (optional)
 /// - Schedules (optional)
-/// - PresetsSchedulesEditable (optional)
-/// - TemperatureSetpointHoldPolicy (optional)
 /// - SetpointHoldExpiryTimestamp (optional)
-/// - QueuedPreset (optional)
 /// - GeneratedCommandList
 /// - AcceptedCommandList
 /// - EventList
@@ -586,6 +583,8 @@ private:
 /// Attribute Handler for the Occupancy Sensing cluster
 /// Please note that the following attributes are not defined in UCL, and they must be handled
 /// by separate code
+/// - HoldTime (optional)
+/// - HoldTimeLimits (optional)
 /// - GeneratedCommandList
 /// - AcceptedCommandList
 /// - EventList
@@ -625,6 +624,9 @@ private:
 // Skipping PM10 Concentration Measurement
 // Skipping Total Volatile Organic Compounds Concentration Measurement
 // Skipping Radon Concentration Measurement
+// Skipping Wi-Fi Network Management
+// Skipping Thread Border Router Management
+// Skipping Thread Network Directory
 // Skipping Wake on LAN
 // Skipping Channel
 // Skipping Target Navigator
@@ -639,7 +641,10 @@ private:
 // Skipping Account Login
 // Skipping Content Control
 // Skipping Content App Observer
-// Skipping Electrical Measurement
+// Skipping WebRTC Transport Provider
+// Skipping Chime
+// Skipping Ecosystem Information
+// Skipping Commissioner Control
 // Skipping Unit Testing
 // Skipping Fault Injection
 // Skipping Sample MEI

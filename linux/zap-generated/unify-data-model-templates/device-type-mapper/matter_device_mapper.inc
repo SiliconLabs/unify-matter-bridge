@@ -56,6 +56,7 @@ namespace app {
             namespace Attributes {
                 static const std::unordered_map<std::string, chip::AttributeId> unify_to_matter_attribute_id_cluster_map {
                     { "PhysicalEnvironment", Reachable::Id },
+                    { "DeviceEnabled", UniqueID::Id },
                 };
             } // namespace Attributes
         } // namespace Basic

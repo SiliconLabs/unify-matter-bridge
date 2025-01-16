@@ -204,9 +204,7 @@ void {{asUpperCamelCase label}}AttributeAccess::reported_updated(const bridged_e
     {{else if (canHaveSimpleAccessors this)}}
     // type is {{type}}
     case MN::{{asUpperCamelCase label}}::Id: {
-      {{#if (unifyCanUseChipBitMap parent.label code)}}
-      using T = chip::BitMask<chip::app::Clusters::{{asUpperCamelCase parent.label}}::{{asUpperCamelCase label}}>;
-      {{else if (unifyCanPassThroughEnumValue parent.label code)}}
+      {{#if (unifyCanPassThroughEnumValue parent.label code)}}
       using T = chip::app::Clusters::{{asUpperCamelCase parent.label}}::{{asUpperCamelCase label}};
       {{else}}
       using T = MN::{{asUpperCamelCase label}}::TypeInfo::Type;

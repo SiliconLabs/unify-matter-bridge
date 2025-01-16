@@ -16,7 +16,7 @@
 #define UNIFY_MQTT_WRAPPER_HPP
 
 #include "sl_log.h"
-#include <app/util/af.h>
+// #include <app/util/af.h>
 #include <app/util/attribute-storage.h>
 
 class UnifyEmberInterface

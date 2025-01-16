@@ -17,18 +17,24 @@
 #include "attribute_translator.hpp"
 
 
-// Chip components
-#include <lib/support/UnitTestContext.h>
-#include <lib/support/UnitTestRegistration.h>
-
 // Third party library
-#include <nlunit-test.h>
+#include <gtest/gtest.h>
 
 using namespace unify::matter_bridge;
 using namespace chip::app;
 using namespace chip::app::DataModel;
 using namespace chip::app::Clusters::DoorLock;
 using TestContext = unify::matter_bridge::Test::ClusterContext<DoorLockAttributeAccess,DoorLockClusterCommandHandler>;
+
+class TestDoorLockCommand : public TestContext {
+public:
+void SetUp() {
+    EXPECT_EQ(TestDoorLockCommand::Initialize(this),1);
+}
+
+void TearDown() {
+    EXPECT_EQ(TestContext::Finalize(this),1);
+}
 
 static int Initialize(void * context)
 {
@@ -48,49 +54,30 @@ static int Initialize(void * context)
 
     return ctx->register_endpoint(ep);
 }
-
-static void TestDoorLockCommandLockDoor(nlTestSuite * sSuite, void * apContext)
-{
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
-    Clusters::DoorLock::Commands::LockDoor::Type request;
-
-    CHIP_ERROR err = ctx.command_test<Clusters::DoorLock::Commands::LockDoor::Type>(sSuite,
-        "ucl/by-unid/zw-0x0002/ep2/DoorLock/Commands/LockDoor", R"({ "PINOrRFIDCode": "" })", request, 50000);
-
-    ctx.mqtt_subscribeCb("ucl/by-unid/zw-0x0002/ep2/DoorLock/GeneratedCommands/LockDoorResponse", R"({ "Status": "1" })");
-
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
-    ctx.DrainAndServiceIO();
-}
-
-static void TestDoorLockCommandUnlockDoor(nlTestSuite * sSuite, void * apContext)
-{
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
-    Clusters::DoorLock::Commands::UnlockDoor::Type request;
-        
-    CHIP_ERROR err = ctx.command_test<Clusters::DoorLock::Commands::UnlockDoor::Type>(sSuite,
-        "ucl/by-unid/zw-0x0002/ep2/DoorLock/Commands/UnlockDoor", R"({ "PINOrRFIDCode": "" })", request, 50000);
-
-    ctx.mqtt_subscribeCb("ucl/by-unid/zw-0x0002/ep2/DoorLock/GeneratedCommands/UnlockDoorResponse", R"({ "Status": "1" })");
-    
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
-    ctx.DrainAndServiceIO();
-} 
-
-/**
- *   Test Suite. It lists all the test functions.
- */
-static const nlTest sTests[] = {
-    NL_TEST_DEF("DoorLock::TestDoorLockCommandLockDoor", TestDoorLockCommandLockDoor),
-    NL_TEST_DEF("DoorLock::TestDoorLockCommandUnlockDoor", TestDoorLockCommandUnlockDoor),
-    NL_TEST_SENTINEL()
 };
 
-static nlTestSuite sSuite = { "DoorLockcmdTests", &sTests[0], Initialize, TestContext::Finalize };
-
-int TestDoorLockcmdSuite(void)
+TEST_F(TestDoorLockCommand, TestDoorLockCommandLockDoor)
 {
-    return chip::ExecuteTestsWithContext<TestContext>(&sSuite);
+    Clusters::DoorLock::Commands::LockDoor::Type request;
+
+    CHIP_ERROR err = command_test<Clusters::DoorLock::Commands::LockDoor::Type>(
+        "ucl/by-unid/zw-0x0002/ep2/DoorLock/Commands/LockDoor", R"({ "PINOrRFIDCode": "" })", request, 50000);
+
+    mqtt_subscribeCb("ucl/by-unid/zw-0x0002/ep2/DoorLock/GeneratedCommands/LockDoorResponse", R"({ "Status": "1" })");
+
+    EXPECT_EQ(err, CHIP_NO_ERROR);
+    DrainAndServiceIO();
 }
 
-CHIP_REGISTER_TEST_SUITE(TestDoorLockcmdSuite)
+TEST_F(TestDoorLockCommand, TestDoorLockCommandUnlockDoor)
+{
+    Clusters::DoorLock::Commands::UnlockDoor::Type request;
+        
+    CHIP_ERROR err = command_test<Clusters::DoorLock::Commands::UnlockDoor::Type>(
+        "ucl/by-unid/zw-0x0002/ep2/DoorLock/Commands/UnlockDoor", R"({ "PINOrRFIDCode": "" })", request, 50000);
+
+    mqtt_subscribeCb("ucl/by-unid/zw-0x0002/ep2/DoorLock/GeneratedCommands/UnlockDoorResponse", R"({ "Status": "1" })");
+    
+    EXPECT_EQ(err, CHIP_NO_ERROR);
+    DrainAndServiceIO();
+}

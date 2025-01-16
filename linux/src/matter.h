@@ -14,7 +14,7 @@
 #define MATTER_HEADER
 // This is a generic include headers which includes all matter headers. order
 // matters for the first include headers!
-#include <ble/BleLayer.h>
+#include <ble/Ble.h>
 #include <system/SystemBuildConfig.h>
 
 #include "app/util/attribute-metadata.h"
@@ -24,13 +24,15 @@
 #include <app-common/zap-generated/ids/Attributes.h>
 #include <app-common/zap-generated/ids/Clusters.h>
 #include <app/AttributeAccessInterface.h>
+#include <app/AttributeAccessInterfaceRegistry.h>
 #include <app/CommandHandlerInterface.h>
+#include <app/CommandHandlerInterfaceRegistry.h>
 #include <app/ConcreteAttributePath.h>
 #include <app/EventLogging.h>
 #include <app/InteractionModelEngine.h>
 #include <app/reporting/reporting.h>
 #include <app/util/af-types.h>
-#include <app/util/af.h>
+// #include <app/util/af.h>
 #include <app/util/attribute-storage.h>
 #include <app/util/attribute-table.h>
 #include <app/util/basic-types.h>

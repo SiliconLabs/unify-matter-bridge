@@ -8,15 +8,13 @@
 // Chip components
 #include <app/AttributeAccessInterface.h>
 #include <app/MessageDef/AttributeDataIB.h>
-#include <lib/support/UnitTestContext.h>
-#include <lib/support/UnitTestRegistration.h>
 
 // Mocks
 #include "MockNodeStateMonitor.hpp"
 #include "MockUnifyMqtt.hpp"
 // Third party library
 #include <iostream>
-#include <nlunit-test.h>
+#include <gtest/gtest.h>
 #include <string>
 
 using namespace unify::matter_bridge;
@@ -26,31 +24,34 @@ using namespace unify::matter_bridge;
 static UnifyEmberInterface ember_interface = UnifyEmberInterface();
 static device_translator dev_translator    = device_translator(false);
 static ClusterEmulator emulator            = ClusterEmulator();
+namespace chip {
+namespace app {
+namespace TestPath {
 
 chip::app::AttributeValueEncoder setupEncoder(chip::EndpointId endpoint, chip::app::ConcreteAttributePath & path,
                                               chip::DataVersion & dataVersion)
 {
-    const chip::app::AttributeValueEncoder::AttributeEncodeState & aState =
-        chip::app::AttributeValueEncoder::AttributeEncodeState();
+    const AttributeEncodeState & aState = AttributeEncodeState();
     chip::app::AttributeReportIBs::Builder builder;
-    chip::FabricIndex fabricIndex = static_cast<uint8_t>(endpoint);
-    chip::app::AttributeValueEncoder encoder(builder, fabricIndex, path, dataVersion, true, aState);
+    Access::SubjectDescriptor subject;
+    subject.fabricIndex = static_cast<uint8_t>(endpoint);
+    chip::app::AttributeValueEncoder encoder(builder, subject, path, dataVersion, true, aState);
 
     return encoder;
 }
 
-void TestTemperatureMeasurementAttributes(nlTestSuite * inSuite, void * aContext)
+TEST(TestTemperatureMeasurement, TestTemperatureMeasurementAttributes)
 {
 
     // 1
-    Test::MockNodeStateMonitor test_matter_node_state_monitor(dev_translator, emulator, ember_interface);
-    Test::MockUnifyMqtt test_unify_mqtt;
+    unify::matter_bridge::Test::MockNodeStateMonitor test_matter_node_state_monitor(dev_translator, emulator, ember_interface);
+    unify::matter_bridge::Test::MockUnifyMqtt test_unify_mqtt;
 
     unify::matter_bridge::TemperatureMeasurementAttributeAccess test_temperature_measurement_attributes(
         test_matter_node_state_monitor, test_unify_mqtt, dev_translator);
 
-    NL_TEST_ASSERT(inSuite, test_unify_mqtt.nNumerUicMqttSubscribeCall == 0);
-    NL_TEST_ASSERT(inSuite, test_unify_mqtt.subscribe_topic == "");
+    EXPECT_EQ(test_unify_mqtt.nNumerUicMqttSubscribeCall,0);
+    EXPECT_EQ(test_unify_mqtt.subscribe_topic,"");
 
     // 2
     // Setup attribute listening for the temperature measurement cluster
@@ -64,9 +65,8 @@ void TestTemperatureMeasurementAttributes(nlTestSuite * inSuite, void * aContext
     temp_cluster.attributes.emplace("MeasuredValue");
     test_matter_node_state_monitor.call_on_unify_node_added(node_temp_1);
 
-    NL_TEST_ASSERT(inSuite, test_unify_mqtt.nNumerUicMqttSubscribeCall == 1);
-    NL_TEST_ASSERT(
-        inSuite, test_unify_mqtt.subscribe_topic == "ucl/by-unid/" + node_id + "/ep1/TemperatureMeasurement/Attributes/+/Reported");
+    EXPECT_EQ(test_unify_mqtt.nNumerUicMqttSubscribeCall, 1);
+    EXPECT_EQ(test_unify_mqtt.subscribe_topic,("ucl/by-unid/" + node_id + "/ep1/TemperatureMeasurement/Attributes/+/Reported"));
 
     // 3
     // Test sending a report to the measured value attribute and expect it to be written to the matter fabric
@@ -84,16 +84,16 @@ void TestTemperatureMeasurementAttributes(nlTestSuite * inSuite, void * aContext
     chip::app::DataModel::Nullable<int16_t> test_attribute_value;
     auto result = attribute_state_cache::get_instance().get(test_correct_attribute_id_path,test_attribute_value);
 
-    NL_TEST_ASSERT(inSuite, result == true);
-    NL_TEST_ASSERT(inSuite, test_attribute_value.Value() == 55);
+    EXPECT_EQ(result, true);
+    EXPECT_EQ(test_attribute_value.Value(), 55);
 }
 
-void TestTemperatureMeasurementReadFailures(nlTestSuite * inSuite, void * aContext)
+TEST(TestTemperatureMeasurement, TestTemperatureMeasurementReadFailures)
 {
 
     // Setup
-    Test::MockNodeStateMonitor test_matter_node_state_monitor(dev_translator, emulator, ember_interface);
-    Test::MockUnifyMqtt test_unify_mqtt;
+    unify::matter_bridge::Test::MockNodeStateMonitor test_matter_node_state_monitor(dev_translator, emulator, ember_interface);
+    unify::matter_bridge::Test::MockUnifyMqtt test_unify_mqtt;
 
     unify::matter_bridge::TemperatureMeasurementAttributeAccess test_temperature_measurement_attributes(
         test_matter_node_state_monitor, test_unify_mqtt, dev_translator);
@@ -109,7 +109,7 @@ void TestTemperatureMeasurementReadFailures(nlTestSuite * inSuite, void * aConte
     auto err                                 = test_temperature_measurement_attributes.Read(test_wrong_attribute_id_path, encoder);
 
     sl_log_debug(TEST_LOG_TAG, "The Error after reading correct attribute id is %d", err);
-    NL_TEST_ASSERT(inSuite, err != CHIP_NO_ERROR);
+    EXPECT_NE(err, CHIP_NO_ERROR);
 
     // 2
     // Reading unwritten attribute
@@ -121,24 +121,8 @@ void TestTemperatureMeasurementReadFailures(nlTestSuite * inSuite, void * aConte
     auto err_2 = test_temperature_measurement_attributes.Read(test_correct_attribute_id_path, encoder_2);
 
     sl_log_debug(TEST_LOG_TAG, "The Error after reading correct attribute id is %d", err_2);
-    NL_TEST_ASSERT(inSuite, err != CHIP_NO_ERROR);
+    EXPECT_NE(err, CHIP_NO_ERROR);
 }
-
-class TestContext
-{
-public:
-    nlTestSuite * mTestSuite;
-};
-
-static const nlTest sTests[] = { NL_TEST_DEF("TestTemperatureMeasurementAttributes", TestTemperatureMeasurementAttributes),
-                                 NL_TEST_DEF("TestTemperatureMeasurementReadFailures", TestTemperatureMeasurementReadFailures),
-                                 NL_TEST_SENTINEL() };
-
-static nlTestSuite TheCommandSuite = { "TestTemperatureMeasurement", &sTests[0], nullptr, nullptr };
-
-int TestTemperatureMeasurement(void)
-{
-    return (chip::ExecuteTestsWithContext<TestContext>(&TheCommandSuite));
 }
-
-CHIP_REGISTER_TEST_SUITE(TestTemperatureMeasurement)
+}
+}

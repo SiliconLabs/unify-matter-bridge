@@ -1,11 +1,11 @@
 // Unify bridge components
 
 // Chip components
-#include <lib/support/UnitTestContext.h>
-#include <lib/support/UnitTestRegistration.h>
+// // #include <lib/support/UnitTestContext.h>
+// // #include <lib/support/UnitTestRegistration.h>
 
 // Third party library
-#include <nlunit-test.h>
+#include <gtest/gtest.h>
 
 #include "attribute_translator.hpp"
 #include "matter_bridge_cli.hpp"
@@ -29,6 +29,7 @@ void uic_stdin_add_commands(const std::map<std::string, std::pair<std::string, h
 {
     commands.insert(append_commands.begin(), append_commands.end());
 }
+
 sl_status_t uic_stdin_handle_command(const char * command)
 {
     std::string command_str(command);
@@ -62,53 +63,16 @@ sl_status_t uic_stdin_handle_command(const char * command)
 
     return SL_STATUS_FAIL;
 }
+
 /* uic stdin mocks end */
-static void TestCliSetMatterNodeStateMonitor(nlTestSuite * inSuite, void * aContext)
+TEST(TestCli, TestCliSetMatterNodeStateMonitor)
 {
-    Test::MockNodeStateMonitor test_matter_node_state_monitor(dev_translator, emulator, ember_interface);
+    EXPECT_EQ(matter_bridge_cli_init(),SL_STATUS_OK);
+    unify::matter_bridge::Test::MockNodeStateMonitor test_matter_node_state_monitor(dev_translator, emulator, ember_interface);
     matter_data_storage m_matter_data_storage;
-    Test::MockGroupTranslator mGroupTranslator(m_matter_data_storage);
+    unify::matter_bridge::Test::MockGroupTranslator mGroupTranslator(m_matter_data_storage);
     set_mapping_display_instance(test_matter_node_state_monitor, mGroupTranslator);
-    NL_TEST_ASSERT(inSuite, (uic_stdin_handle_command("endpoint_map") == SL_STATUS_OK));
-    NL_TEST_ASSERT(inSuite, (uic_stdin_handle_command("groups_map") == SL_STATUS_OK));
+    EXPECT_EQ(uic_stdin_handle_command("endpoint_map"),SL_STATUS_OK);
+    EXPECT_EQ(uic_stdin_handle_command("groups_map"),SL_STATUS_OK);
 }
 
-static void TestCliInit(nlTestSuite * inSuite, void * aContext)
-{
-    NL_TEST_ASSERT(inSuite, (matter_bridge_cli_init() == SL_STATUS_OK));
-}
-
-class TestContext
-{
-public:
-    nlTestSuite * mTestSuite;
-    uint32_t mNumTimersHandled;
-};
-
-/**
- *   Test Suite. It lists all the test functions.
- */
-// clang-format off
-static const nlTest sTests[] =
-{
-    NL_TEST_DEF("TestCli",             TestCliInit),
-    NL_TEST_DEF("TestCliSetMatterNodeStateMonitor", TestCliSetMatterNodeStateMonitor),
-    NL_TEST_SENTINEL()
-};
-
-
-// clang-format off
-static nlTestSuite kTheSuite =
-{
-    "TestCliInterface",
-    &sTests[0],
-    nullptr,
-    nullptr
-};
-
-int TestCliInterface(void)
-{
-    return chip::ExecuteTestsWithContext<TestContext>(&kTheSuite);
-}
-
-CHIP_REGISTER_TEST_SUITE(TestCliInterface)

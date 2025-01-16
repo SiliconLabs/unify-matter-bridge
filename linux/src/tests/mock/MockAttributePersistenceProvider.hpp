@@ -15,7 +15,6 @@
 #define MOCK_ATTRIBUTE_PERSISTENCE_PROVIDER_HPP
 
 #include <app/AttributePersistenceProvider.h>
-#include <app/util/af.h>
 #include <lib/support/Span.h>
 
 namespace unify::matter_bridge {

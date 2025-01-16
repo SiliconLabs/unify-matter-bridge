@@ -191,17 +191,24 @@ uint32_t ClusterEmulator::read_feature_map_revision(const ConcreteReadAttributeP
     switch (aPath.mClusterId)
     {
     case ColorControl::Id: {
+        using namespace chip::app::Clusters::ColorControl;
+        uint32_t result = 0;
         ConcreteAttributePath colorCapabilities_atr_path = ConcreteAttributePath(aPath.mEndpointId, aPath.mClusterId,
                                                                     ColorControl::Attributes::ColorCapabilities::Id);
         ColorControl::Attributes::ColorCapabilities::TypeInfo::Type colorControlCapabilities;
         if (cache.get<ColorControl::Attributes::ColorCapabilities::TypeInfo::Type>(colorCapabilities_atr_path, colorControlCapabilities))
         {
-            return static_cast<uint32_t>(colorControlCapabilities);
+            result = result | (colorControlCapabilities.GetField(ColorCapabilitiesBitmap::kColorTemperature)<<4) 
+                            | (colorControlCapabilities.GetField(ColorCapabilitiesBitmap::kXy)<<3)
+                            | (colorControlCapabilities.GetField(ColorCapabilitiesBitmap::kColorLoop)<<2)
+                            | (colorControlCapabilities.GetField(ColorCapabilitiesBitmap::kEnhancedHue)<<1)
+                            | (colorControlCapabilities.GetField(ColorCapabilitiesBitmap::kHueSaturation));
+            return result;
         }
         else
         {
-            sl_log_warning(LOG_TAG, "Failed to read ColorCapabilities, setting feature map to HueSaturationSupported");
-            return 1;
+            sl_log_warning(LOG_TAG, "Failed to read ColorCapabilities, setting feature map to default");
+            return result;
         }
     }
     break;

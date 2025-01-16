@@ -1,11 +1,11 @@
 // Chip components
 #include <app/MessageDef/AttributeDataIB.h>
-#include <lib/support/UnitTestContext.h>
-#include <lib/support/UnitTestRegistration.h>
+// #include <lib/support/UnitTestContext.h>
+// #include <lib/support/UnitTestRegistration.h>
 
 // Third party library
 #include <iostream>
-#include <nlunit-test.h>
+#include <gtest/gtest.h>
 #include <string>
 
 #include "attribute_translator.hpp"
@@ -22,10 +22,14 @@ static UnifyEmberInterface ember_interface = UnifyEmberInterface();
 static device_translator dev_translator    = device_translator(false);
 static ClusterEmulator emulator;
 
-static void TestClusterTranslatorRevision(nlTestSuite * inSuite, void * aContext)
+namespace chip {
+namespace app {
+namespace TestPath {
+    
+TEST(TestClusterTranslator, TestClusterTranslatorRevision)
 {
-    Test::MockNodeStateMonitor test_matter_node_state_monitor(dev_translator, emulator, ember_interface);
-    Test::MockUnifyMqtt mqtt_publish_test;
+    unify::matter_bridge::Test::MockNodeStateMonitor test_matter_node_state_monitor(dev_translator, emulator, ember_interface);
+    unify::matter_bridge::Test::MockUnifyMqtt mqtt_publish_test;
     // testing Identify Cluster revision
     IdentifyAttributeAccess test_identify_attribute_handler(test_matter_node_state_monitor, mqtt_publish_test, dev_translator);
     const uint16_t endpoint                             = 4;
@@ -33,11 +37,11 @@ static void TestClusterTranslatorRevision(nlTestSuite * inSuite, void * aContext
         endpoint, chip::app::Clusters::Identify::Id, chip::app::Clusters::Identify::Attributes::ClusterRevision::Id);
 
     chip::DataVersion dataVersion = 0;
-    const chip::app::AttributeValueEncoder::AttributeEncodeState & aState =
-        chip::app::AttributeValueEncoder::AttributeEncodeState();
+    const AttributeEncodeState & aState = AttributeEncodeState();
     chip::app::AttributeReportIBs::Builder builder;
-    chip::FabricIndex fabricIndex = static_cast<uint8_t>(endpoint);
-    chip::app::AttributeValueEncoder encoder(builder, fabricIndex, test_attr_path, dataVersion, true, aState);
+    Access::SubjectDescriptor subject;
+    subject.fabricIndex = static_cast<uint8_t>(endpoint); 
+    chip::app::AttributeValueEncoder encoder(builder, subject, test_attr_path, dataVersion, true, aState);
     uint8_t buf[4096];
     chip::TLV::TLVWriter writer;
     writer.Init(buf);
@@ -47,29 +51,14 @@ static void TestClusterTranslatorRevision(nlTestSuite * inSuite, void * aContext
 
     auto err = test_identify_attribute_handler.Read(test_attr_path, encoder);
 
-    NL_TEST_ASSERT(inSuite, err == CHIP_NO_ERROR);
+    EXPECT_EQ(err,CHIP_NO_ERROR);
 
     writer.Finalize();
     writer.EndContainer(ignored);
 }
 
-class TestContext
-{
-public:
-    nlTestSuite * mTestSuite;
-};
-
-/**
- *   Test Suite. It lists all the test functions.
- */
-static const nlTest sTests[] = { NL_TEST_DEF("ClusterTranslator::TestClusterTranslatorRevision", TestClusterTranslatorRevision),
-                                 NL_TEST_SENTINEL() };
-
-static nlTestSuite kTheSuite = { "ClusterTranslatorTests", &sTests[0], nullptr, nullptr };
-
-int TestClusterTranslatorSuite(void)
-{
-    return chip::ExecuteTestsWithContext<TestContext>(&kTheSuite);
 }
 
-CHIP_REGISTER_TEST_SUITE(TestClusterTranslatorSuite)
+}
+
+}

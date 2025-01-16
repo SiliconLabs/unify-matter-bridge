@@ -417,16 +417,16 @@ inline std::optional<chip::BitMask<DoorLock::Feature>> from_json(const nlohmann:
     chip::BitMask<DoorLock::Feature> r;
     r.SetField(DoorLock::Feature::kPinCredential, obj.value("PIN Credential", false));
     r.SetField(DoorLock::Feature::kRfidCredential, obj.value("RFID Credential", false));
-    r.SetField(DoorLock::Feature::kFingerCredentials, obj.value("Finger Credentials", false));
+    r.SetField(DoorLock::Feature::kFingerCredentials, obj.value("FingerCredentials", false));
     r.SetField(DoorLock::Feature::kLogging, obj.value("Logging", false));
-    r.SetField(DoorLock::Feature::kWeekDayAccessSchedules, obj.value("Week Day Access Schedules", false));
-    r.SetField(DoorLock::Feature::kDoorPositionSensor, obj.value("Door Position Sensor", false));
-    r.SetField(DoorLock::Feature::kFaceCredentials, obj.value("Face Credentials", false));
-    r.SetField(DoorLock::Feature::kCredentialsOverTheAirAccess, obj.value("Credentials Over-the-Air Access", false));
+    r.SetField(DoorLock::Feature::kWeekDayAccessSchedules, obj.value("WeekDayAccessSchedules", false));
+    r.SetField(DoorLock::Feature::kDoorPositionSensor, obj.value("DoorPositionSensor", false));
+    r.SetField(DoorLock::Feature::kFaceCredentials, obj.value("FaceCredentials", false));
+    r.SetField(DoorLock::Feature::kCredentialsOverTheAirAccess, obj.value("CredentialsOverTheAirAccess", false));
     r.SetField(DoorLock::Feature::kUser, obj.value("User", false));
     r.SetField(DoorLock::Feature::kNotification, obj.value("Notification", false));
-    r.SetField(DoorLock::Feature::kYearDayAccessSchedules, obj.value("Year Day Access Schedules", false));
-    r.SetField(DoorLock::Feature::kHolidaySchedules, obj.value("Holiday Schedules", false));
+    r.SetField(DoorLock::Feature::kYearDayAccessSchedules, obj.value("YearDayAccessSchedules", false));
+    r.SetField(DoorLock::Feature::kHolidaySchedules, obj.value("HolidaySchedules", false));
     r.SetField(DoorLock::Feature::kUnbolt, obj.value("Unbolt", false));
     r.SetField(DoorLock::Feature::kAliroProvisioning, obj.value("AliroProvisioning", false));
     r.SetField(DoorLock::Feature::kAliroBLEUWB, obj.value("AliroBLEUWB", false));
@@ -984,8 +984,6 @@ inline std::optional<chip::BitMask<Thermostat::Feature>> from_json(const nlohman
     r.SetField(Thermostat::Feature::kLocalTemperatureNotExposed, obj.value("LocalTemperatureNotExposed", false));
     r.SetField(Thermostat::Feature::kMatterScheduleConfiguration, obj.value("MatterScheduleConfiguration", false));
     r.SetField(Thermostat::Feature::kPresets, obj.value("Presets", false));
-    r.SetField(Thermostat::Feature::kSetpoints, obj.value("Setpoints", false));
-    r.SetField(Thermostat::Feature::kQueuedPresetsSupported, obj.value("QueuedPresetsSupported", false));
     return r;
 }
 template <>
@@ -996,6 +994,13 @@ inline std::optional<chip::BitMask<Thermostat::HVACSystemTypeBitmap>> from_json(
     r.SetField(Thermostat::HVACSystemTypeBitmap::kHeatingStage, obj.value("HeatingStage", false));
     r.SetField(Thermostat::HVACSystemTypeBitmap::kHeatingIsHeatPump, obj.value("HeatingIsHeatPump", false));
     r.SetField(Thermostat::HVACSystemTypeBitmap::kHeatingUsesFuel, obj.value("HeatingUsesFuel", false));
+    return r;
+}
+template <>
+inline std::optional<chip::BitMask<Thermostat::OccupancyBitmap>> from_json(const nlohmann::json& obj)
+{
+    chip::BitMask<Thermostat::OccupancyBitmap> r;
+    r.SetField(Thermostat::OccupancyBitmap::kOccupied, obj.value("SensedOccupancy", false));
     return r;
 }
 template <>
@@ -1067,15 +1072,6 @@ inline std::optional<chip::BitMask<Thermostat::ScheduleTypeFeaturesBitmap>> from
     r.SetField(Thermostat::ScheduleTypeFeaturesBitmap::kSupportsSetpoints, obj.value("SupportsSetpoints", false));
     r.SetField(Thermostat::ScheduleTypeFeaturesBitmap::kSupportsNames, obj.value("SupportsNames", false));
     r.SetField(Thermostat::ScheduleTypeFeaturesBitmap::kSupportsOff, obj.value("SupportsOff", false));
-    return r;
-}
-template <>
-inline std::optional<chip::BitMask<Thermostat::TemperatureSetpointHoldPolicyBitmap>> from_json(const nlohmann::json& obj)
-{
-    chip::BitMask<Thermostat::TemperatureSetpointHoldPolicyBitmap> r;
-    r.SetField(Thermostat::TemperatureSetpointHoldPolicyBitmap::kHoldDurationElapsed, obj.value("HoldDurationElapsed", false));
-    r.SetField(Thermostat::TemperatureSetpointHoldPolicyBitmap::kHoldDurationElapsedOrPresetChanged,
-        obj.value("HoldDurationElapsedOrPresetChanged", false));
     return r;
 }
 
@@ -1186,12 +1182,12 @@ template <>
 inline std::optional<Thermostat::PresetScenarioEnum> from_json(const nlohmann::json& value)
 {
     const std::map<std::string, Thermostat::PresetScenarioEnum> table = {
-        { "Unspecified", Thermostat::PresetScenarioEnum::kUnspecified },
         { "Occupied", Thermostat::PresetScenarioEnum::kOccupied },
         { "Unoccupied", Thermostat::PresetScenarioEnum::kUnoccupied },
         { "Sleep", Thermostat::PresetScenarioEnum::kSleep },
         { "Wake", Thermostat::PresetScenarioEnum::kWake },
         { "Vacation", Thermostat::PresetScenarioEnum::kVacation },
+        { "GoingToSleep", Thermostat::PresetScenarioEnum::kGoingToSleep },
         { "UserDefined", Thermostat::PresetScenarioEnum::kUserDefined },
     };
 
@@ -1309,35 +1305,25 @@ inline std::optional<Thermostat::ThermostatRunningModeEnum> from_json(const nloh
 }
 /***************************** Bitmap Converters **************/
 template <>
-inline std::optional<chip::BitMask<ColorControl::ColorCapabilities>> from_json(const nlohmann::json& obj)
+inline std::optional<chip::BitMask<ColorControl::ColorCapabilitiesBitmap>> from_json(const nlohmann::json& obj)
 {
-    chip::BitMask<ColorControl::ColorCapabilities> r;
-    r.SetField(ColorControl::ColorCapabilities::kHueSaturationSupported, obj.value("HueSaturationSupported", false));
-    r.SetField(ColorControl::ColorCapabilities::kEnhancedHueSupported, obj.value("EnhancedHueSupported", false));
-    r.SetField(ColorControl::ColorCapabilities::kColorLoopSupported, obj.value("ColorLoopSupported", false));
-    r.SetField(ColorControl::ColorCapabilities::kXYAttributesSupported, obj.value("XYSupported", false));
-    r.SetField(ColorControl::ColorCapabilities::kColorTemperatureSupported, obj.value("ColorTemperatureSupported", false));
-    return r;
-}
-template <>
-inline std::optional<chip::BitMask<ColorControl::ColorLoopUpdateFlags>> from_json(const nlohmann::json& obj)
-{
-    chip::BitMask<ColorControl::ColorLoopUpdateFlags> r;
-    r.SetField(ColorControl::ColorLoopUpdateFlags::kUpdateAction, obj.value("UpdateAction", false));
-    r.SetField(ColorControl::ColorLoopUpdateFlags::kUpdateDirection, obj.value("UpdateDirection", false));
-    r.SetField(ColorControl::ColorLoopUpdateFlags::kUpdateTime, obj.value("UpdateTime", false));
-    r.SetField(ColorControl::ColorLoopUpdateFlags::kUpdateStartHue, obj.value("UpdateStartHue", false));
+    chip::BitMask<ColorControl::ColorCapabilitiesBitmap> r;
+    r.SetField(ColorControl::ColorCapabilitiesBitmap::kHueSaturation, obj.value("HueSaturation", false));
+    r.SetField(ColorControl::ColorCapabilitiesBitmap::kEnhancedHue, obj.value("EnhancedHue", false));
+    r.SetField(ColorControl::ColorCapabilitiesBitmap::kColorLoop, obj.value("ColorLoop", false));
+    r.SetField(ColorControl::ColorCapabilitiesBitmap::kXy, obj.value("XY", false));
+    r.SetField(ColorControl::ColorCapabilitiesBitmap::kColorTemperature, obj.value("ColorTemperature", false));
     return r;
 }
 template <>
 inline std::optional<chip::BitMask<ColorControl::Feature>> from_json(const nlohmann::json& obj)
 {
     chip::BitMask<ColorControl::Feature> r;
-    r.SetField(ColorControl::Feature::kHueAndSaturation, obj.value("HueAndSaturation", false));
-    r.SetField(ColorControl::Feature::kEnhancedHue, obj.value("EnhancedHue", false));
-    r.SetField(ColorControl::Feature::kColorLoop, obj.value("ColorLoop", false));
+    r.SetField(ColorControl::Feature::kHueAndSaturation, obj.value("Hue And Saturation", false));
+    r.SetField(ColorControl::Feature::kEnhancedHue, obj.value("Enhanced Hue", false));
+    r.SetField(ColorControl::Feature::kColorLoop, obj.value("Color loop", false));
     r.SetField(ColorControl::Feature::kXy, obj.value("XY", false));
-    r.SetField(ColorControl::Feature::kColorTemperature, obj.value("ColorTemperature", false));
+    r.SetField(ColorControl::Feature::kColorTemperature, obj.value("Color temperature", false));
     return r;
 }
 template <>
@@ -1347,14 +1333,24 @@ inline std::optional<chip::BitMask<ColorControl::OptionsBitmap>> from_json(const
     r.SetField(ColorControl::OptionsBitmap::kExecuteIfOff, obj.value("ExecuteIfOff", false));
     return r;
 }
+template <>
+inline std::optional<chip::BitMask<ColorControl::UpdateFlagsBitmap>> from_json(const nlohmann::json& obj)
+{
+    chip::BitMask<ColorControl::UpdateFlagsBitmap> r;
+    r.SetField(ColorControl::UpdateFlagsBitmap::kUpdateAction, obj.value("UpdateAction", false));
+    r.SetField(ColorControl::UpdateFlagsBitmap::kUpdateDirection, obj.value("UpdateDirection", false));
+    r.SetField(ColorControl::UpdateFlagsBitmap::kUpdateTime, obj.value("UpdateTime", false));
+    r.SetField(ColorControl::UpdateFlagsBitmap::kUpdateStartHue, obj.value("UpdateStartHue", false));
+    return r;
+}
 
 template <>
-inline std::optional<ColorControl::ColorLoopAction> from_json(const nlohmann::json& value)
+inline std::optional<ColorControl::ColorLoopActionEnum> from_json(const nlohmann::json& value)
 {
-    const std::map<std::string, ColorControl::ColorLoopAction> table = {
-        { "DeactivateColorLoop", ColorControl::ColorLoopAction::kDeactivate },
-        { "ActivateColorLoopFromColorLoopStartEnhancedHue", ColorControl::ColorLoopAction::kActivateFromColorLoopStartEnhancedHue },
-        { "ActivateColorLoopFromEnhancedCurrentHue", ColorControl::ColorLoopAction::kActivateFromEnhancedCurrentHue },
+    const std::map<std::string, ColorControl::ColorLoopActionEnum> table = {
+        { "Deactivate", ColorControl::ColorLoopActionEnum::kDeactivate },
+        { "ActivateFromColorLoopStartEnhancedHue", ColorControl::ColorLoopActionEnum::kActivateFromColorLoopStartEnhancedHue },
+        { "ActivateFromEnhancedCurrentHue", ColorControl::ColorLoopActionEnum::kActivateFromEnhancedCurrentHue },
     };
 
     auto i = table.find(value);
@@ -1365,11 +1361,11 @@ inline std::optional<ColorControl::ColorLoopAction> from_json(const nlohmann::js
     }
 }
 template <>
-inline std::optional<ColorControl::ColorLoopDirection> from_json(const nlohmann::json& value)
+inline std::optional<ColorControl::ColorLoopDirectionEnum> from_json(const nlohmann::json& value)
 {
-    const std::map<std::string, ColorControl::ColorLoopDirection> table = {
-        { "DecrementEnhancedCurrentHue", ColorControl::ColorLoopDirection::kDecrementHue },
-        { "IncrementEnhancedCurrentHue", ColorControl::ColorLoopDirection::kIncrementHue },
+    const std::map<std::string, ColorControl::ColorLoopDirectionEnum> table = {
+        { "Decrement", ColorControl::ColorLoopDirectionEnum::kDecrement },
+        { "Increment", ColorControl::ColorLoopDirectionEnum::kIncrement },
     };
 
     auto i = table.find(value);
@@ -1380,12 +1376,29 @@ inline std::optional<ColorControl::ColorLoopDirection> from_json(const nlohmann:
     }
 }
 template <>
-inline std::optional<ColorControl::ColorMode> from_json(const nlohmann::json& value)
+inline std::optional<ColorControl::ColorModeEnum> from_json(const nlohmann::json& value)
 {
-    const std::map<std::string, ColorControl::ColorMode> table = {
-        { "CurrentHueAndCurrentSaturation", ColorControl::ColorMode::kCurrentHueAndCurrentSaturation },
-        { "CurrentXAndCurrentY", ColorControl::ColorMode::kCurrentXAndCurrentY },
-        { "ColorTemperatureMireds", ColorControl::ColorMode::kColorTemperature },
+    const std::map<std::string, ColorControl::ColorModeEnum> table = {
+        { "CurrentHueAndCurrentSaturation", ColorControl::ColorModeEnum::kCurrentHueAndCurrentSaturation },
+        { "CurrentXAndCurrentY", ColorControl::ColorModeEnum::kCurrentXAndCurrentY },
+        { "ColorTemperatureMireds", ColorControl::ColorModeEnum::kColorTemperatureMireds },
+    };
+
+    auto i = table.find(value);
+    if (i != table.end()) {
+        return i->second;
+    } else {
+        return std::nullopt;
+    }
+}
+template <>
+inline std::optional<ColorControl::DirectionEnum> from_json(const nlohmann::json& value)
+{
+    const std::map<std::string, ColorControl::DirectionEnum> table = {
+        { "Shortest", ColorControl::DirectionEnum::kShortest },
+        { "Longest", ColorControl::DirectionEnum::kLongest },
+        { "Up", ColorControl::DirectionEnum::kUp },
+        { "Down", ColorControl::DirectionEnum::kDown },
     };
 
     auto i = table.find(value);
@@ -1400,8 +1413,8 @@ inline std::optional<ColorControl::DriftCompensationEnum> from_json(const nlohma
 {
     const std::map<std::string, ColorControl::DriftCompensationEnum> table = {
         { "None", ColorControl::DriftCompensationEnum::kNone },
-        { "Other/Unknown", ColorControl::DriftCompensationEnum::kOtherUnknown },
-        { "Temperaturemonitoring", ColorControl::DriftCompensationEnum::kTemperaturemonitoring },
+        { "OtherOrUnknown", ColorControl::DriftCompensationEnum::kOtherOrUnknown },
+        { "TemperatureMonitoring", ColorControl::DriftCompensationEnum::kTemperatureMonitoring },
         { "OpticalLuminanceMonitoringAndFeedback", ColorControl::DriftCompensationEnum::kOpticalLuminanceMonitoringAndFeedback },
         { "OpticalColorMonitoringAndFeedback", ColorControl::DriftCompensationEnum::kOpticalColorMonitoringAndFeedback },
     };
@@ -1419,7 +1432,7 @@ inline std::optional<ColorControl::EnhancedColorModeEnum> from_json(const nlohma
     const std::map<std::string, ColorControl::EnhancedColorModeEnum> table = {
         { "CurrentHueAndCurrentSaturation", ColorControl::EnhancedColorModeEnum::kCurrentHueAndCurrentSaturation },
         { "CurrentXAndCurrentY", ColorControl::EnhancedColorModeEnum::kCurrentXAndCurrentY },
-        { "ColorTemperatureMireds", ColorControl::EnhancedColorModeEnum::kColorTemperature },
+        { "ColorTemperatureMireds", ColorControl::EnhancedColorModeEnum::kColorTemperatureMireds },
         { "EnhancedCurrentHueAndCurrentSaturation", ColorControl::EnhancedColorModeEnum::kEnhancedCurrentHueAndCurrentSaturation },
     };
 
@@ -1431,13 +1444,12 @@ inline std::optional<ColorControl::EnhancedColorModeEnum> from_json(const nlohma
     }
 }
 template <>
-inline std::optional<ColorControl::HueDirection> from_json(const nlohmann::json& value)
+inline std::optional<ColorControl::MoveModeEnum> from_json(const nlohmann::json& value)
 {
-    const std::map<std::string, ColorControl::HueDirection> table = {
-        { "ShortestDistance", ColorControl::HueDirection::kShortestDistance },
-        { "LongestDistance", ColorControl::HueDirection::kLongestDistance },
-        { "Up", ColorControl::HueDirection::kUp },
-        { "Down", ColorControl::HueDirection::kDown },
+    const std::map<std::string, ColorControl::MoveModeEnum> table = {
+        { "Stop", ColorControl::MoveModeEnum::kStop },
+        { "Up", ColorControl::MoveModeEnum::kUp },
+        { "Down", ColorControl::MoveModeEnum::kDown },
     };
 
     auto i = table.find(value);
@@ -1448,58 +1460,11 @@ inline std::optional<ColorControl::HueDirection> from_json(const nlohmann::json&
     }
 }
 template <>
-inline std::optional<ColorControl::HueMoveMode> from_json(const nlohmann::json& value)
+inline std::optional<ColorControl::StepModeEnum> from_json(const nlohmann::json& value)
 {
-    const std::map<std::string, ColorControl::HueMoveMode> table = {
-        { "Stop", ColorControl::HueMoveMode::kStop },
-        { "Up", ColorControl::HueMoveMode::kUp },
-        { "Down", ColorControl::HueMoveMode::kDown },
-    };
-
-    auto i = table.find(value);
-    if (i != table.end()) {
-        return i->second;
-    } else {
-        return std::nullopt;
-    }
-}
-template <>
-inline std::optional<ColorControl::HueStepMode> from_json(const nlohmann::json& value)
-{
-    const std::map<std::string, ColorControl::HueStepMode> table = {
-        { "Up", ColorControl::HueStepMode::kUp },
-        { "Down", ColorControl::HueStepMode::kDown },
-    };
-
-    auto i = table.find(value);
-    if (i != table.end()) {
-        return i->second;
-    } else {
-        return std::nullopt;
-    }
-}
-template <>
-inline std::optional<ColorControl::SaturationMoveMode> from_json(const nlohmann::json& value)
-{
-    const std::map<std::string, ColorControl::SaturationMoveMode> table = {
-        { "Stop", ColorControl::SaturationMoveMode::kStop },
-        { "Up", ColorControl::SaturationMoveMode::kUp },
-        { "Down", ColorControl::SaturationMoveMode::kDown },
-    };
-
-    auto i = table.find(value);
-    if (i != table.end()) {
-        return i->second;
-    } else {
-        return std::nullopt;
-    }
-}
-template <>
-inline std::optional<ColorControl::SaturationStepMode> from_json(const nlohmann::json& value)
-{
-    const std::map<std::string, ColorControl::SaturationStepMode> table = {
-        { "Up", ColorControl::SaturationStepMode::kUp },
-        { "Down", ColorControl::SaturationStepMode::kDown },
+    const std::map<std::string, ColorControl::StepModeEnum> table = {
+        { "Up", ColorControl::StepModeEnum::kUp },
+        { "Down", ColorControl::StepModeEnum::kDown },
     };
 
     auto i = table.find(value);
@@ -1542,6 +1507,20 @@ inline std::optional<chip::BitMask<PressureMeasurement::Feature>> from_json(cons
 /***************************** Bitmap Converters **************/
 
 /***************************** Bitmap Converters **************/
+template <>
+inline std::optional<chip::BitMask<OccupancySensing::Feature>> from_json(const nlohmann::json& obj)
+{
+    chip::BitMask<OccupancySensing::Feature> r;
+    r.SetField(OccupancySensing::Feature::kOther, obj.value("Other", false));
+    r.SetField(OccupancySensing::Feature::kPassiveInfrared, obj.value("PassiveInfrared", false));
+    r.SetField(OccupancySensing::Feature::kUltrasonic, obj.value("Ultrasonic", false));
+    r.SetField(OccupancySensing::Feature::kPhysicalContact, obj.value("PhysicalContact", false));
+    r.SetField(OccupancySensing::Feature::kActiveInfrared, obj.value("ActiveInfrared", false));
+    r.SetField(OccupancySensing::Feature::kRadar, obj.value("Radar", false));
+    r.SetField(OccupancySensing::Feature::kRFSensing, obj.value("RFSensing", false));
+    r.SetField(OccupancySensing::Feature::kVision, obj.value("Vision", false));
+    return r;
+}
 template <>
 inline std::optional<chip::BitMask<OccupancySensing::OccupancyBitmap>> from_json(const nlohmann::json& obj)
 {

@@ -7,15 +7,15 @@
 #include <app-common/zap-generated/ids/Attributes.h>
 #include <app-common/zap-generated/ids/Clusters.h>
 #include <app-common/zap-generated/ids/Commands.h>
-#include <lib/support/UnitTestContext.h>
-#include <lib/support/UnitTestRegistration.h>
+// #include <lib/support/UnitTestContext.h>
+// #include <lib/support/UnitTestRegistration.h>
 
 // Unify component
 #include "sl_log.h"
 
 // Third party library
 #include <iostream>
-#include <nlunit-test.h>
+#include <gtest/gtest.h>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -45,17 +45,17 @@ std::string getFirstPrioritizedDevice(std::unordered_map<std::string, unify_moni
 }
 
 template <typename T>
-void check_optional_value(nlTestSuite * inSuite, std::optional<T> value_to_check, T value)
+void check_optional_value(std::optional<T> value_to_check, T value)
 {
-    NL_TEST_ASSERT(inSuite, value_to_check.has_value() == true);
+    EXPECT_EQ(value_to_check.has_value() ,true);
 
     if (value_to_check.has_value())
     {
-        NL_TEST_ASSERT(inSuite, value_to_check.value() == value);
+        EXPECT_EQ(value_to_check.value() ,value);
     }
 }
 
-void TestMatterDeviceScore(nlTestSuite * inSuite, void * aContext)
+TEST(TestDeviceMapper,TestMatterDeviceScore)
 {
     auto doorlock_cluster       = unify_monitor::cluster("DoorLock");
     doorlock_cluster.attributes = { "LockState" };
@@ -87,18 +87,18 @@ void TestMatterDeviceScore(nlTestSuite * inSuite, void * aContext)
                          score.extra_matter_clusters_count);
             // Clusters for DoorLock is [ Descriptor, DoorLock,
             // Identify, TimeSynchronization] we only provide 3
-            NL_TEST_ASSERT(inSuite, score.matter_miss_count == 1);
+            EXPECT_EQ(score.matter_miss_count ,static_cast<unsigned int>(1));
             // By default BridgedDeviceBasic is enabled, so we
             // have one extra clusters. In addition, we do ignore the Descriptor
             // cluster as a spec compliant cluster.
-            NL_TEST_ASSERT(inSuite, score.extra_matter_clusters_count == 2);
+            EXPECT_EQ(score.extra_matter_clusters_count ,static_cast<unsigned int>(2));
             // We have 2 clusters that matches
-            NL_TEST_ASSERT(inSuite, score.required_matter_clusters_count == 2);
+            EXPECT_EQ(score.required_matter_clusters_count ,static_cast<unsigned int>(2));
         }
     }
 }
 
-void TestDeviceMapperPrioritization(nlTestSuite * inSuite, void * aContext)
+TEST(TestDeviceMapper, TestDeviceMapperPrioritization)
 {
     // 1 Test if the device mapper prioritizes the doorlock cluster
     auto doorlock_cluster       = unify_monitor::cluster("DoorLock");
@@ -116,7 +116,7 @@ void TestDeviceMapperPrioritization(nlTestSuite * inSuite, void * aContext)
 
     const device_translator dev_translator(false);
     std::string output_device = getFirstPrioritizedDevice(clusters, dev_translator);
-    NL_TEST_ASSERT(inSuite, output_device == "doorlock");
+    EXPECT_EQ(output_device ,"doorlock");
 
     // 2 When adding scenes and groups it will not pick the doorlock because it
     // matches those two clusters on another cluster even though it has the
@@ -132,7 +132,7 @@ void TestDeviceMapperPrioritization(nlTestSuite * inSuite, void * aContext)
         { "Groups", group_cluster },
     };
     output_device = getFirstPrioritizedDevice(clusters, dev_translator);
-    NL_TEST_ASSERT(inSuite, output_device == "doorlock");
+    EXPECT_EQ(output_device ,"doorlock");
 
     // 3 Check that the device mapper prioritizes the occupancysensor cluster
     auto occupancy_sensing_cluster                                                    = unify_monitor::cluster("OccupancySensing");
@@ -145,7 +145,7 @@ void TestDeviceMapperPrioritization(nlTestSuite * inSuite, void * aContext)
                                                                                             occupancy_sensing_cluster },
                                                                                           { "IASZone", ias_zone_cluster } };
     output_device = getFirstPrioritizedDevice(OccupancySensing_clusters, dev_translator);
-    NL_TEST_ASSERT(inSuite, output_device == "occupancysensor");
+    EXPECT_EQ(output_device ,"occupancysensor");
 
     // 4 Check that the device mapper prioritizes the extendedcolorlight cluster
     auto color_control_cluster       = unify_monitor::cluster("ColorControl");
@@ -164,10 +164,10 @@ void TestDeviceMapperPrioritization(nlTestSuite * inSuite, void * aContext)
                                                                                             { "ColorControl",
                                                                                               color_control_cluster } };
     output_device = getFirstPrioritizedDevice(colordimmablelight_clusters, dev_translator);
-    NL_TEST_ASSERT(inSuite, output_device == "extendedcolorlight");
+    EXPECT_EQ(output_device ,"extendedcolorlight");
 }
 
-void TestDeviceMapperPrioritizationConformingToSpec(nlTestSuite * inSuite, void * aContext)
+TEST(TestDeviceMapper, TestDeviceMapperPrioritizationConformingToSpec)
 {
     // 1 Test that the door lock is not mapped if it does not conform to spec
     auto doorlock_cluster                                            = unify_monitor::cluster("DoorLock");
@@ -182,7 +182,7 @@ void TestDeviceMapperPrioritizationConformingToSpec(nlTestSuite * inSuite, void 
     sl_log_debug(LOG_TAG, "TestDeviceMapperPrioritizationConformingToSpec");
     const device_translator dev_translator(true);
     std::string output_device = getFirstPrioritizedDevice(clusters, dev_translator);
-    NL_TEST_ASSERT(inSuite, output_device != "doorlock");
+    EXPECT_NE(output_device ,"doorlock");
 
     // 2 Test onofflight device that conforms to spec
     auto groups_cluster               = unify_monitor::cluster("Groups");
@@ -211,32 +211,32 @@ void TestDeviceMapperPrioritizationConformingToSpec(nlTestSuite * inSuite, void 
                  { "OnOff", on_off_cluster },
                  { "Scenes", scenes_cluster } };
     output_device                        = getFirstPrioritizedDevice(clusters, dev_translator);
-    NL_TEST_ASSERT(inSuite, output_device == "onofflight");
+    EXPECT_EQ(output_device ,"onofflight");
 
     // 3 Test onofflight device that does not conform to spec when missing scenes
     clusters = {
         { "Groups", groups_cluster }, { "Identify", identify_cluster }, { "Level", level_cluster }, { "OnOff", on_off_cluster }
     };
     output_device = getFirstPrioritizedDevice(clusters, dev_translator);
-    NL_TEST_ASSERT(inSuite, output_device != "onofflight");
-    NL_TEST_ASSERT(inSuite, output_device == "dimmablepluginunit");
+    EXPECT_NE(output_device ,"onofflight");
+    EXPECT_EQ(output_device ,"dimmablepluginunit");
 
     // 4 Test dimmablelight device mapping
     clusters      = { { "Groups", groups_cluster }, { "Identify", identify_cluster },
                  { "Level", level_cluster },   { "OccupancySensing", occupancy_sensing_cluster },
                  { "OnOff", on_off_cluster },  { "Scenes", scenes_cluster } };
     output_device = getFirstPrioritizedDevice(clusters, dev_translator);
-    NL_TEST_ASSERT(inSuite, output_device == "dimmablelight");
+    EXPECT_EQ(output_device ,"dimmablelight");
 
     // 5 Test switch device mapping
     clusters = {
         { "Groups", groups_cluster }, { "Identify", identify_cluster }, { "OnOff", on_off_cluster }, { "Scenes", scenes_cluster }
     };
     output_device = getFirstPrioritizedDevice(clusters, dev_translator);
-    NL_TEST_ASSERT(inSuite, output_device == "onoffpluginunit");
+    EXPECT_EQ(output_device ,"onoffpluginunit");
 }
 
-void TestDeviceMapperSpecCommands(nlTestSuite * inSuite, void * aContext)
+TEST(TestDeviceMapper, TestDeviceMapperSpecCommands)
 {
     auto onoff_cluster               = unify_monitor::cluster("OnOff");
     onoff_cluster.attributes         = { "OnOff" };
@@ -252,14 +252,14 @@ void TestDeviceMapperSpecCommands(nlTestSuite * inSuite, void * aContext)
 
     bool state = compare_commands(cluster_interactor.endpoint_builder.clusters[0].acceptedCommandList, "OnOff",
                                   { "On", "Off", "Toggle" }, dev_translator);
-    NL_TEST_ASSERT(inSuite, state == true);
+    EXPECT_EQ(state ,true);
 
     state = compare_commands(cluster_interactor.endpoint_builder.clusters[0].acceptedCommandList, "OnOff",
                              { "On", "Off", "Toggle", "RandomNonesenseRequiredCommand" }, dev_translator);
-    NL_TEST_ASSERT(inSuite, state == false);
+    EXPECT_EQ(state ,false);
 }
 
-void TestDeviceMapperSpecCommandsFail(nlTestSuite * inSuite, void * aContext)
+TEST(TestDeviceMapper, TestDeviceMapperSpecCommandsFail)
 {
     auto new_onoff_cluster               = unify_monitor::cluster("OnOff");
     new_onoff_cluster.attributes         = { "OnOff" };
@@ -275,16 +275,16 @@ void TestDeviceMapperSpecCommandsFail(nlTestSuite * inSuite, void * aContext)
 
     bool state = compare_commands(cluster_interactor.endpoint_builder.clusters[0].acceptedCommandList, "OnOff",
                                   { "On", "Off", "Toggle" }, dev_translator);
-    NL_TEST_ASSERT(inSuite, state == false);
+    EXPECT_EQ(state ,false);
     state =
         compare_commands(cluster_interactor.endpoint_builder.clusters[0].acceptedCommandList, "OnOff", { "Off" }, dev_translator);
-    NL_TEST_ASSERT(inSuite, state == true);
+    EXPECT_EQ(state ,true);
     state = compare_commands(cluster_interactor.endpoint_builder.clusters[0].acceptedCommandList, "OnOff", { "Off", "Toggle" },
                              dev_translator);
-    NL_TEST_ASSERT(inSuite, state == true);
+    EXPECT_EQ(state ,true);
 }
 
-void TestDeviceMapperSpecAttributes(nlTestSuite * inSuite, void * aContext)
+TEST(TestDeviceMapper, TestDeviceMapperSpecAttributes)
 {
     auto onoff_cluster       = unify_monitor::cluster("OnOff");
     onoff_cluster.attributes = { "OnOff", "OnTime", "OffWaitTime" };
@@ -300,15 +300,15 @@ void TestDeviceMapperSpecAttributes(nlTestSuite * inSuite, void * aContext)
     bool state = compare_attributes(cluster_interactor.endpoint_builder.clusters[0].attributes,
                                     cluster_interactor.endpoint_builder.clusters[0].attributeCount, "OnOff",
                                     { "OnOff", "OnTime", "OffWaitTime" }, dev_translator);
-    NL_TEST_ASSERT(inSuite, state == true);
+    EXPECT_EQ(state ,true);
 
     state = compare_attributes(cluster_interactor.endpoint_builder.clusters[0].attributes,
                                cluster_interactor.endpoint_builder.clusters[0].attributeCount, "OnOff",
                                { "OnOff", "OnTime", "OffWaitTime", "RandomNonesenseRequiredAttribute" }, dev_translator);
-    NL_TEST_ASSERT(inSuite, state == false);
+    EXPECT_EQ(state ,false);
 }
 
-void TestDeviceMapperSpecAttributesFail(nlTestSuite * inSuite, void * aContext)
+TEST(TestDeviceMapper, TestDeviceMapperSpecAttributesFail)
 {
     auto new_onoff_cluster       = unify_monitor::cluster("OnOff");
     new_onoff_cluster.attributes = { "OnOff", "OnTime" };
@@ -324,18 +324,18 @@ void TestDeviceMapperSpecAttributesFail(nlTestSuite * inSuite, void * aContext)
     bool state = compare_attributes(cluster_interactor.endpoint_builder.clusters[0].attributes,
                                     cluster_interactor.endpoint_builder.clusters[0].attributeCount, "OnOff",
                                     { "OnOff", "OnTime", "OffWaitTime" }, dev_translator);
-    NL_TEST_ASSERT(inSuite, state == false);
+    EXPECT_EQ(state ,false);
     state = compare_attributes(cluster_interactor.endpoint_builder.clusters[0].attributes,
                                cluster_interactor.endpoint_builder.clusters[0].attributeCount, "OnOff", { "OnOff", "OnTime" },
                                dev_translator);
-    NL_TEST_ASSERT(inSuite, state == true);
+    EXPECT_EQ(state ,true);
     state =
         compare_attributes(cluster_interactor.endpoint_builder.clusters[0].attributes,
                            cluster_interactor.endpoint_builder.clusters[0].attributeCount, "OnOff", { "OnOff" }, dev_translator);
-    NL_TEST_ASSERT(inSuite, state == true);
+    EXPECT_EQ(state ,true);
 }
 
-void TestDeviceMapperSpecOnOffDeviceFail(nlTestSuite * inSuite, void * aContext)
+TEST(TestDeviceMapper, TestDeviceMapperSpecOnOffDeviceFail)
 {
     // None compliant OnOffplugin unit device
     auto new_onoff_cluster       = unify_monitor::cluster("OnOff");
@@ -356,10 +356,10 @@ void TestDeviceMapperSpecOnOffDeviceFail(nlTestSuite * inSuite, void * aContext)
     bool compliance = matter_clusters_conform_to_device_type(cluster_interactor.endpoint_builder.clusters,
                                                              onoff_plugin_unit_requirements.clusters, dev_translator);
 
-    NL_TEST_ASSERT(inSuite, compliance == false);
+    EXPECT_EQ(compliance ,false);
 }
 
-void TestDeviceMapperSpecOnOffDeviceComplying(nlTestSuite * inSuite, void * aContext)
+TEST(TestDeviceMapper, TestDeviceMapperSpecOnOffDeviceComplying)
 {
     // Compliant OnOffplugin unit device
     auto identify_cluster               = unify_monitor::cluster("Identify");
@@ -412,10 +412,10 @@ void TestDeviceMapperSpecOnOffDeviceComplying(nlTestSuite * inSuite, void * aCon
     // Whole cluster Scenes
     bool compliance = matter_clusters_conform_to_device_type(cluster_interactor.endpoint_builder.clusters,
                                                              onoff_plugin_unit_requirements.clusters, dev_translator);
-    NL_TEST_ASSERT(inSuite, compliance == true);
+    EXPECT_EQ(compliance ,true);
 }
 
-void TestDeviceMapperSpecWindowCoveringComplying(nlTestSuite * inSuite, void * aContext)
+TEST(TestDeviceMapper, TestDeviceMapperSpecWindowCoveringComplying)
 {
     // Compliant Window Covering device
     auto identify_cluster               = unify_monitor::cluster("Identify");
@@ -448,10 +448,10 @@ void TestDeviceMapperSpecWindowCoveringComplying(nlTestSuite * inSuite, void * a
 
     bool compliance = matter_clusters_conform_to_device_type(cluster_interactor.endpoint_builder.clusters,
                                                              windowcovering_requirements.clusters, dev_translator);
-    NL_TEST_ASSERT(inSuite, compliance == true);
+    EXPECT_EQ(compliance ,true);
 }
 
-void TestDeviceMapperSpecWindowCoveringFail(nlTestSuite * inSuite, void * aContext)
+TEST(TestDeviceMapper, TestDeviceMapperSpecWindowCoveringFail)
 {
     // Compliant Window Covering device
     auto identify_cluster               = unify_monitor::cluster("Identify");
@@ -477,10 +477,10 @@ void TestDeviceMapperSpecWindowCoveringFail(nlTestSuite * inSuite, void * aConte
 
     bool compliance = matter_clusters_conform_to_device_type(cluster_interactor.endpoint_builder.clusters,
                                                              window_covering_requirements.clusters, dev_translator);
-    NL_TEST_ASSERT(inSuite, compliance == false);
+    EXPECT_EQ(compliance ,false);
 }
 
-void TestDeviceMapperGetDeviceType(nlTestSuite * inSuite, void * aContext)
+TEST(TestDeviceMapper, TestDeviceMapperGetDeviceType)
 {
     const device_translator dev_translator(false);
 
@@ -488,39 +488,39 @@ void TestDeviceMapperGetDeviceType(nlTestSuite * inSuite, void * aContext)
     chip::DeviceTypeId device_type_id       = 0x0100;
     std::optional<const char *> device_name = dev_translator.get_device_name(device_type_id);
     std::string expected_value              = "onofflight";
-    NL_TEST_ASSERT(inSuite, device_name.has_value() == true);
+    EXPECT_EQ(device_name.has_value() ,true);
     if (device_name.has_value())
     {
-        NL_TEST_ASSERT(inSuite, std::string(device_name.value()) == expected_value);
+        EXPECT_EQ(std::string(device_name.value()) ,expected_value);
     }
 
     // 2 Test no device name is returned on unkonwn device
     device_type_id = 0x0000;
     device_name    = dev_translator.get_device_name(device_type_id);
-    NL_TEST_ASSERT(inSuite, device_name.has_value() == false);
+    EXPECT_EQ(device_name.has_value() ,false);
 }
 
-void TestDeviceMapperGetClusterId(nlTestSuite * inSuite, void * aContext)
+TEST(TestDeviceMapper, TestDeviceMapperGetClusterId)
 {
     const device_translator dev_translator(false);
 
     // 1 Test the correct cluster id is returned
     std::string cluster_name                  = "Basic";
     std::optional<chip::ClusterId> cluster_id = dev_translator.get_cluster_id(cluster_name);
-    check_optional_value(inSuite, cluster_id, chip::app::Clusters::BridgedDeviceBasicInformation::Id);
+    check_optional_value(cluster_id, chip::app::Clusters::BridgedDeviceBasicInformation::Id);
 
     // 2 Test no cluster id is returned on unkonwn cluster
     cluster_name = "Unknown";
     cluster_id   = dev_translator.get_cluster_id(cluster_name);
-    NL_TEST_ASSERT(inSuite, cluster_id.has_value() == false);
+    EXPECT_EQ(cluster_id.has_value() ,false);
 
     // 3 Test OnOff cluster id is returned
     cluster_name = "OnOff";
     cluster_id   = dev_translator.get_cluster_id(cluster_name);
-    check_optional_value(inSuite, cluster_id, chip::app::Clusters::OnOff::Id);
+    check_optional_value(cluster_id, chip::app::Clusters::OnOff::Id);
 }
 
-void TestDeviceMapperGetAttributeIdAndCommandId(nlTestSuite * inSuite, void * aContext)
+TEST(TestDeviceMapper, TestDeviceMapperGetAttributeIdAndCommandId)
 {
     // Test this instance calling function of a static class member.
     const device_translator dev_translator(false);
@@ -529,56 +529,23 @@ void TestDeviceMapperGetAttributeIdAndCommandId(nlTestSuite * inSuite, void * aC
     std::string cluster_name                      = "OnOff";
     std::string attribute_name                    = "OnOff";
     std::optional<chip::AttributeId> attribute_id = dev_translator.get_attribute_id(cluster_name, attribute_name);
-    check_optional_value(inSuite, attribute_id, chip::app::Clusters::OnOff::Attributes::OnOff::Id);
+    check_optional_value(attribute_id, chip::app::Clusters::OnOff::Attributes::OnOff::Id);
 
     // 2 Test no attribute id is returned on unkonwn attribute
     cluster_name   = "Unknown";
     attribute_name = "Unknown";
     attribute_id   = dev_translator.get_attribute_id(cluster_name, attribute_name);
-    NL_TEST_ASSERT(inSuite, attribute_id.has_value() == false);
+    EXPECT_EQ(attribute_id.has_value() ,false);
 
     // 3 Test the correct command id is returned
     cluster_name                              = "OnOff";
     std::string command_name                  = "Off";
     std::optional<chip::CommandId> command_id = dev_translator.get_command_id(cluster_name, command_name);
-    check_optional_value(inSuite, command_id, chip::app::Clusters::OnOff::Commands::Off::Id);
+    check_optional_value(command_id, chip::app::Clusters::OnOff::Commands::Off::Id);
 
     // 4 Test no command id is returned on unkonwn command
     cluster_name = "Unknown";
     command_name = "Unknown";
     command_id   = dev_translator.get_command_id(cluster_name, command_name);
-    NL_TEST_ASSERT(inSuite, command_id.has_value() == false);
+    EXPECT_EQ(command_id.has_value(),false);
 }
-
-class TestContext
-{
-public:
-    nlTestSuite * mTestSuite;
-};
-
-static const nlTest sTests[] = {
-    NL_TEST_DEF("TestMatterDeviceScore", TestMatterDeviceScore),
-    NL_TEST_DEF("TestDeviceMapperPrioritization", TestDeviceMapperPrioritization),
-    NL_TEST_DEF("TestDeviceMapperPrioritizationConformingToSpec", TestDeviceMapperPrioritizationConformingToSpec),
-    NL_TEST_DEF("TestDeviceMapperSpecCommands", TestDeviceMapperSpecCommands),
-    NL_TEST_DEF("TestDeviceMapperSpecCommandsFail", TestDeviceMapperSpecCommandsFail),
-    NL_TEST_DEF("TestDeviceMapperSpecAttributes", TestDeviceMapperSpecAttributes),
-    NL_TEST_DEF("TestDeviceMapperSpecAttributesFail", TestDeviceMapperSpecAttributesFail),
-    NL_TEST_DEF("TestDeviceMapperSpecOnOffDeviceFail", TestDeviceMapperSpecOnOffDeviceFail),
-    NL_TEST_DEF("TestDeviceMapperSpecOnOffDeviceComplying", TestDeviceMapperSpecOnOffDeviceComplying),
-    NL_TEST_DEF("TestDeviceMapperSpecWindowCoveringComplying", TestDeviceMapperSpecWindowCoveringComplying),
-    NL_TEST_DEF("TestDeviceMapperSpecWindowCoveringFail", TestDeviceMapperSpecWindowCoveringFail),
-    NL_TEST_DEF("TestDeviceMapperGetDeviceType", TestDeviceMapperGetDeviceType),
-    NL_TEST_DEF("TestDeviceMapperGetClusterId", TestDeviceMapperGetClusterId),
-    NL_TEST_DEF("TestDeviceMapperGetAttributeIdAndCommandId", TestDeviceMapperGetAttributeIdAndCommandId),
-    NL_TEST_SENTINEL()
-};
-
-static nlTestSuite TheCommandSuite = { "TestDeviceMapperHandler", &sTests[0], nullptr, nullptr };
-
-int TestDeviceMapperHandler(void)
-{
-    return (chip::ExecuteTestsWithContext<TestContext>(&TheCommandSuite));
-}
-
-CHIP_REGISTER_TEST_SUITE(TestDeviceMapperHandler)

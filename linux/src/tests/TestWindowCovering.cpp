@@ -23,12 +23,9 @@
 // Mocks
 #include "MockClusterCommandHandler.hpp"
 
-// Chip components
-#include <lib/support/UnitTestContext.h>
-#include <lib/support/UnitTestRegistration.h>
 
 // Third party library
-#include <nlunit-test.h>
+#include <gtest/gtest.h>
 
 
 using namespace unify::matter_bridge;
@@ -38,10 +35,21 @@ using namespace chip::app::DataModel;
 using namespace chip::app::Clusters::WindowCovering;
 using TestContext = unify::matter_bridge::Test::ClusterContext<WindowCoveringAttributeAccess, 
 WindowCoveringClusterCommandHandler>;
-    
+
+class TestWindowCovering : public TestContext {
+public:
+
+    void SetUp() {
+        EXPECT_EQ(TestWindowCovering::Initialize(this),1);
+    }
+
+    void TearDown() {
+        EXPECT_EQ(TestContext::Finalize(this),1);
+    }
+  
 static int Initialize(void * context)
 {
-    if (TestContext::Initialize(context, true) != SUCCESS)
+    if (TestContext::Initialize(context) != SUCCESS)
         return FAILURE;
 
     auto * ctx         = static_cast<TestContext *>(context);
@@ -68,107 +76,89 @@ static int Initialize(void * context)
     };
     return ctx->register_endpoint(ep);
 }
+};
 
-static int Finalize(void * context)
+TEST_F(TestWindowCovering, TestWindowCoveringAttributeInstalledOpenLimitLift)
 {
-    if (TestContext::Finalize(context, true) != SUCCESS)
-    {
-        return FAILURE;
-    }
-    return SUCCESS;
-}
-
-static void TestWindowCoveringAttributeInstalledOpenLimitLift(nlTestSuite * sSuite, void * apContext)
-{
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
-    CHIP_ERROR err    = ctx.attribute_test<Clusters::WindowCovering::Attributes::InstalledOpenLimitLift::TypeInfo>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/InstalledOpenLimitLift/Reported", R"({ "value": 0 })",
+    CHIP_ERROR err    = attribute_test<Clusters::WindowCovering::Attributes::InstalledOpenLimitLift::TypeInfo>(
+        "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/InstalledOpenLimitLift/Reported", R"({ "value": 0 })",
         0);
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
-static void TestWindowCoveringAttributeInstalledClosedLimitLift(nlTestSuite * sSuite, void * apContext)
+TEST_F(TestWindowCovering, TestWindowCoveringAttributeInstalledClosedLimitLift)
 {
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
-    CHIP_ERROR err    = ctx.attribute_test<Clusters::WindowCovering::Attributes::InstalledClosedLimitLift::TypeInfo>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/InstalledClosedLimitLift/Reported", R"({ "value": 65534 })",
+    CHIP_ERROR err    = attribute_test<Clusters::WindowCovering::Attributes::InstalledClosedLimitLift::TypeInfo>(
+        "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/InstalledClosedLimitLift/Reported", R"({ "value": 65534 })",
         65534);
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
-static void TestWindowCoveringAttributeCurrentPositionLift(nlTestSuite * sSuite, void * apContext)
+TEST_F(TestWindowCovering, TestWindowCoveringAttributeCurrentPositionLift)
 {
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
-    CHIP_ERROR err    = ctx.attribute_test<Clusters::WindowCovering::Attributes::CurrentPositionLift::TypeInfo>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/CurrentPositionLift/Reported", R"({ "value": 0 })",
+    CHIP_ERROR err    = attribute_test<Clusters::WindowCovering::Attributes::CurrentPositionLift::TypeInfo>(
+        "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/CurrentPositionLift/Reported", R"({ "value": 0 })",
         static_cast<Clusters::WindowCovering::Attributes::CurrentPositionLift::TypeInfo::Type>(0));
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
-static void TestWindowCoveringAttributeCurrentPositionLiftPercentage(nlTestSuite * sSuite, void * apContext)
+TEST_F(TestWindowCovering, TestWindowCoveringAttributeCurrentPositionLiftPercentage)
 {
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
-    CHIP_ERROR err    = ctx.attribute_test<Clusters::WindowCovering::Attributes::CurrentPositionLiftPercentage::TypeInfo>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/CurrentPositionLiftPercentage/Reported", R"({ "value": 0 })",
+    CHIP_ERROR err    = attribute_test<Clusters::WindowCovering::Attributes::CurrentPositionLiftPercentage::TypeInfo>(
+        "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/CurrentPositionLiftPercentage/Reported", R"({ "value": 0 })",
         static_cast<Clusters::WindowCovering::Attributes::CurrentPositionLiftPercentage::TypeInfo::Type>(0));
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
-static void TestWindowCoveringCommandUpOrOpen(nlTestSuite * sSuite, void * apContext)
+TEST_F(TestWindowCovering, TestWindowCoveringCommandUpOrOpen)
 {
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
     Clusters::WindowCovering::Commands::UpOrOpen::Type request;
-    CHIP_ERROR err = ctx.command_test<Clusters::WindowCovering::Commands::UpOrOpen::Type>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Commands/UpOrOpen", "{}", request);
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+    CHIP_ERROR err = command_test<Clusters::WindowCovering::Commands::UpOrOpen::Type>(
+        "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Commands/UpOrOpen", "{}", request);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
-static void TestWindowCoveringCommandDownOrClose(nlTestSuite * sSuite, void * apContext)
+TEST_F(TestWindowCovering, TestWindowCoveringCommandDownOrClose)
 {
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
     Clusters::WindowCovering::Commands::DownOrClose::Type request;
-    CHIP_ERROR err = ctx.command_test<Clusters::WindowCovering::Commands::DownOrClose::Type>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Commands/DownOrClose", "{}", request);
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+    CHIP_ERROR err = command_test<Clusters::WindowCovering::Commands::DownOrClose::Type>(
+        "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Commands/DownOrClose", "{}", request);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
-static void TestWindowCoveringCommandStopMotion(nlTestSuite * sSuite, void * apContext)
+TEST_F(TestWindowCovering, TestWindowCoveringCommandStopMotion)
 {
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
     Clusters::WindowCovering::Commands::StopMotion::Type request;
-    CHIP_ERROR err = ctx.command_test<Clusters::WindowCovering::Commands::StopMotion::Type>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Commands/Stop", "{}", request);
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+    CHIP_ERROR err = command_test<Clusters::WindowCovering::Commands::StopMotion::Type>(
+        "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Commands/Stop", "{}", request);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 } 
 
-static void TestWindowCoveringAttributeMode(nlTestSuite * sSuite, void * apContext)
+TEST_F(TestWindowCovering, TestWindowCoveringAttributeMode)
 {
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
-    CHIP_ERROR err = ctx.attribute_test<Clusters::WindowCovering::Attributes::Mode::TypeInfo>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/Mode/Reported", R"({ "value": {
+    CHIP_ERROR err = attribute_test<Clusters::WindowCovering::Attributes::Mode::TypeInfo>(
+        "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/Mode/Reported", R"({ "value": {
         "CalibrationMode": false,
         "LEDFeedback": false,
         "MaintenanceMode": false,
         "MotorDirectionReversed": false
         } })",
         static_cast<Clusters::WindowCovering::Attributes::Mode::TypeInfo::Type>(0));
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
-static void TestWindowCoveringAttributeType(nlTestSuite * sSuite, void * apContext)
+TEST_F(TestWindowCovering, TestWindowCoveringAttributeType)
 {
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
-    CHIP_ERROR err = ctx.attribute_test<Clusters::WindowCovering::Attributes::Type::TypeInfo>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/WindowCoveringType/Reported",R"({ "value": "Rollershade" })",
+    CHIP_ERROR err = attribute_test<Clusters::WindowCovering::Attributes::Type::TypeInfo>(
+        "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/WindowCoveringType/Reported",R"({ "value": "Rollershade" })",
         Clusters::WindowCovering::Type::kRollerShade);
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
-static void TestWindowCoveringAttributeConfigStatus(nlTestSuite * sSuite, void * apContext)
+TEST_F(TestWindowCovering, TestWindowCoveringAttributeConfigStatus)
 {
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
-    CHIP_ERROR err = ctx.attribute_test<Clusters::WindowCovering::Attributes::ConfigStatus::TypeInfo>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/ConfigOrStatus/Reported", R"({ "value": {
+    CHIP_ERROR err = attribute_test<Clusters::WindowCovering::Attributes::ConfigStatus::TypeInfo>(
+        "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/ConfigOrStatus/Reported", R"({ "value": {
         "LiftClosedLoop": false,
         "LiftEncoderControlled": false,
         "Online": false,
@@ -178,61 +168,27 @@ static void TestWindowCoveringAttributeConfigStatus(nlTestSuite * sSuite, void *
         "TiltEncoderControlled": false
         } })",
         static_cast<Clusters::WindowCovering::Attributes::ConfigStatus::TypeInfo::Type>(0));
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
  
-static void TestWindowCoveringAttributeEndProductType(nlTestSuite * sSuite, void * apContext)
+TEST_F(TestWindowCovering, TestWindowCoveringAttributeEndProductType)
 {
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
-    CHIP_ERROR err = ctx.attribute_test<Clusters::WindowCovering::Attributes::EndProductType::TypeInfo>(
-        sSuite, EndProductType::kRollerShade);
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+    CHIP_ERROR err = attribute_test<Clusters::WindowCovering::Attributes::EndProductType::TypeInfo>(
+        EndProductType::kRollerShade);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
-static void TestWindowCoveringAttributeClusterRevision(nlTestSuite * sSuite, void * apContext)
+TEST_F(TestWindowCovering, TestWindowCoveringAttributeClusterRevision)
 {
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
-    CHIP_ERROR err    = ctx.attribute_test<Clusters::WindowCovering::Attributes::ClusterRevision::TypeInfo>(
-        sSuite, "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/ClusterRevision/Reported", R"({ "value": 5 })",
+    CHIP_ERROR err    = attribute_test<Clusters::WindowCovering::Attributes::ClusterRevision::TypeInfo>(
+        "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/ClusterRevision/Reported", R"({ "value": 5 })",
         5);
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
-static void TestWindowCoveringAttributeOperationalStatus(nlTestSuite * sSuite, void * apContext)
+TEST_F(TestWindowCovering, TestWindowCoveringAttributeOperationalStatus)
 {
-    TestContext & ctx = *static_cast<TestContext *>(apContext);
-    CHIP_ERROR err    = ctx.attribute_test<Clusters::WindowCovering::Attributes::OperationalStatus::TypeInfo>(
-        sSuite, 0);
-    NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+    CHIP_ERROR err    = attribute_test<Clusters::WindowCovering::Attributes::OperationalStatus::TypeInfo>(
+        0);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
 }
-
-/**
- *   Test Suite. It lists all the test functions.
- */
-static const nlTest sTests[] = {
-
-    NL_TEST_DEF("WindowCovering::TestWindowCoveringAttributeInstalledOpenLimitLift",TestWindowCoveringAttributeInstalledOpenLimitLift),
-    NL_TEST_DEF("WindowCovering::TestWindowCoveringAttributeInstalledClosedLimitLift",TestWindowCoveringAttributeInstalledClosedLimitLift),
-    NL_TEST_DEF("WindowCovering::TestWindowCoveringAttributeCurrentPositionLift",TestWindowCoveringAttributeCurrentPositionLift),
-    NL_TEST_DEF("WindowCovering::TestWindowCoveringCommandDownOrClose", TestWindowCoveringCommandDownOrClose),
-    NL_TEST_DEF("WindowCovering::TestWindowCoveringCommandUpOrOpen", TestWindowCoveringCommandUpOrOpen),
-    NL_TEST_DEF("WindowCovering::TestWindowCoveringAttributeCurrentPositionLiftPercentage",TestWindowCoveringAttributeCurrentPositionLiftPercentage),
-    NL_TEST_DEF("WindowCovering::TestWindowCoveringCommandDownOrClose", TestWindowCoveringCommandDownOrClose),
-    NL_TEST_DEF("WindowCovering::TestWindowCoveringCommandStopMotion", TestWindowCoveringCommandStopMotion),
-    NL_TEST_DEF("WindowCovering::TestWindowCoveringAttributeMode",TestWindowCoveringAttributeMode),
-    NL_TEST_DEF("WindowCovering::TestWindowCoveringAttributeEndProductType",TestWindowCoveringAttributeEndProductType),
-    NL_TEST_DEF("WindowCovering::TestWindowCoveringAttributeClusterRevision",TestWindowCoveringAttributeClusterRevision),
-    NL_TEST_DEF("WindowCovering::TestWindowCoveringAttributeType",TestWindowCoveringAttributeType),
-    NL_TEST_DEF("WindowCovering::TestWindowCoveringAttributeConfigStatus",TestWindowCoveringAttributeConfigStatus),
-    NL_TEST_DEF("WindowCovering::TestWindowCoveringAttributeOperationalStatus",TestWindowCoveringAttributeOperationalStatus),
-    NL_TEST_SENTINEL()
-    };
-
-static nlTestSuite sSuite = { "WindowCoveringTests", &sTests[0], Initialize, Finalize };
-
-int TestWindowCoveringSuite(void)
-{
-    return chip::ExecuteTestsWithContext<TestContext>(&sSuite);
-}
-
-CHIP_REGISTER_TEST_SUITE(TestWindowCoveringSuite)

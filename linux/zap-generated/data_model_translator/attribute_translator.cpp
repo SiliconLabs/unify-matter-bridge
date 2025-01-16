@@ -2603,7 +2603,7 @@ ThermostatAttributeAccess::Read(const ConcreteReadAttributePath& aPath, Attribut
             }
             break;
         }
-        case MN::Occupancy::Id: { // type is bitmap8
+        case MN::Occupancy::Id: { // type is OccupancyBitmap
             MN::Occupancy::TypeInfo::Type value;
             if (attribute_state_cache::get_instance().get(atr_path, value)) {
                 return aEncoder.Encode(value);
@@ -2652,7 +2652,7 @@ ThermostatAttributeAccess::Read(const ConcreteReadAttributePath& aPath, Attribut
             }
             break;
         }
-        case MN::HVACSystemTypeConfiguration::Id: { // type is bitmap8
+        case MN::HVACSystemTypeConfiguration::Id: { // type is HVACSystemTypeBitmap
             MN::HVACSystemTypeConfiguration::TypeInfo::Type value;
             if (attribute_state_cache::get_instance().get(atr_path, value)) {
                 return aEncoder.Encode(value);
@@ -2666,56 +2666,56 @@ ThermostatAttributeAccess::Read(const ConcreteReadAttributePath& aPath, Attribut
             }
             break;
         }
-        case MN::OccupiedCoolingSetpoint::Id: { // type is int16s
+        case MN::OccupiedCoolingSetpoint::Id: { // type is temperature
             MN::OccupiedCoolingSetpoint::TypeInfo::Type value;
             if (attribute_state_cache::get_instance().get(atr_path, value)) {
                 return aEncoder.Encode(value);
             }
             break;
         }
-        case MN::OccupiedHeatingSetpoint::Id: { // type is int16s
+        case MN::OccupiedHeatingSetpoint::Id: { // type is temperature
             MN::OccupiedHeatingSetpoint::TypeInfo::Type value;
             if (attribute_state_cache::get_instance().get(atr_path, value)) {
                 return aEncoder.Encode(value);
             }
             break;
         }
-        case MN::UnoccupiedCoolingSetpoint::Id: { // type is int16s
+        case MN::UnoccupiedCoolingSetpoint::Id: { // type is temperature
             MN::UnoccupiedCoolingSetpoint::TypeInfo::Type value;
             if (attribute_state_cache::get_instance().get(atr_path, value)) {
                 return aEncoder.Encode(value);
             }
             break;
         }
-        case MN::UnoccupiedHeatingSetpoint::Id: { // type is int16s
+        case MN::UnoccupiedHeatingSetpoint::Id: { // type is temperature
             MN::UnoccupiedHeatingSetpoint::TypeInfo::Type value;
             if (attribute_state_cache::get_instance().get(atr_path, value)) {
                 return aEncoder.Encode(value);
             }
             break;
         }
-        case MN::MinHeatSetpointLimit::Id: { // type is int16s
+        case MN::MinHeatSetpointLimit::Id: { // type is temperature
             MN::MinHeatSetpointLimit::TypeInfo::Type value;
             if (attribute_state_cache::get_instance().get(atr_path, value)) {
                 return aEncoder.Encode(value);
             }
             break;
         }
-        case MN::MaxHeatSetpointLimit::Id: { // type is int16s
+        case MN::MaxHeatSetpointLimit::Id: { // type is temperature
             MN::MaxHeatSetpointLimit::TypeInfo::Type value;
             if (attribute_state_cache::get_instance().get(atr_path, value)) {
                 return aEncoder.Encode(value);
             }
             break;
         }
-        case MN::MinCoolSetpointLimit::Id: { // type is int16s
+        case MN::MinCoolSetpointLimit::Id: { // type is temperature
             MN::MinCoolSetpointLimit::TypeInfo::Type value;
             if (attribute_state_cache::get_instance().get(atr_path, value)) {
                 return aEncoder.Encode(value);
             }
             break;
         }
-        case MN::MaxCoolSetpointLimit::Id: { // type is int16s
+        case MN::MaxCoolSetpointLimit::Id: { // type is temperature
             MN::MaxCoolSetpointLimit::TypeInfo::Type value;
             if (attribute_state_cache::get_instance().get(atr_path, value)) {
                 return aEncoder.Encode(value);
@@ -2969,20 +2969,6 @@ ThermostatAttributeAccess::Read(const ConcreteReadAttributePath& aPath, Attribut
         }
         case MN::ActiveScheduleHandle::Id: { // type is octet_string
             MN::ActiveScheduleHandle::TypeInfo::Type value;
-            if (attribute_state_cache::get_instance().get(atr_path, value)) {
-                return aEncoder.Encode(value);
-            }
-            break;
-        }
-        case MN::PresetsSchedulesEditable::Id: { // type is boolean
-            MN::PresetsSchedulesEditable::TypeInfo::Type value;
-            if (attribute_state_cache::get_instance().get(atr_path, value)) {
-                return aEncoder.Encode(value);
-            }
-            break;
-        }
-        case MN::TemperatureSetpointHoldPolicy::Id: { // type is TemperatureSetpointHoldPolicyBitmap
-            MN::TemperatureSetpointHoldPolicy::TypeInfo::Type value;
             if (attribute_state_cache::get_instance().get(atr_path, value)) {
                 return aEncoder.Encode(value);
             }
@@ -3261,10 +3247,7 @@ CHIP_ERROR ThermostatAttributeAccess::Write(const ConcreteDataAttributePath& aPa
         // NumberOfScheduleTransitionPerDay is not supported by UCL
         // ActivePresetHandle is not supported by UCL
         // ActiveScheduleHandle is not supported by UCL
-        // PresetsSchedulesEditable is not supported by UCL
-        // TemperatureSetpointHoldPolicy is not supported by UCL
         // SetpointHoldExpiryTimestamp is not supported by UCL
-        // QueuedPreset is not supported by UCL
         // GeneratedCommandList is not supported by UCL
         // AcceptedCommandList is not supported by UCL
         // EventList is not supported by UCL
@@ -3329,7 +3312,7 @@ void ThermostatAttributeAccess::reported_updated(const bridged_endpoint* ep, con
         }
         break;
     }
-        // type is bitmap8
+        // type is OccupancyBitmap
     case MN::Occupancy::Id: {
         using T = MN::Occupancy::TypeInfo::Type;
         std::optional<T> value = from_json<T>(unify_value);
@@ -3413,7 +3396,7 @@ void ThermostatAttributeAccess::reported_updated(const bridged_endpoint* ep, con
         }
         break;
     }
-        // type is bitmap8
+        // type is HVACSystemTypeBitmap
     case MN::HVACSystemTypeConfiguration::Id: {
         using T = MN::HVACSystemTypeConfiguration::TypeInfo::Type;
         std::optional<T> value = from_json<T>(unify_value);
@@ -3439,7 +3422,7 @@ void ThermostatAttributeAccess::reported_updated(const bridged_endpoint* ep, con
         }
         break;
     }
-        // type is int16s
+        // type is temperature
     case MN::OccupiedCoolingSetpoint::Id: {
         using T = MN::OccupiedCoolingSetpoint::TypeInfo::Type;
         std::optional<T> value = from_json<T>(unify_value);
@@ -3451,7 +3434,7 @@ void ThermostatAttributeAccess::reported_updated(const bridged_endpoint* ep, con
         }
         break;
     }
-        // type is int16s
+        // type is temperature
     case MN::OccupiedHeatingSetpoint::Id: {
         using T = MN::OccupiedHeatingSetpoint::TypeInfo::Type;
         std::optional<T> value = from_json<T>(unify_value);
@@ -3463,7 +3446,7 @@ void ThermostatAttributeAccess::reported_updated(const bridged_endpoint* ep, con
         }
         break;
     }
-        // type is int16s
+        // type is temperature
     case MN::UnoccupiedCoolingSetpoint::Id: {
         using T = MN::UnoccupiedCoolingSetpoint::TypeInfo::Type;
         std::optional<T> value = from_json<T>(unify_value);
@@ -3476,7 +3459,7 @@ void ThermostatAttributeAccess::reported_updated(const bridged_endpoint* ep, con
         }
         break;
     }
-        // type is int16s
+        // type is temperature
     case MN::UnoccupiedHeatingSetpoint::Id: {
         using T = MN::UnoccupiedHeatingSetpoint::TypeInfo::Type;
         std::optional<T> value = from_json<T>(unify_value);
@@ -3489,7 +3472,7 @@ void ThermostatAttributeAccess::reported_updated(const bridged_endpoint* ep, con
         }
         break;
     }
-        // type is int16s
+        // type is temperature
     case MN::MinHeatSetpointLimit::Id: {
         using T = MN::MinHeatSetpointLimit::TypeInfo::Type;
         std::optional<T> value = from_json<T>(unify_value);
@@ -3501,7 +3484,7 @@ void ThermostatAttributeAccess::reported_updated(const bridged_endpoint* ep, con
         }
         break;
     }
-        // type is int16s
+        // type is temperature
     case MN::MaxHeatSetpointLimit::Id: {
         using T = MN::MaxHeatSetpointLimit::TypeInfo::Type;
         std::optional<T> value = from_json<T>(unify_value);
@@ -3513,7 +3496,7 @@ void ThermostatAttributeAccess::reported_updated(const bridged_endpoint* ep, con
         }
         break;
     }
-        // type is int16s
+        // type is temperature
     case MN::MinCoolSetpointLimit::Id: {
         using T = MN::MinCoolSetpointLimit::TypeInfo::Type;
         std::optional<T> value = from_json<T>(unify_value);
@@ -3525,7 +3508,7 @@ void ThermostatAttributeAccess::reported_updated(const bridged_endpoint* ep, con
         }
         break;
     }
-        // type is int16s
+        // type is temperature
     case MN::MaxCoolSetpointLimit::Id: {
         using T = MN::MaxCoolSetpointLimit::TypeInfo::Type;
         std::optional<T> value = from_json<T>(unify_value);
@@ -3985,7 +3968,7 @@ ColorControlAttributeAccess::Read(const ConcreteReadAttributePath& aPath, Attrib
             }
             break;
         }
-        case MN::ColorMode::Id: { // type is enum8
+        case MN::ColorMode::Id: { // type is ColorModeEnum
             MN::ColorMode::TypeInfo::Type value;
             if (attribute_state_cache::get_instance().get(atr_path, value)) {
                 return aEncoder.Encode(value);
@@ -4258,7 +4241,7 @@ ColorControlAttributeAccess::Read(const ConcreteReadAttributePath& aPath, Attrib
             }
             break;
         }
-        case MN::ColorCapabilities::Id: { // type is bitmap16
+        case MN::ColorCapabilities::Id: { // type is ColorCapabilitiesBitmap
             MN::ColorCapabilities::TypeInfo::Type value;
             if (attribute_state_cache::get_instance().get(atr_path, value)) {
                 return aEncoder.Encode(value);
@@ -4613,7 +4596,7 @@ void ColorControlAttributeAccess::reported_updated(const bridged_endpoint* ep, c
         }
         break;
     }
-        // type is enum8
+        // type is ColorModeEnum
     case MN::ColorMode::Id: {
         using T = chip::app::Clusters::ColorControl::ColorMode;
         std::optional<T> value = from_json<T>(unify_value);
@@ -5083,9 +5066,9 @@ void ColorControlAttributeAccess::reported_updated(const bridged_endpoint* ep, c
         }
         break;
     }
-        // type is bitmap16
+        // type is ColorCapabilitiesBitmap
     case MN::ColorCapabilities::Id: {
-        using T = chip::BitMask<chip::app::Clusters::ColorControl::ColorCapabilities>;
+        using T = MN::ColorCapabilities::TypeInfo::Type;
         std::optional<T> value = from_json<T>(unify_value);
 
         if (value.has_value()) {
@@ -6294,6 +6277,13 @@ OccupancySensingAttributeAccess::Read(const ConcreteReadAttributePath& aPath, At
             }
             break;
         }
+        case MN::HoldTime::Id: { // type is int16u
+            MN::HoldTime::TypeInfo::Type value;
+            if (attribute_state_cache::get_instance().get(atr_path, value)) {
+                return aEncoder.Encode(value);
+            }
+            break;
+        }
         case MN::PIROccupiedToUnoccupiedDelay::Id: { // type is int16u
             MN::PIROccupiedToUnoccupiedDelay::TypeInfo::Type value;
             if (attribute_state_cache::get_instance().get(atr_path, value)) {
@@ -6407,6 +6397,7 @@ CHIP_ERROR OccupancySensingAttributeAccess::Write(const ConcreteDataAttributePat
     // Occupancy is not supported by UCL
     // OccupancySensorType is not supported by UCL
     // OccupancySensorTypeBitmap is not supported by UCL
+    // HoldTimeLimits is not supported by UCL
     case Attributes::PIROccupiedToUnoccupiedDelay::Id: {
 
         Attributes::PIROccupiedToUnoccupiedDelay::TypeInfo::DecodableType value;
