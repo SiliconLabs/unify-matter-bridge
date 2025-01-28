@@ -204,11 +204,7 @@ void {{asUpperCamelCase label}}AttributeAccess::reported_updated(const bridged_e
     {{else if (canHaveSimpleAccessors this)}}
     // type is {{type}}
     case MN::{{asUpperCamelCase label}}::Id: {
-      {{#if (unifyCanPassThroughEnumValue parent.label code)}}
-      using T = chip::app::Clusters::{{asUpperCamelCase parent.label}}::{{asUpperCamelCase label}};
-      {{else}}
       using T = MN::{{asUpperCamelCase label}}::TypeInfo::Type;
-      {{/if}}
       {{#if (attributeHasSpecialValues parent.label label)}}
       nlohmann::json modified_unify_value = unify_value;
       {{getSpecialValues parent.label label 'modified_unify_value'}}

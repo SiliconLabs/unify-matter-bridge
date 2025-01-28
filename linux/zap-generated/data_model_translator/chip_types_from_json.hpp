@@ -1395,8 +1395,8 @@ template <>
 inline std::optional<ColorControl::DirectionEnum> from_json(const nlohmann::json& value)
 {
     const std::map<std::string, ColorControl::DirectionEnum> table = {
-        { "Shortest", ColorControl::DirectionEnum::kShortest },
-        { "Longest", ColorControl::DirectionEnum::kLongest },
+        { "ShortestDistance", ColorControl::DirectionEnum::kShortest },
+        { "LongestDistance", ColorControl::DirectionEnum::kLongest },
         { "Up", ColorControl::DirectionEnum::kUp },
         { "Down", ColorControl::DirectionEnum::kDown },
     };

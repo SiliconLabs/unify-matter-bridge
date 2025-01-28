@@ -4598,7 +4598,7 @@ void ColorControlAttributeAccess::reported_updated(const bridged_endpoint* ep, c
     }
         // type is ColorModeEnum
     case MN::ColorMode::Id: {
-        using T = chip::app::Clusters::ColorControl::ColorMode;
+        using T = MN::ColorMode::TypeInfo::Type;
         std::optional<T> value = from_json<T>(unify_value);
 
         if (value.has_value()) {

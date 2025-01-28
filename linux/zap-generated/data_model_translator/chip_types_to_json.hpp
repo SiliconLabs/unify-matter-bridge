@@ -1546,9 +1546,9 @@ nlohmann::json inline to_json(const chip::app::Clusters::ColorControl::Direction
     using namespace chip::app::Clusters::ColorControl;
     switch (value) {
     case DirectionEnum::kShortest:
-        return "Shortest";
+        return "ShortestDistance";
     case DirectionEnum::kLongest:
-        return "Longest";
+        return "LongestDistance";
     case DirectionEnum::kUp:
         return "Up";
     case DirectionEnum::kDown:

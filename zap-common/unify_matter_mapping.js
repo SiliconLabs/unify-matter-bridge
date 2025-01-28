@@ -87,7 +87,7 @@ const enums_unify_to_matter = {
     "BatterySize" : "BatterySize",
     "BypassResponseZoneIDBypassResult" : "",  // Not used
     "CCColorLoopDirection" : "ColorLoopDirection",
-    "CCDirection" : "HueDirection",
+    "CCDirection" : "DirectionEnum",
     "CCMoveMode" : "HueMoveMode",
     "CCStepMode" : "HueStepMode",
     "ColorControlColorLoopActive" : "",  // FIXME
