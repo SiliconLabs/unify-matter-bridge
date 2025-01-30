@@ -538,9 +538,15 @@ TEST_F(TestColorControl, CommandStepHue)
 {
     Clusters::ColorControl::Commands::StepHue::Type request;
     request.stepMode = chip::app::Clusters::ColorControl::HueStepMode::kUp;
+    request.stepSize = 1;
     CHIP_ERROR err = command_test<Clusters::ColorControl::Commands::StepHue::Type>(
         "ucl/by-unid/zw-0x0002/ep2/ColorControl/Commands/StepHue",
-        R"({"OptionsMask":0,"OptionsOverride":0,"StepMode":"Up","StepSize":0,"TransitionTime":0})", request);
+        R"({"OptionsMask":0,"OptionsOverride":0,"StepMode":"Up","StepSize":1,"TransitionTime":0})", request);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
+    Clusters::ColorControl::Commands::StopMoveStep::Type request2;
+    err = command_test<Clusters::ColorControl::Commands::StopMoveStep::Type>(
+        "ucl/by-unid/zw-0x0002/ep2/ColorControl/Commands/StopMoveStep", R"({"OptionsMask":0,"OptionsOverride":0})",
+        request2);
     EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
@@ -566,9 +572,15 @@ TEST_F(TestColorControl, CommandStepSaturation)
 {
     Clusters::ColorControl::Commands::StepSaturation::Type request;
     request.stepMode = chip::app::Clusters::ColorControl::SaturationStepMode::kUp;
+    request.stepSize = 1;
     CHIP_ERROR err = command_test<Clusters::ColorControl::Commands::StepSaturation::Type>(
         "ucl/by-unid/zw-0x0002/ep2/ColorControl/Commands/StepSaturation",
-        R"({"OptionsMask":0,"OptionsOverride":0,"StepMode":"Up","StepSize":0,"TransitionTime":0})", request);
+        R"({"OptionsMask":0,"OptionsOverride":0,"StepMode":"Up","StepSize":1,"TransitionTime":0})", request);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
+    Clusters::ColorControl::Commands::StopMoveStep::Type request2;
+    err = command_test<Clusters::ColorControl::Commands::StopMoveStep::Type>(
+        "ucl/by-unid/zw-0x0002/ep2/ColorControl/Commands/StopMoveStep", R"({"OptionsMask":0,"OptionsOverride":0})",
+        request2);
     EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
@@ -602,9 +614,16 @@ TEST_F(TestColorControl, CommandMoveColor)
 TEST_F(TestColorControl, CommandStepColor)
 {
     Clusters::ColorControl::Commands::StepColor::Type request;
+    request.stepX = 1;
+    request.stepY = 1;
     CHIP_ERROR err = command_test<Clusters::ColorControl::Commands::StepColor::Type>(
         "ucl/by-unid/zw-0x0002/ep2/ColorControl/Commands/StepColor",
-        R"({"OptionsMask":0,"OptionsOverride":0,"StepX":0,"StepY":0,"TransitionTime":0})", request);
+        R"({"OptionsMask":0,"OptionsOverride":0,"StepX":1,"StepY":1,"TransitionTime":0})", request);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
+    Clusters::ColorControl::Commands::StopMoveStep::Type request2;
+    err = command_test<Clusters::ColorControl::Commands::StopMoveStep::Type>(
+        "ucl/by-unid/zw-0x0002/ep2/ColorControl/Commands/StopMoveStep", R"({"OptionsMask":0,"OptionsOverride":0})",
+        request2);
     EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
@@ -639,9 +658,15 @@ TEST_F(TestColorControl, CommandEnhancedStepHue)
 {
     Clusters::ColorControl::Commands::EnhancedStepHue::Type request;
     request.stepMode = chip::app::Clusters::ColorControl::HueStepMode::kUp;
+    request.stepSize = 1;
     CHIP_ERROR err = command_test<Clusters::ColorControl::Commands::EnhancedStepHue::Type>(
         "ucl/by-unid/zw-0x0002/ep2/ColorControl/Commands/EnhancedStepHue",
-        R"({"OptionsMask":0,"OptionsOverride":0,"StepMode":"Up","StepSize":0,"TransitionTime":0})", request);
+        R"({"OptionsMask":0,"OptionsOverride":0,"StepMode":"Up","StepSize":1,"TransitionTime":0})", request);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
+    Clusters::ColorControl::Commands::StopMoveStep::Type request2;
+    err = command_test<Clusters::ColorControl::Commands::StopMoveStep::Type>(
+        "ucl/by-unid/zw-0x0002/ep2/ColorControl/Commands/StopMoveStep", R"({"OptionsMask":0,"OptionsOverride":0})",
+        request2);
     EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
@@ -687,9 +712,15 @@ TEST_F(TestColorControl, CommandStepColorTemperature)
 {
     Clusters::ColorControl::Commands::StepColorTemperature::Type request;
     request.stepMode = chip::app::Clusters::ColorControl::HueStepMode::kUp;
+    request.stepSize = 1;
     CHIP_ERROR err = command_test<Clusters::ColorControl::Commands::StepColorTemperature::Type>(
         "ucl/by-unid/zw-0x0002/ep2/ColorControl/Commands/StepColorTemperature",
-        R"({"ColorTemperatureMaximumMireds":0,"ColorTemperatureMinimumMireds":0,"OptionsMask":0,"OptionsOverride":0,"StepMode":"Up","StepSize":0,"TransitionTime":0})",
+        R"({"ColorTemperatureMaximumMireds":0,"ColorTemperatureMinimumMireds":0,"OptionsMask":0,"OptionsOverride":0,"StepMode":"Up","StepSize":1,"TransitionTime":0})",
         request);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
+    Clusters::ColorControl::Commands::StopMoveStep::Type request2;
+    err = command_test<Clusters::ColorControl::Commands::StopMoveStep::Type>(
+        "ucl/by-unid/zw-0x0002/ep2/ColorControl/Commands/StopMoveStep", R"({"OptionsMask":0,"OptionsOverride":0})",
+        request2);
     EXPECT_EQ(err, CHIP_NO_ERROR);
 }
