@@ -9,8 +9,8 @@
 project = 'Unify Matter Bridge'
 copyright = 'Copyright © 2024 Silicon Laboratories. All rights reserved.'
 author = 'Silicon Labs'
-release = '1.3.0'
-version = '1.3.0'
+release = '1.4.0'
+version = '1.4.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
