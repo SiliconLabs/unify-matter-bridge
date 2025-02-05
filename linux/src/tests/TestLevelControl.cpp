@@ -219,9 +219,10 @@ TEST_F(TestLevelControl, TestLevelControlCommandMoveToLevel)
 TEST_F(TestLevelControl, TestLevelControlCommandMove)
 {
     Clusters::LevelControl::Commands::Move::Type request;
+    request.rate.SetNonNull(10);
     CHIP_ERROR err = command_test<Clusters::LevelControl::Commands::Move::Type>(
         "ucl/by-unid/zw-0x0002/ep2/Level/Commands/Move",
-        R"({"MoveMode":"Up","OptionsMask":{"CoupleColorTempToLevel":false,"ExecuteIfOff":false},"OptionsOverride":{"CoupleColorTempToLevel":false,"ExecuteIfOff":false},"Rate":null})",
+        R"({"MoveMode":"Up","OptionsMask":{"CoupleColorTempToLevel":false,"ExecuteIfOff":false},"OptionsOverride":{"CoupleColorTempToLevel":false,"ExecuteIfOff":false},"Rate":10})",
         request);
     EXPECT_EQ( err , CHIP_NO_ERROR);
 }

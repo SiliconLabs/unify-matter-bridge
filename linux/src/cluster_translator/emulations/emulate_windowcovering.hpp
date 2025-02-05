@@ -77,6 +77,33 @@ void register_attribute_callbacks () const
             });
     }
 
+    bool is_command_allowed(CommandHandlerInterface::HandlerContext & handlerContext, emulated_cmd_payload & cdata)
+    {
+        
+        attribute_state_cache & cache = attribute_state_cache::get_instance();
+        auto mode_path = ConcreteAttributePath(handlerContext.mRequestPath.mEndpointId, handlerContext.mRequestPath.mClusterId,
+                                WindowCovering::Attributes::Mode::Id);
+        WindowCovering::Attributes::Mode::TypeInfo::Type mode;
+
+        if (!cache.get(mode_path, mode)) {
+            cdata.cmd_emulation_completed = true;
+            return false;
+        }
+        if (mode.Has(WindowCovering::Mode::kCalibrationMode)) {
+            cdata.cmd_emulation_completed = true;
+            handlerContext.mCommandHandler.AddStatus(handlerContext.mRequestPath, chip::Protocols::InteractionModel::Status::Failure);
+            handlerContext.SetCommandHandled();
+            return false;
+        }
+        if (mode.Has(WindowCovering::Mode::kMaintenanceMode)) {
+            cdata.cmd_emulation_completed = true;
+            handlerContext.mCommandHandler.AddStatus(handlerContext.mRequestPath, chip::Protocols::InteractionModel::Status::Busy);
+            handlerContext.SetCommandHandled();
+            return false;
+        }
+        return true;
+    }
+
 public:
 
     EmulateWindowCovering()
@@ -191,6 +218,11 @@ public:
 
         uint16_t CurrentPositionLiftVal = CurrentPositionLift.ValueOr(0);
         chip::Percent CurrentPositionLiftPerVal = CurrentPositionLiftPercentage.ValueOr(0);
+
+        if (!is_command_allowed(handlerContext, cdata))
+        {
+            return CHIP_ERROR_BAD_REQUEST;
+        }
 
         switch (handlerContext.mRequestPath.mCommandId)
         {

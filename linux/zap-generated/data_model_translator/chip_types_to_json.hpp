@@ -11,6 +11,8 @@
  * sections of the MSLA applicable to Source Code.
  *
  ******************************************************************************/
+#ifndef CHIP_TYPES_TO_JSON_HPP
+#define CHIP_TYPES_TO_JSON_HPP
 
 #include "app/data-model/NullObject.h"
 #include <app-common/zap-generated/cluster-objects.h>
@@ -1708,3 +1710,5 @@ nlohmann::json inline to_json(const chip::app::Clusters::OccupancySensing::Occup
         return "{}";
     }
 }
+
+#endif // CHIP_TYPES_TO_JSON_HPP

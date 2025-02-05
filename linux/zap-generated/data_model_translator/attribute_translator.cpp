@@ -818,7 +818,19 @@ void LevelControlAttributeAccess::reported_updated(const bridged_endpoint* ep, c
         std::optional<T> value = from_json<T>(unify_value);
 
         if (value.has_value()) {
-            sl_log_debug(LOG_TAG, "CurrentLevel attribute value is %s", unify_value.dump().c_str());
+            T updatedValue;
+            updatedValue.SetNonNull(value->Value());
+
+            if (value->Value() == std::numeric_limits<T::UnderlyingType>::max()) {
+                updatedValue.SetNonNull(std::numeric_limits<T::UnderlyingType>::max() - 1);
+            }
+            if (!updatedValue.IsNull()) {
+                sl_log_debug(LOG_TAG, "CurrentLevel attribute value is %u", updatedValue.Value());
+            } else {
+                sl_log_debug(LOG_TAG, "CurrentLevel attribute value is NULL");
+            }
+
+            value = updatedValue;
             attribute_state_cache::get_instance().set<T>(attrpath, value.value());
             MatterReportingAttributeChangeCallback(node_matter_endpoint, Clusters::LevelControl::Id, MN::CurrentLevel::Id);
         }

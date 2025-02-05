@@ -86,6 +86,22 @@ TEST_F(TestWindowCovering, TestWindowCoveringAttributeInstalledOpenLimitLift)
     EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
+TEST_F(TestWindowCovering, _pw_unit_test_Info_TestWindowCovering_TestWindowCoveringAttributeMode)
+{
+    Clusters::WindowCovering::Attributes::Mode::TypeInfo::Type mode = static_cast<Clusters::WindowCovering::Attributes::Mode::TypeInfo::Type>(0);
+    mode.Set(WindowCovering::Mode::kMaintenanceMode);
+    CHIP_ERROR err    = attribute_test<Clusters::WindowCovering::Attributes::Mode::TypeInfo>(
+        "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/Mode/Reported", R"({
+            "value": {
+                "CalibrationMode": false,
+                "LEDFeedback": false,
+                "MaintenanceMode": true,
+                "MotorDirectionReversed": false
+                }
+            })", mode);
+    EXPECT_EQ(err, CHIP_NO_ERROR);
+}
+
 TEST_F(TestWindowCovering, TestWindowCoveringAttributeInstalledClosedLimitLift)
 {
     CHIP_ERROR err    = attribute_test<Clusters::WindowCovering::Attributes::InstalledClosedLimitLift::TypeInfo>(
@@ -112,14 +128,43 @@ TEST_F(TestWindowCovering, TestWindowCoveringAttributeCurrentPositionLiftPercent
 
 TEST_F(TestWindowCovering, TestWindowCoveringCommandUpOrOpen)
 {
+    CHIP_ERROR expected_err = CHIP_ERROR_IM_GLOBAL_STATUS_VALUE(::chip::Protocols::InteractionModel::Status::Busy);
     Clusters::WindowCovering::Commands::UpOrOpen::Type request;
     CHIP_ERROR err = command_test<Clusters::WindowCovering::Commands::UpOrOpen::Type>(
+        "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Commands/UpOrOpen", "{}", request);
+    EXPECT_EQ(err, expected_err);
+
+    Clusters::WindowCovering::Attributes::Mode::TypeInfo::Type mode = static_cast<Clusters::WindowCovering::Attributes::Mode::TypeInfo::Type>(0);
+    CHIP_ERROR err_mode    = attribute_test<Clusters::WindowCovering::Attributes::Mode::TypeInfo>(
+        "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/Mode/Reported", R"({
+            "value": {
+                "CalibrationMode": false,
+                "LEDFeedback": false,
+                "MaintenanceMode": false,
+                "MotorDirectionReversed": false
+                }
+            })", mode);
+    EXPECT_EQ(err_mode, CHIP_NO_ERROR);
+
+    err = command_test<Clusters::WindowCovering::Commands::UpOrOpen::Type>(
         "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Commands/UpOrOpen", "{}", request);
     EXPECT_EQ(err, CHIP_NO_ERROR);
 }
 
 TEST_F(TestWindowCovering, TestWindowCoveringCommandDownOrClose)
 {
+    Clusters::WindowCovering::Attributes::Mode::TypeInfo::Type mode = static_cast<Clusters::WindowCovering::Attributes::Mode::TypeInfo::Type>(0);
+    CHIP_ERROR err_mode    = attribute_test<Clusters::WindowCovering::Attributes::Mode::TypeInfo>(
+        "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/Mode/Reported", R"({
+            "value": {
+                "CalibrationMode": false,
+                "LEDFeedback": false,
+                "MaintenanceMode": false,
+                "MotorDirectionReversed": false
+                }
+            })", mode);
+    EXPECT_EQ(err_mode, CHIP_NO_ERROR);
+
     Clusters::WindowCovering::Commands::DownOrClose::Type request;
     CHIP_ERROR err = command_test<Clusters::WindowCovering::Commands::DownOrClose::Type>(
         "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Commands/DownOrClose", "{}", request);
@@ -128,6 +173,18 @@ TEST_F(TestWindowCovering, TestWindowCoveringCommandDownOrClose)
 
 TEST_F(TestWindowCovering, TestWindowCoveringCommandStopMotion)
 {
+    Clusters::WindowCovering::Attributes::Mode::TypeInfo::Type mode = static_cast<Clusters::WindowCovering::Attributes::Mode::TypeInfo::Type>(0);
+    CHIP_ERROR err_mode    = attribute_test<Clusters::WindowCovering::Attributes::Mode::TypeInfo>(
+        "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Attributes/Mode/Reported", R"({
+            "value": {
+                "CalibrationMode": false,
+                "LEDFeedback": false,
+                "MaintenanceMode": false,
+                "MotorDirectionReversed": false
+                }
+            })", mode);
+    EXPECT_EQ(err_mode, CHIP_NO_ERROR);
+
     Clusters::WindowCovering::Commands::StopMotion::Type request;
     CHIP_ERROR err = command_test<Clusters::WindowCovering::Commands::StopMotion::Type>(
         "ucl/by-unid/zw-0x0002/ep2/WindowCovering/Commands/Stop", "{}", request);

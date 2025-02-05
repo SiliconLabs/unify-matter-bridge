@@ -214,6 +214,9 @@ const attribute_max_limit_mismatch_attributes = {
     "3": true,
     "16": true,
     "17": true
+  },
+  "Level Control" : {
+    "0": true //Current Level
   }
 }
 
