@@ -61,7 +61,7 @@ ProductLabel | O | ucl/by-unid/+/ep0/Basic/Attributes/ProductLabel/Reported |
 
 ### Cluster specific Attribute Access Interfaces
 The controller may perform read and write operations on individual attribute of any cluster on any bridged endpoint. The matter bridge must implement translators that convert the write operation to corresponding WriteAttribute Unify MQTT message. It shall also parse and store ReportedValue(s) of all attributes from unsolicited publish messages from Protocol Controllers when there is update on attribute. The stored values shall be refered to while responding to Read operation on that resource. These translators and parser interfaces shall be zap generated to the greatest extent possible. <br>
-The translators will be fairly simple, as both the Unfiy data model and the Matter data model are both based on Zigbee Cluster Library. However, there are still some discrepancies. In order to bridge these gaps, some cluster attributes may need to be emulated to best extent possible by matter bridge.
+The translators will be fairly simple, as both the Unify data model and the Matter data model are both based on Zigbee Cluster Library(ZCL). However, there are still some discrepancies. In order to bridge these gaps, some cluster attributes may need to be emulated to best extent possible by matter bridge.
 
 More details in [Attribute Access](#attribute-access) section below.
 
