@@ -1,13 +1,13 @@
 # Unify Matter Bridge Overview
 
-The Unify Matter Bridge is an application that makes legacy devices, such as
-Z-Wave and Zigbee devices, accessible on a Matter fabric. It does so by acting
+The Unify Matter Bridge is a reference application that makes legacy devices, such as
+Z-Wave devices, accessible on a Matter fabric. It does so by acting
 as an _IoT Service_ in a Unify Framework.
 
 In the Unify Framework, _protocol controllers_ translate raw wireless
-application protocols such as Z-Wave and Zigbee into a common API called the
+application protocols such as Z-Wave into a common API called the
 Unify Controller Language (UCL). This enables IoT services to operate and
-monitor Z-Wave and Zigbee networks without being aware of the underlying
+monitor Z-Wave networks without being aware of the underlying
 wireless protocol.
 
 In Unify, the transport between IoT services and Protocol Controllers is MQTT
@@ -76,23 +76,25 @@ for details on feature additions, bug fixes, and known issues.
 The Unify Matter Bridge currently supports mapping the following clusters/device
 types.
 
-| Cluster                       |Zigbee Support| Z-Wave Support|
-| :---------------------------- | :-----: | :-----: |
-| Bridge Device Information     |❌|✅| 
-| Level                         |✅|✅|
-| OnOff                         |✅|✅|
-| Identify                      |✅|❌|
-| Group                         |✅|✅|
-| Color Control                 |✅|✅|
-| Occupancy Sensing             |✅|✅|
-| DoorLock                      |✅|✅|
-| Window Covering               |✅|❌|
-| Temperature Measurement       |❌|✅|
-| Illuminance Measurement       |❌|✅|
-| Pressure Measurement          |❌|✅|
-| Flow Measurement              |❌|❌|
-| RelativeHumidity Measurement  |❌|✅|
-| Thermostat            |✅|✅|
+| Cluster                       | Z-Wave Support|
+| :---------------------------- | :-----: |
+| Bridge Device Information     |✅|
+| Level                         |✅|
+| OnOff                         |✅|
+| Identify                      |❌|
+| Group                         |✅|
+| Color Control                 |✅|
+| Occupancy Sensing             |✅|
+| DoorLock                      |✅|
+| Window Covering               |❌|
+| Temperature Measurement       |✅|
+| Illuminance Measurement       |✅|
+| Pressure Measurement          |✅|
+| Flow Measurement              |❌|
+| RelativeHumidity Measurement  |✅|
+| Thermostat            |✅|
+
+All the above clusters are supported by EED for developer use only.
 
 
 > **Note:** The Matter specification states that if write interaction is made on the Mode attribute of the

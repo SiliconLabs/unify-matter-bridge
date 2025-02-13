@@ -1,6 +1,6 @@
 # Building the Unify Matter Bridge
 
-This build guide cross-compiles for arm64 architecture to be run on Unify's reference platform - a Raspberry Pi 4 (RPi4) with the 64-bit version of Debian Bookworm.
+This build guide helps with cross-compilation for arm64 architecture to be run on Unify's reference platform - a Raspberry Pi 4 (RPi4) with the 64-bit version of Debian Bookworm.
 
 > **Note:**
 > In the following subsections the commands should either be run on your local development machine or inside a running Docker container, as distinguished by the structure of the example.
@@ -70,9 +70,11 @@ Make sure you are in `/unify-matter-bridge/linux` directory
 
 ```bash
 root@docker:/unify-matter-bridge$ cd /unify-matter-bridge/linux
+root@docker:/unify-matter-bridge/linux$ export PKG_CONFIG_PATH=/unify-matter-bridge/linux/out/arm64/gen/stage/share/pkgconfig:/usr/lib/aarch64-linux-gnu/pkgconfig/
 root@docker:/unify-matter-bridge/linux$ gn gen out/arm64 --args='target_cpu="arm64"'
 root@docker:/unify-matter-bridge/linux$ ninja -C out/arm64 debian
 ```
+Note: Please update the arch name and triples as needed when building for other variants.
 
 > 🔴 After building, the `unify-matter-bridge` binary is located at `/unify-matter-bridge/linux/out/arm64/obj/bin/unify-matter-bridge` and debian is located at `/unify-matter-bridge/linux/out/arm64/packages/uic-mb_<version>_arm64.deb`.
 
@@ -98,4 +100,4 @@ root@docker:/unify-matter-bridge/linux/third_party/connectedhomeip/examples/chip
    compiling unit tests for all other sub-components.
 3. Encountering problems with the submodules can be due to trying to check out
    the submodules inside the docker container.
-4. If the Unify Matter Bridge gets stuck while booting. Try to pass `--args="chip_config_network_layer_ble=false"` to `gn gen` command while building
+4. If the Unify Matter Bridge gets stuck while booting. Try to pass `--args="chip_config_network_layer_ble=false"` to `gn gen` command while building.<br>`Note: Doing this will disable ble commissioning feature`

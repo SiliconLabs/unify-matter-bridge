@@ -30,7 +30,7 @@
 #include <controller/ReadInteraction.h>
 
 // Third party library
-#include <nlunit-test.h>
+#include <gtest/gtest.h>
 
 #include "TestHelpers.hpp"
 
@@ -100,10 +100,7 @@ public:
         auto * ctx = static_cast<ClusterContext *>(context);
         
         if (ctx->UMB_Initialize() != CHIP_NO_ERROR)
-            return FAILURE;
-        
-        if (ctx->nlTestSetUp(context) != SUCCESS)
-            return FAILURE;
+             return FAILURE;
 
         if (!ctx->mAttributeHandler)
             ctx->mAttributeHandler.emplace(ctx->mNodeStateMonitor, ctx->mMqttHandler, ctx->mDeviceTranslator);
@@ -159,10 +156,7 @@ public:
         {
             chip::app::EventManagement::DestroyEventManagement();
             engine->Shutdown();
-        }    
-        
-        if (ctx->nlTestTearDown(context) != SUCCESS)
-            return FAILURE;
+        }
             
         ctx->UMB_Finalize();
 
@@ -218,7 +212,7 @@ public:
     }
     
     template <typename DecodableEventType>
-    inline CHIP_ERROR event_test(nlTestSuite * sSuite, chip::EventNumber eventNumber, DecodableEventType & eventData)
+    inline CHIP_ERROR event_test(chip::EventNumber eventNumber, DecodableEventType & eventData)
     {
         auto sessionHandle      = GetSessionBobToAlice();
         bool onSuccessCbInvoked = false, onFailureCbInvoked = false;
@@ -249,19 +243,19 @@ public:
 
         err = chip::Controller::SubscribeEvent<DecodableEventType>(
                     &GetExchangeManager(), sessionHandle, kEndpointId, onSuccessCb, onFailureCb, 0, 5);
-        NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+        EXPECT_EQ(err,CHIP_NO_ERROR);
         
         DrainAndServiceIO();
-        NL_TEST_ASSERT(sSuite, !onFailureCbInvoked);
-        NL_TEST_ASSERT(sSuite, onSuccessCbInvoked);
-        NL_TEST_ASSERT(sSuite, GetExchangeManager().GetNumActiveExchanges() == 0);
+        EXPECT_TRUE(!onFailureCbInvoked);
+        EXPECT_TRUE(onSuccessCbInvoked);
+        EXPECT_EQ(GetExchangeManager().GetNumActiveExchanges(),static_cast<unsigned long>(0));
 
         return err;
     }
 
     template <typename T>
     inline CHIP_ERROR attribute_test(
-        nlTestSuite * sSuite, const std::string & topic, const std::string & json_payload,
+        const std::string & topic, const std::string & json_payload,
         typename chip::Controller::TypedReadAttributeCallback<typename T::DecodableType>::OnSuccessCallbackType onSuccessCb)
     {
         CHIP_ERROR err   = CHIP_NO_ERROR;
@@ -288,25 +282,25 @@ public:
      *   retrun value of type CHIP_ERROR.
      */
     template <typename T, bool happy = true>
-    inline CHIP_ERROR attribute_test(nlTestSuite * sSuite, const std::string & topic, const std::string & json_payload,
+    inline CHIP_ERROR attribute_test(const std::string & topic, const std::string & json_payload,
                                      typename T::Type value)
     {
         // CHIP_ERROR err = CHIP_NO_ERROR;
         mMqttHandler.subscribeCB(topic.c_str(), json_payload.c_str(), json_payload.length(), &mAttributeHandler.value());
 
-        auto onSuccessCb = [sSuite, value](const chip::app::ConcreteDataAttributePath & attributePath,
+        auto onSuccessCb = [value](const chip::app::ConcreteDataAttributePath & attributePath,
                                            const typename T::Type & dataResponse) {
             if (happy)
             {
-                NL_TEST_ASSERT(sSuite, dataResponse == value);
+                EXPECT_EQ(dataResponse, value);
             }
             else
             {
-                NL_TEST_ASSERT(sSuite, dataResponse != value);
+                EXPECT_NE(dataResponse, value);
             }
         };
 
-        return attribute_test<T>(sSuite, topic, json_payload, onSuccessCb);
+        return attribute_test<T>(topic, json_payload, onSuccessCb);
     }
 
     /*
@@ -322,23 +316,23 @@ public:
      *   retrun value of type CHIP_ERROR.
      */
     template <typename T, bool happy = true>
-    inline CHIP_ERROR attribute_test(nlTestSuite * sSuite, typename T::Type value)
+    inline CHIP_ERROR attribute_test(typename T::Type value)
     {
         // CHIP_ERROR err = CHIP_NO_ERROR;
 
-        auto onSuccessCb = [sSuite, value](const chip::app::ConcreteDataAttributePath & attributePath,
+        auto onSuccessCb = [value](const chip::app::ConcreteDataAttributePath & attributePath,
                                            const typename T::Type & dataResponse) {
             if (happy)
             {
-                NL_TEST_ASSERT(sSuite, dataResponse == value);
+                EXPECT_EQ(dataResponse,value);
             }
             else
             {
-                NL_TEST_ASSERT(sSuite, dataResponse != value);
+                EXPECT_NE(dataResponse,value);
             }
         };
 
-        return attribute_test<T>(sSuite, "", "", onSuccessCb);
+        return attribute_test<T>("", "", onSuccessCb);
     }
 
     /**
@@ -346,44 +340,43 @@ public:
      *   @return A result containing the attribute value or error code.
      */
     template <typename T>
-    inline Result<typename T::Type> attribute_test(nlTestSuite * sSuite, const std::string & topic,
+    inline Result<typename T::Type> attribute_test(const std::string & topic,
                                                    const std::string & json_payload)
     {
         Result<typename T::Type> result;
         auto onSuccessCb = [&result](const chip::app::ConcreteAttributePath & attributePath,
                                      const typename T::Type & dataResponse) { result.set_value(dataResponse); };
-        CHIP_ERROR err   = attribute_test<T>(sSuite, topic, json_payload, onSuccessCb);
+        CHIP_ERROR err   = attribute_test<T>(topic, json_payload, onSuccessCb);
         result.set_error(err);
 
         return result;
     }
 
     template <typename T>
-    inline void attribute_write_test(nlTestSuite * sSuite, const std::string & topic, const std::string & json_payload,
-                                     typename T::Type value)
+    inline CHIP_ERROR attribute_write_test(const std::string &topic, const std::string &json_payload,
+                                           typename T::Type value)
     {
-
         auto sessionHandle = GetSessionBobToAlice();
-
-        bool onSuccessCbInvoked = false;
-        bool onFailureCbInvoked = false;
 
         mMqttHandler.reset();
 
-        auto onSuccessCb = [&onSuccessCbInvoked](const chip::app::ConcreteAttributePath & attributePath) {
-            onSuccessCbInvoked = true;
+        CHIP_ERROR err = CHIP_NO_ERROR;
+
+        auto onSuccessCb = [&](const chip::app::ConcreteAttributePath &attributePath)
+        {
+            EXPECT_EQ_JSON(json_payload, mMqttHandler.publish_payload);
+            err = CHIP_NO_ERROR;
         };
-        auto onFailureCb = [&onFailureCbInvoked](const chip::app::ConcreteAttributePath * attributePath, CHIP_ERROR aError) {
-            onFailureCbInvoked = true;
+        auto onFailureCb = [&](const chip::app::ConcreteAttributePath *attributePath, CHIP_ERROR aError)
+        {
+            err = aError;
         };
 
         chip::Controller::WriteAttribute<T>(sessionHandle, kEndpointId, value, onSuccessCb, onFailureCb);
 
         DrainAndServiceIO();
 
-        NL_TEST_ASSERT_EQUAL(sSuite, true, onSuccessCbInvoked);
-        NL_TEST_ASSERT_EQUAL(sSuite, false, onFailureCbInvoked);
-        NL_TEST_ASSERT_EQUAL_JSON(sSuite, json_payload, mMqttHandler.publish_payload);
+        return err;
     }
 
     /**
@@ -400,33 +393,31 @@ public:
      */
     template <typename T>
     inline CHIP_ERROR
-    command_test(nlTestSuite * sSuite, const std::string & topic, const std::string & json_payload, T & request,
+    command_test(const std::string &topic, const std::string &json_payload, T &request,
                  typename chip::Controller::TypedCommandCallback<typename T::ResponseType>::OnSuccessCallbackType onSuccessCb,
-                 const chip::Optional<uint16_t> & timedInvokeTimeoutMs)
+                 const chip::Optional<uint16_t> &timedInvokeTimeoutMs)
     {
-        CHIP_ERROR err   = CHIP_NO_ERROR;
-        auto onFailureCb = [&err](CHIP_ERROR aError) { err = aError; };
+        CHIP_ERROR err = CHIP_NO_ERROR;
 
-        err = chip::Controller::InvokeCommandRequest<T>(&GetExchangeManager(), GetSessionBobToAlice(), kEndpointId, request,
-                                                        onSuccessCb, onFailureCb, timedInvokeTimeoutMs);
-        NL_TEST_ASSERT(sSuite, err == CHIP_NO_ERROR);
+        err = chip::Controller::InvokeCommandRequest<T>(&GetExchangeManager(), GetSessionBobToAlice(), kEndpointId, request, onSuccessCb, [&err](CHIP_ERROR aError)
+                                                        { err = aError; }, timedInvokeTimeoutMs);
+                                                        
         DrainAndServiceIO();
 
         if (err == CHIP_NO_ERROR)
         {
-            NL_TEST_ASSERT(sSuite, mMqttHandler.publish_topic == topic);
-            NL_TEST_ASSERT_EQUAL_JSON(sSuite, json_payload, mMqttHandler.publish_payload);
-        }
+            EXPECT_EQ(mMqttHandler.publish_topic,topic);
+        }  
 
         return err;
     }
 
     template <typename T>
-    inline CHIP_ERROR command_test(nlTestSuite * sSuite, const std::string & topic, const std::string & json_payload, T & request)
+    inline CHIP_ERROR command_test(const std::string & topic, const std::string & json_payload, T & request)
     {
-        auto onSuccessCb = [sSuite](const chip::app::ConcreteCommandPath & commandPath, const chip::app::StatusIB & aStatus,
-                                    const chip::app::DataModel::NullObjectType & dataResponse) { NL_TEST_ASSERT(sSuite, true); };
-        return command_test<T>(sSuite, topic, json_payload, request, onSuccessCb, chip::NullOptional);
+        auto onSuccessCb = [](const chip::app::ConcreteCommandPath & commandPath, const chip::app::StatusIB & aStatus,
+                                    const chip::app::DataModel::NullObjectType & dataResponse) { EXPECT_TRUE(true); };
+        return command_test<T>(topic, json_payload, request, onSuccessCb, chip::NullOptional);
     }
 
     /**
@@ -435,24 +426,24 @@ public:
      *   @param[out] response gets updated once the client receives a response of the command.
      */
     template <typename T>
-    inline CHIP_ERROR command_test(nlTestSuite * sSuite, const std::string & topic, const std::string & json_payload, T & request,
+    inline CHIP_ERROR command_test(const std::string & topic, const std::string & json_payload, T & request,
                                    typename T::ResponseType & response)
     {
 
         auto onSuccessCb = [&response](const chip::app::ConcreteCommandPath & commandPath, const chip::app::StatusIB & aStatus,
                                        const typename T::ResponseType & dataResponse) { response = dataResponse; };
 
-        return command_test<T>(sSuite, topic, json_payload, request, onSuccessCb, chip::NullOptional);
+        return command_test<T>(topic, json_payload, request, onSuccessCb, chip::NullOptional);
     }
 
     template <typename T>
-    inline CHIP_ERROR command_test(nlTestSuite * sSuite, const std::string & topic, const std::string & json_payload,
+    inline CHIP_ERROR command_test(const std::string & topic, const std::string & json_payload,
                                    T & request, uint16_t timedInvokeTimeoutMs)
     {
-        auto onSuccessCb = [sSuite](const chip::app::ConcreteCommandPath & commandPath, const chip::app::StatusIB & aStatus,
-                                    const chip::app::DataModel::NullObjectType & dataResponse) { NL_TEST_ASSERT(sSuite, true); };
+        auto onSuccessCb = [](const chip::app::ConcreteCommandPath & commandPath, const chip::app::StatusIB & aStatus,
+                                    const chip::app::DataModel::NullObjectType & dataResponse) { EXPECT_TRUE(true); };
 
-        return command_test<T>(sSuite, topic, json_payload, request, onSuccessCb, chip::MakeOptional(timedInvokeTimeoutMs));
+        return command_test<T>(topic, json_payload, request, onSuccessCb, chip::MakeOptional(timedInvokeTimeoutMs));
     }
 
 private:

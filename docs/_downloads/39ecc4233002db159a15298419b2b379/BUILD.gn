@@ -13,7 +13,7 @@
 
 import("//build_overrides/build.gni")
 import("//build_overrides/chip.gni")
-import("//build_overrides/nlunit_test.gni")
+import("//build_overrides/pigweed.gni")
 
 import("${chip_root}/build/chip/chip_test_suite.gni")
 
@@ -34,11 +34,18 @@ static_library("helpers") {
   deps = [
     "//:unify-matter-bridge-lib",
     "${chip_root}/src/app/tests:helpers",
-    "${nlunit_test_root}:nlunit-test",
   ]
 }
 
-chip_test_suite_using_nltest("tests") {
+config("unify-test-config") {
+  include_dirs = [
+    "mock",
+    "${root_gen_dir}/stage/include/uic",
+    "${root_gen_dir}/stage/include/uic/sys",
+  ]
+}
+
+chip_test_suite("tests") {
   output_name = "unifyMatterBridgeTests"
 
   include_dirs = [
@@ -61,13 +68,14 @@ chip_test_suite_using_nltest("tests") {
     "TestNodeStateMonitor.cpp",
     "TestOnOff.cpp",
     #"TestOnOffCommandsHandler.cpp",
-    "TestTemperatureMeasurement.cpp",
+    #"TestTemperatureMeasurement.cpp",
     "TestQRCodePublisher.cpp",
     "TestIlluminanceMeasurement.cpp",
     "TestThermostat.cpp",
     "TestDoorLock.cpp",
     "TestDoorLockCommandResponse.cpp",
     "TestWindowCovering.cpp",
+    "TestPressureMeasurement.cpp",
   ]
 
   cflags = [ "-Wconversion" ]
@@ -76,7 +84,10 @@ chip_test_suite_using_nltest("tests") {
     "//:unify-matter-bridge-lib",
     ":helpers",
     "${chip_root}/src/lib/support:test_utils",
-    "${chip_root}/src/lib/support:testing_nlunit",
-    "${nlunit_test_root}:nlunit-test",
+    "${chip_root}/src/lib/support:testing",
+  ]
+  
+  public_configs = [
+    ":unify-test-config"
   ]
 }

@@ -56,6 +56,7 @@ Make sure you are in `/sunify-matter-bridge/linux` directory
 
 ```bash
 root@docker:/unify-matter-bridge$ cd /unify-matter-bridge/linux
+root@docker:/unify-matter-bridge/linux$ export PKG_CONFIG_PATH=/unify-matter-bridge/linux/out/host/gen/stage/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig
 root@docker:/unify-matter-bridge/linux$ gn gen out/host
 root@docker:/unify-matter-bridge/linux$ ninja -C out/host debian
 ```

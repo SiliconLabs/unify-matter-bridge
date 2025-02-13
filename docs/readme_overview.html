@@ -1,26 +1,23 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Unify Matter Bridge Overview &mdash; Unify Matter Bridge 1.3.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
+  <title>Unify Matter Bridge Overview &mdash; Unify Matter Bridge 1.4.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/custom_styles.css?v=d146ab63" />
 
   
     <link rel="shortcut icon" href="_static/favicon.ico"/>
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=1f29e9d3"></script>
-        <script src="_static/doctools.js?v=9a2dae69"></script>
-        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=9172181d"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -40,9 +37,6 @@
             Unify Matter Bridge
               <img src="_static/logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                1.3.0
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -91,13 +85,13 @@
              
   <section class="tex2jax_ignore mathjax_ignore" id="unify-matter-bridge-overview">
 <h1>Unify Matter Bridge Overview<a class="headerlink" href="#unify-matter-bridge-overview" title="Link to this heading"></a></h1>
-<p>The Unify Matter Bridge is an application that makes legacy devices, such as
-Z-Wave and Zigbee devices, accessible on a Matter fabric. It does so by acting
+<p>The Unify Matter Bridge is a reference application that makes legacy devices, such as
+Z-Wave devices, accessible on a Matter fabric. It does so by acting
 as an <em>IoT Service</em> in a Unify Framework.</p>
 <p>In the Unify Framework, <em>protocol controllers</em> translate raw wireless
-application protocols such as Z-Wave and Zigbee into a common API called the
+application protocols such as Z-Wave into a common API called the
 Unify Controller Language (UCL). This enables IoT services to operate and
-monitor Z-Wave and Zigbee networks without being aware of the underlying
+monitor Z-Wave networks without being aware of the underlying
 wireless protocol.</p>
 <p>In Unify, the transport between IoT services and Protocol Controllers is MQTT
 using JSON payloads for data representation.</p>
@@ -159,73 +153,58 @@ types.</p>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head text-left"><p>Cluster</p></th>
-<th class="head text-center"><p>Zigbee Support</p></th>
 <th class="head text-center"><p>Z-Wave Support</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td class="text-left"><p>Bridge Device Information</p></td>
-<td class="text-center"><p>❌</p></td>
 <td class="text-center"><p>✅</p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p>Level</p></td>
 <td class="text-center"><p>✅</p></td>
-<td class="text-center"><p>✅</p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p>OnOff</p></td>
 <td class="text-center"><p>✅</p></td>
-<td class="text-center"><p>✅</p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p>Identify</p></td>
-<td class="text-center"><p>✅</p></td>
 <td class="text-center"><p>❌</p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p>Group</p></td>
 <td class="text-center"><p>✅</p></td>
-<td class="text-center"><p>✅</p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p>Color Control</p></td>
-<td class="text-center"><p>✅</p></td>
 <td class="text-center"><p>✅</p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p>Occupancy Sensing</p></td>
 <td class="text-center"><p>✅</p></td>
-<td class="text-center"><p>✅</p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p>DoorLock</p></td>
 <td class="text-center"><p>✅</p></td>
-<td class="text-center"><p>✅</p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p>Window Covering</p></td>
-<td class="text-center"><p>✅</p></td>
 <td class="text-center"><p>❌</p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p>Temperature Measurement</p></td>
-<td class="text-center"><p>❌</p></td>
 <td class="text-center"><p>✅</p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p>Illuminance Measurement</p></td>
-<td class="text-center"><p>❌</p></td>
 <td class="text-center"><p>✅</p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p>Pressure Measurement</p></td>
-<td class="text-center"><p>❌</p></td>
 <td class="text-center"><p>✅</p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p>Flow Measurement</p></td>
 <td class="text-center"><p>❌</p></td>
-<td class="text-center"><p>❌</p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p>RelativeHumidity Measurement</p></td>
-<td class="text-center"><p>❌</p></td>
 <td class="text-center"><p>✅</p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p>Thermostat</p></td>
 <td class="text-center"><p>✅</p></td>
-<td class="text-center"><p>✅</p></td>
 </tr>
 </tbody>
 </table>
+<p>All the above clusters are supported by EED for developer use only.</p>
 <blockquote>
 <div><p><strong>Note:</strong> The Matter specification states that if write interaction is made on the Mode attribute of the
 window covering cluster with an unsupported mode bit, the response should be CONSTRAINT_ERROR. Since UCL

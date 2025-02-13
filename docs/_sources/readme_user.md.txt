@@ -304,7 +304,7 @@ For more information on how to use the `chip-tool` see the
 
 The Matter Bridge has support for forwarding group messages from the Matter
 Fabric to Unify Nodes. The protocol controllers will send the group messages as
-actual group cast messages on the destination network (Z-Wave/Zigbee).
+actual group cast messages on the destination network (Z-Wave).
 
 To send a group command, first set up the group keys in the bridge. This example
 assumes the bridge to be Node ID 1, and GroupKeySetID 42 is added to Group ID 1:
