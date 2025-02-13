@@ -70,9 +70,11 @@ Make sure you are in `/unify-matter-bridge/linux` directory
 
 ```bash
 root@docker:/unify-matter-bridge$ cd /unify-matter-bridge/linux
+root@docker:/unify-matter-bridge/linux$ export PKG_CONFIG_PATH=/unify-matter-bridge/linux/out/arm64/gen/stage/share/pkgconfig:/usr/lib/aarch64-linux-gnu/pkgconfig/
 root@docker:/unify-matter-bridge/linux$ gn gen out/arm64 --args='target_cpu="arm64"'
 root@docker:/unify-matter-bridge/linux$ ninja -C out/arm64 debian
 ```
+Note: Please update the arch name and triples as needed when building for other variants.
 
 > 🔴 After building, the `unify-matter-bridge` binary is located at `/unify-matter-bridge/linux/out/arm64/obj/bin/unify-matter-bridge` and debian is located at `/unify-matter-bridge/linux/out/arm64/packages/uic-mb_<version>_arm64.deb`.
 
